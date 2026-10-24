@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b1kmu3pyngg4d" path="res://scripts/blackjack.gd" id="1_3frkl"]
 [ext_resource type="Script" uid="uid://g32um0mltv5d" path="res://addons/dialogue_manager/nodes/dialogue_label/dialogue_label.gd" id="2_kvb06"]
+[ext_resource type="Script" uid="uid://b636n426f5j8m" path="res://scripts/bet_field_script.gd" id="3_vyxl8"]
 
 [node name="Blackjack" type="Control" unique_id=1298565065]
 layout_mode = 3
@@ -20,8 +21,11 @@ script = ExtResource("2_kvb06")
 skip_pause_at_abbreviations = PackedStringArray("Mr", "Mrs", "Ms", "Dr", "etc", "eg", "ex")
 metadata/_custom_type_script = "uid://g32um0mltv5d"
 
-[node name="BetField" type="SpinBox" parent="." unique_id=1004097208]
+[node name="BetField" type="LineEdit" parent="." unique_id=1432340901]
 layout_mode = 0
 offset_right = 189.0
 offset_bottom = 31.0
-max_value = 9.223372e+18
+script = ExtResource("3_vyxl8")
+
+[connection signal="text_changed" from="BetField" to="BetField" method="_on_text_changed"]
+[connection signal="text_submitted" from="BetField" to="." method="_on_bet_field_text_submitted"]

@@ -15,8 +15,7 @@ func _ready():
 	shuffle() 
 	next_card = card_list.pick_random()
 	dealer = Dealer.new()
-	start_game()
-	DialogueManager.show_dialogue_balloon(resource, "start", [self])
+	
 
 # CLEARS THE LIST, AND REINITALIZES ALL THE CARDS WITH A STANDARD DECK OF CARDS
 func shuffle():
@@ -88,3 +87,8 @@ func has_player_won():
 	else:
 		win()
 		return true
+
+
+func _on_bet_field_text_submitted(new_text: String) -> void:
+	start_game()
+	DialogueManager.show_dialogue_balloon_scene("res://scenes/balloon.tscn",resource, "start", [self])
