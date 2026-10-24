@@ -3,7 +3,7 @@ class_name Dealer
 
 var dealer_hand = []
 var stand_at = null # NULL BECAUSE IT STARTS RANDOM
-var MAX_STAND_AT = 21
+var MAX_STAND_AT = 17
 var MIN_STAND_AT = 16
 var has_stood = false 
 var bust = false
