@@ -1,7 +1,7 @@
 extends RefCounted
 class_name Card
 
-const letter_vals = {"K" : 10, "Q" : 10, "J" : 10, "A" : Vector2i(1, 11)}
+const letter_vals = {"King" : 10, "Queen" : 10, "Jack" : 10, "Ace" : Vector2i(1, 11)}
 var suit: String
 var value
 
@@ -17,11 +17,24 @@ func get_value():
 
 static func summed_values(card_list):
 	var total_value = 0
+	var ace = false
 	for card in card_list:
-		total_value += card.get_value()
+		var temp_val = card.get_value()
+		if temp_val is Vector2i:
+			ace = true
+		else:
+			total_value += temp_val
+	if ace:
+		if total_value + 11 < 22:
+			total_value += 11
+		else:
+			total_value += 1
 	return total_value
 
 static func bust(card_list):
 	if summed_values(card_list) > 21:
 		return true
 	return false
+
+func _to_string() -> String:
+	return "Card(Suit: %s, Val: %s)" % [suit, value]

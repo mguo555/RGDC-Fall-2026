@@ -6,21 +6,26 @@ var stand_at = null
 var MAX_STAND_AT = 21
 var MIN_STAND_AT = 16
 var has_stood = false
+var bust = false
 
-func _ready():
+func _init():
 	reset()
 	
 func reset():
 	dealer_hand.clear()
 	has_stood = false
+	bust = false
 	stand_at = randi_range(MIN_STAND_AT, MAX_STAND_AT)
 
 func get_hand():
 	return dealer_hand
 
+func busted():
+	bust = true
+
 func hit():
 	var current_val = Card.summed_values(dealer_hand)
-	if current_val < stand_at && not has_stood:
+	if current_val < stand_at && not has_stood && not bust:
 		return true
 	else:
 		has_stood = true

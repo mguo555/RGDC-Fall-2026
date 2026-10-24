@@ -1,0 +1,21 @@
+~ start
+Dealer: Are you going to push your luck? You right now have
+- Hit
+	do hit()
+	if has_player_busted()
+		Dealer: What a misfortune, you busted!
+	else
+		=> start
+- Stand
+	do stand()
+	if has_player_won()
+		Dealer: Congrats! You win.
+	else
+		Dealer: Should've tried harder! Better luck next time.
+
+Dealer: Want to play again?
+- Play again
+	do start_game()
+	=> start
+- Stop => END
+=> END
