@@ -21,11 +21,28 @@ script = ExtResource("2_kvb06")
 skip_pause_at_abbreviations = PackedStringArray("Mr", "Mrs", "Ms", "Dr", "etc", "eg", "ex")
 metadata/_custom_type_script = "uid://g32um0mltv5d"
 
-[node name="BetField" type="LineEdit" parent="." unique_id=1432340901]
-layout_mode = 0
-offset_right = 189.0
-offset_bottom = 31.0
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=861012954]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=2050633851]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=742479620]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Place your bet!"
+horizontal_alignment = 1
+
+[node name="BetField" type="LineEdit" parent="CenterContainer/VBoxContainer" unique_id=1432340901]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 45
 script = ExtResource("3_vyxl8")
 
-[connection signal="text_changed" from="BetField" to="BetField" method="_on_text_changed"]
-[connection signal="text_submitted" from="BetField" to="." method="_on_bet_field_text_submitted"]
+[connection signal="text_changed" from="CenterContainer/VBoxContainer/BetField" to="CenterContainer/VBoxContainer/BetField" method="_on_text_changed"]
+[connection signal="text_submitted" from="CenterContainer/VBoxContainer/BetField" to="." method="_on_bet_field_text_submitted"]
