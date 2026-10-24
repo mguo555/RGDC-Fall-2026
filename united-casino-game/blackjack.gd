@@ -1,16 +1,15 @@
 extends Node
 
+var dealer = null
 var card_list = [] 
 var player_hand = []
+var next_card = null
 const SUITS = ["C", "S", "D", "H"]
 
-class Card:
-	var suit: String
-	var value
-	
-	func _init(p_suit: String, p_value) -> void:
-		suit = p_suit
-		value = p_value
+func _ready():
+	shuffle()
+	next_card = card_list.pick_random()
+	dealer = Dealer.new()
 
 func shuffle():
 	card_list.clear()
@@ -21,3 +20,18 @@ func shuffle():
 		card_list.append(Card.new(suit, "Q"))
 		card_list.append(Card.new(suit, "K"))
 		card_list.append(Card.new(suit, "A"))
+
+func deal_card(hand):
+	hand.append(next_card)
+	next_card = card_list.pick_random()
+	card_list.remove(next_card)
+
+func start_game():
+	player_hand.clear()
+	dealer.reset()
+	deal_card(player_hand)
+	deal_card(player_hand)
+	deal_card(dealer.get_hand())
+	deal_card(dealer.get_hand())
+	
+	
