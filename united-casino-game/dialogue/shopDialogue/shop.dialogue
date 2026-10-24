@@ -1,0 +1,44 @@
+# TODO: Replace "Shop" (placeholder name) with actual
+
+~ greet
+Shop: Well, if it isn't my favorite little gambling addict.
+Shop: What are you here for?
+- Buy
+	if firstBuy:
+		Shop: Really now? You're already struggling to pay off your debt, and you want to go deeper?
+		Shop: .[wait 1].[wait 1] I like your ambition. Come, let's make this quick.
+		Shop: Don't want those pesky security guards catching us.
+		set firstBuy = true
+	else:
+		Shop: That's what I love to hear!
+	=>< shop
+- Repay Loan
+	if hasEnough(loanAmount):
+		if firstLoan:
+			Shop: Well, color me surprised. You managed to pay off part of your interest.
+			Shop: 
+		
+- Start again => greet
+- End the conversation => END
+Nathan: For more information see the online documentation.
+=> END
+
+~ shop
+Shop: Take your pick.
+- Cards
+	if firstCards:
+		Shop: Oh, these? I give you a random card from this deck here.
+		Shop: If you're good, you can swap out one of your cards at the blackjack table.
+		Shop: It's $__. If you don't like it, don't buy.
+	else: 
+		Shop: $__, like usual. Cough it up.
+	- Buy
+		if hasEnough(50):
+			do 
+			Shop: Pleasure doing business.
+		else: 
+			Shop: What do you take me for, a charity?
+			Shop: Get outta here. => END!
+	- Go Back
+		Shop: Having second thoughts? Bit too late for that.
+		=>< shop

@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 DialogueManager="*uid://c3rodes2l3gxb"
 
+[dialogue_manager]
+
+runtime/balloon_path="res://dialogue/testDialogue/balloon.tscn"
+
 [display]
 
 window/stretch/mode="canvas_items"
@@ -30,7 +34,7 @@ enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://testDialogue/testGreet.dialogue")
+locale/translations_pot_files=PackedStringArray("res://dialogue/testDialogue/testGreet.dialogue", "res://dialogue/shopDialogue/shop.dialogue")
 
 [physics]
 
