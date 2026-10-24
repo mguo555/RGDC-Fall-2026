@@ -1,5 +1,5 @@
 extends Node
-const player_bank = preload("res://player_bank.gd")
+const player_bank = preload("res://scripts/player_bank.gd")
 
 var dealer = null
 var card_list = [] 
