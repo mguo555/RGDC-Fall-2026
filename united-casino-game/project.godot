@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="United Casino Game"
-run/main_scene="uid://cg5vye1hln0pv"
+run/main_scene="uid://dvjuysasjr4rh"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 

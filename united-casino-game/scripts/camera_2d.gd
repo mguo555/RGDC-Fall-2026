@@ -1,12 +1,10 @@
 extends Camera2D
 
-@onready var player = $"../Duck"
-
-@export var smoothing: float = 3
-
+# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	set_as_top_level(true)
+	pass # Replace with function body.
 
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	var player_gpos = player.global_position
-	global_position = player_gpos
+	global_position = $"../Duck".global_position

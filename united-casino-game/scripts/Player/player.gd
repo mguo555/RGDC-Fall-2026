@@ -1,11 +1,6 @@
 extends CharacterBody2D
 
-var health = 3
-var cd = 0.5
-var cooling_time = 0
 const SPEED = 600
-var ouch_time = 0
-var i_frames = 0
 
 @onready var sprite = $AnimatedSprite2D
 
@@ -39,19 +34,14 @@ func _process(delta: float) -> void:
 	
 	var mag = (x**2 + y**2)**0.5
 	
-	velocity.x = x * SPEED / mag
-	velocity.y = y * SPEED / mag
+	if mag > 0:
+		velocity.x = x * SPEED / mag
+		velocity.y = y * SPEED / mag
 	
 	if velocity.length() == 0:
 		sprite.animation = "idle"
 	sprite.animation = animation
 	sprite.play()
-
-	if i_frames > 0:
-		i_frames -= delta
-		
-	# win check
-	#if ($winCheck/CollisionShape2D.)
 
 func _physics_process(delta: float) -> void:
 	move_and_slide()

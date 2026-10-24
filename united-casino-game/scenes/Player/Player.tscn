@@ -496,6 +496,8 @@ size = Vector2(124, 128)
 motion_mode = 1
 script = ExtResource("1_ky53y")
 
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1703344419]
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1053966034]
 texture_filter = 1
 position = Vector2(0, -1)
