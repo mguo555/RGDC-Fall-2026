@@ -1,14 +1,35 @@
-extends RefCounted
+extends Node2D
 class_name Card
 
 # letter_vals exists to turn the face cards + ace into numbers
 const letter_vals = {"King" : 10, "Queen" : 10, "Jack" : 10, "Ace" : Vector2i(1, 11)}
 var suit: String
 var value # either string or int
+@onready var sprite = $Cardsprite
 
-func _init(p_suit: String, p_value) -> void:
+
+func setup(p_suit: String, p_value) -> void:
 	suit = p_suit
 	value = p_value
+	
+
+func change_sprite(sprite_x, sprite_y):
+	var card_num = 0
+	sprite.animation = suit
+	if value is String:
+		match value:
+			"Jack":
+				card_num = 10
+			"Queen":
+				card_num = 11
+			"King":
+				card_num = 12
+			"Ace":
+				card_num = 0
+	else:
+		card_num = value - 1
+	sprite.frame = card_num
+	position = Vector2i(sprite_x, sprite_y)
 
 func get_value():
 	if value is String:

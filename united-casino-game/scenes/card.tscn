@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dou7sp5d4ixps"]
 
+[ext_resource type="Script" uid="uid://c5hobpbh0vhd4" path="res://scripts/card.gd" id="1_6u4wf"]
 [ext_resource type="Texture2D" uid="uid://cu1clv3ytg6tq" path="res://assets/sprites/Cards.png" id="1_d81rb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d81rb"]
@@ -262,7 +263,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"Clubs",
-"speed": 5.0
+"speed": 0.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -273,7 +274,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"Deck Backs",
-"speed": 5.0
+"speed": 0.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -317,7 +318,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"Diamonds",
-"speed": 5.0
+"speed": 0.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -361,7 +362,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"Hearts",
-"speed": 5.0
+"speed": 0.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -405,12 +406,13 @@ animations = [{
 }],
 "loop": 1,
 "name": &"Spades",
-"speed": 5.0
+"speed": 0.0
 }]
 
 [node name="Card" type="Node2D" unique_id=1002587971]
+script = ExtResource("1_6u4wf")
 
 [node name="Cardsprite" type="AnimatedSprite2D" parent="." unique_id=600531078]
+scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_uvpor")
-animation = &"Spades"
-frame_progress = 0.43725216
+animation = &"Clubs"

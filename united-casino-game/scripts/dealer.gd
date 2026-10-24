@@ -12,6 +12,8 @@ func _init():
 	reset()
 	
 func reset():
+	for card in dealer_hand:
+		card.queue_free()
 	dealer_hand.clear()
 	has_stood = false
 	bust = false

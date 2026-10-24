@@ -11,11 +11,11 @@
 	do hit()
 	if has_player_busted()
 		% Dealer: What a misfortune, you busted!
-		% Dealer: Hit one too many times it seems!
-		% Dealer: You're clearly not seeing through the cards!
+		% Dealer: Hit one too many times it seems! What a loss.
+		% Dealer: You're clearly not seeing through the cards! What a loss.
 		% Dealer: You do know you don't want more than 21 right? You lose!
-		% Dealer: That'll do it!
-		% Dealer: Oof, over 21.
+		% Dealer: That'll do it! You lose.
+		% Dealer: Oof, over 21. You lose.
 		% Dealer: Too many! You lose.
 		=> newgame
 	elif has_player_won()
@@ -24,12 +24,12 @@
 		=> start
 - Stand
 	do stand()
-	if has_player_won()
+	if who_wins_after_standing()
 		=> win
 	else
-		% Dealer: Should've tried harder! Better luck next time.
+		% Dealer: Should've tried harder! Better luck next time. Loser.
 		% Dealer: How unfortunate. You lost.
-		% Dealer: Maybe next time will be in your favor?
+		% Dealer: Maybe next time will be in your favor? You lose!
 		% Dealer: Seems you failed to believe in the heart of the cards!
 		=> newgame
 
@@ -41,16 +41,18 @@
 - Play again
 	do start_game()
 	=> start
-- Stop => END
+- Stop 
+	do kill_cards()
+	=> END
 => END
 
 ~ win
 % Dealer: Congrats! You win.
-% Dealer: Lady luck decided to favor you!
-% Dealer: Why not go double or nothing?
-% Dealer: Imagine if you'd bet just a bit more!
-% Dealer: Blink twice if you marked the cards, I won't tell!
+% Dealer: You won! Lady luck decided to favor you! 
+% Dealer: Congrats, you won! Why not go double or nothing?
+% Dealer: Well played, you win! Imagine if you'd bet just a bit more!
+% Dealer: Congrats on winning. Blink twice if you marked the cards, I won't tell!
 % Dealer: Blackjack! Winner!
 % Dealer: My compliments to the winner!
-% Dealer: Congrats on your newfound fortune!
+% Dealer: Congrats on your newfound fortune! You Win!
 => newgame

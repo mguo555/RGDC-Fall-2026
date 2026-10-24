@@ -42,6 +42,9 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(300, 100)
 layout_mode = 2
 theme_override_font_sizes/font_size = 45
+context_menu_enabled = false
+emoji_menu_enabled = false
+drag_and_drop_selection_enabled = false
 script = ExtResource("3_vyxl8")
 
 [connection signal="text_changed" from="CenterContainer/VBoxContainer/BetField" to="CenterContainer/VBoxContainer/BetField" method="_on_text_changed"]
