@@ -10,4 +10,4 @@ signal caught
 
 # called every frame
 func _process(delta: float) -> void:
-	pass
+    
