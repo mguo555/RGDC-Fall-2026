@@ -1,10 +1,11 @@
 [gd_scene format=4 uid="uid://cg5vye1hln0pv"]
 
-[ext_resource type="Texture2D" uid="uid://c5attfqvqurrv" path="res://assets/Set 1.png" id="1_pw63i"]
+[ext_resource type="Texture2D" uid="uid://c5attfqvqurrv" path="res://assets/Set 1.png" id="1_7ykc4"]
 [ext_resource type="PackedScene" uid="uid://chvivmf6qqfj1" path="res://scenes/blackjack.tscn" id="2_7ykc4"]
+[ext_resource type="Script" uid="uid://cscw0hsjl6ttp" path="res://scripts/shop/shop.gd" id="3_pu3yx"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2c62f"]
-texture = ExtResource("1_pw63i")
+texture = ExtResource("1_7ykc4")
 21:0/0 = 0
 22:0/0 = 0
 23:0/0 = 0
@@ -309,3 +310,6 @@ tile_set = SubResource("TileSet_uvpor")
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2081170883]
 
 [node name="Blackjack" parent="CanvasLayer" unique_id=1298565065 instance=ExtResource("2_7ykc4")]
+
+[node name="Shop" type="Node" parent="." unique_id=925368554]
+script = ExtResource("3_pu3yx")
