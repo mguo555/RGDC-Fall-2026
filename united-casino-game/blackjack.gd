@@ -1,9 +1,12 @@
 extends Node
+const player_bank = preload("res://player_bank.gd")
 
 var dealer = null
 var card_list = [] 
 var player_hand = []
 var next_card = null
+var player_bet = 0 # TODO FIGURE OUT HOW TO DEAL WITH BETS
+
 const SUITS = ["C", "S", "D", "H"]
 
 func _ready():
@@ -36,9 +39,18 @@ func start_game():
 
 func hit():
 	deal_card(player_hand)
-	# TODO indicator of busting
+	if Card.bust(player_hand):
+		bust()
 	if dealer.hit():
 		deal_card(dealer.get_hand())
+		if Card.bust(dealer.get_hand()):
+			win()
+
+func bust():
+	player_bank.pay(player_bet)
+
+func win():
+	player_bank.add(player_bet)
 
 func stand():
 	while dealer.hit():
