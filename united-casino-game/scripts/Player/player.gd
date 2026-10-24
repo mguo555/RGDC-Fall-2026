@@ -16,49 +16,29 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	var mouse_pos = get_global_mouse_position()
-
-	var left = position.x < mouse_pos.x
-	
-	var true_x = position.x - mouse_pos.x
-	var true_y = position.y - mouse_pos.y
-	var x = abs(true_x)
-	var y = abs(true_y)
-	
-	var a = x
-	var o = y
-	
-	var h = (a**2 + o**2)**0.5
-	
-	velocity.x = a/h * SPEED * -true_x / x
-	velocity.y = o/h * SPEED * -true_y / y
-	
-	if cooling_time > 0:
-		cooling_time -= delta
-
-	# animation if statements
-	if (x**2 + y**2)**0.5 < 50:
-		sprite.animation = "idle"
-		sprite.play()
-		velocity.x = 0
-		velocity.y = 0
-	elif (true_y / x) > 3.5:
-		sprite.animation = "back"
-		sprite.play()
+	velocity.x = 0
+	velocity.y = 0
+	var animation = "idle"
+	if Input.is_action_pressed("move_up"):
+		animation = "back"
 		sprite.flip_h = false
-	elif (true_y / x) < -3.5:
-		sprite.animation = "front"
-		sprite.play()
+		velocity.y = -1 * SPEED
+	if Input.is_action_pressed("move_down"):
+		animation = "front"
 		sprite.flip_h = false
-	elif not left:
-		sprite.animation = "side"
-		sprite.play()
+		velocity.y = 1 * SPEED
+	if Input.is_action_pressed("move_left"):
+		animation = "side"
 		sprite.flip_h = true
-	else:
-		sprite.animation = "side"
-		sprite.play()
+		velocity.x = -1 * SPEED
+	if Input.is_action_pressed("move_right"):
+		animation = "side"
 		sprite.flip_h = false
-	# deadzone implementation
+		velocity.x = 1 * SPEED
+	if velocity.length() == 0:
+		sprite.animation = "idle"
+	sprite.animation = animation
+	sprite.play()
 	
 	if velocity.x != 0 or velocity.y != 0:
 		attention.emit()

@@ -310,3 +310,4 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAFAAcAAAABAAAAAAAGAAcAAAACAAAAAAAGAAc
 tile_set = SubResource("TileSet_uvpor")
 
 [node name="Duck" parent="." unique_id=1165609474 instance=ExtResource("1_pw63i")]
+position = Vector2(1017, 563)
