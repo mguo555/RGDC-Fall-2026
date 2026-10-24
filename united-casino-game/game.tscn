@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://bgefdbgigyyt1"]
+
+[node name="Game" type="Node2D" unique_id=830147291]
+
+[node name="DialogueBox" type="Node2D" parent="." unique_id=1470471123]
