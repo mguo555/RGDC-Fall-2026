@@ -11,9 +11,14 @@ config_version=5
 [application]
 
 config/name="United Casino Game"
-run/main_scene="uid://cg5vye1hln0pv"
+run/main_scene="uid://bgefdbgigyyt1"
+
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+DialogueManager="*uid://c3rodes2l3gxb"
 
 [display]
 
@@ -22,6 +27,14 @@ window/size/viewport_height=1080
 window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
+
+[internationalization]
+
+locale/translations_pot_files=PackedStringArray("res://testDialogue/testGreet.dialogue")
 
 [physics]
 
