@@ -492,7 +492,7 @@ size = Vector2(126, 128)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nybsi"]
 size = Vector2(124, 128)
 
-[node name="Duck" type="CharacterBody2D" unique_id=1165609474 groups=["player"]]
+[node name="Player" type="CharacterBody2D" unique_id=1165609474 groups=["player"]]
 motion_mode = 1
 script = ExtResource("1_ky53y")
 
