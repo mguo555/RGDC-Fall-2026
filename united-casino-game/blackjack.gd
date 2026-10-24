@@ -33,5 +33,13 @@ func start_game():
 	deal_card(player_hand)
 	deal_card(dealer.get_hand())
 	deal_card(dealer.get_hand())
-	
-	
+
+func hit():
+	deal_card(player_hand)
+	# TODO indicator of busting
+	if dealer.hit():
+		deal_card(dealer.get_hand())
+
+func stand():
+	while dealer.hit():
+		deal_card(dealer.get_hand())
