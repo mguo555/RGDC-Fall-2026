@@ -18,19 +18,19 @@ func _process(delta: float) -> void:
 	if Input.is_action_pressed("move_up"):
 		animation = "back"
 		sprite.flip_h = false
-		y = -1
+		y += -1
 	if Input.is_action_pressed("move_down"):
 		animation = "front"
 		sprite.flip_h = false
-		y = 1
+		y += 1
 	if Input.is_action_pressed("move_left"):
 		animation = "side"
 		sprite.flip_h = true
-		x = -1
+		x += -1
 	if Input.is_action_pressed("move_right"):
 		animation = "side"
 		sprite.flip_h = false
-		x = 1
+		x += 1
 	
 	var mag = (x**2 + y**2)**0.5
 	

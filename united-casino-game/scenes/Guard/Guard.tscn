@@ -492,12 +492,11 @@ size = Vector2(126, 128)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nybsi"]
 size = Vector2(124, 128)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_frti4"]
-radius = 300.0
-
 [node name="Guard" type="CharacterBody2D" unique_id=1165609474 groups=["guard"]]
 motion_mode = 1
 script = ExtResource("1_0mswu")
+speed = null
+wait_time = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1053966034]
 modulate = Color(1, 0.3764706, 0.35686275, 1)
@@ -517,8 +516,3 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2078355207 groups=["guard"]]
 shape = SubResource("RectangleShape2D_nybsi")
-
-[node name="FOV" type="Area2D" parent="." unique_id=781655544]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="FOV" unique_id=1333159189]
-shape = SubResource("CircleShape2D_frti4")
