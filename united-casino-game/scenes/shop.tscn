@@ -2,9 +2,12 @@
 
 [ext_resource type="Script" uid="uid://cscw0hsjl6ttp" path="res://scripts/shop/shop.gd" id="1_xfvoa"]
 [ext_resource type="Script" uid="uid://g32um0mltv5d" path="res://addons/dialogue_manager/nodes/dialogue_label/dialogue_label.gd" id="2_1l46r"]
+[ext_resource type="Script" uid="uid://cetmktqib1hv4" path="res://scripts/player/player.gd" id="3_1l46r"]
 
 [node name="Shop" type="Node2D" unique_id=1215063840]
 script = ExtResource("1_xfvoa")
+
+[node name="GameManager" type="Node" parent="." unique_id=236281224]
 
 [node name="DialogueLabel" type="RichTextLabel" parent="." unique_id=1364112540]
 offset_right = 40.0
@@ -13,3 +16,7 @@ bbcode_enabled = true
 script = ExtResource("2_1l46r")
 skip_pause_at_abbreviations = PackedStringArray("Mr", "Mrs", "Ms", "Dr", "etc", "eg", "ex")
 metadata/_custom_type_script = "uid://g32um0mltv5d"
+metadata/_edit_use_anchors_ = true
+
+[node name="Player" type="Node2D" parent="." unique_id=482679955]
+script = ExtResource("3_1l46r")
