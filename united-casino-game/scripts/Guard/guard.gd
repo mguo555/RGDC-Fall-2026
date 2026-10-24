@@ -18,7 +18,7 @@ func _ready() -> void:
 		#points.append(patrol_path.to_global(patrol_path.curve.get_point_position(i)))
 	speed = 500
 	wait_time = 1.0
-	
+
 
 func _physics_process(delta: float) -> void:
 	if get_tree().current_scene.has_node("Player"):
@@ -59,7 +59,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	if velocity == Vector2.ZERO:
-		sprite.play("idle")
+		sprite.set_frame_and_progress(0, 0)
 	elif abs(velocity.x) > abs(velocity.y):
 		sprite.flip_h = velocity.x < 0
 		sprite.play("side")
