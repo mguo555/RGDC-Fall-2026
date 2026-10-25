@@ -20,6 +20,7 @@ var prompt_center_box
 var player_amount_label
 var dealer_amount_label
 var card_container
+var leave_button
 
 const SUITS = ["Clubs", "Spades", "Diamonds", "Hearts"] # USED TO INITIALIZE ALL THE SUITS
 
@@ -29,6 +30,7 @@ func _ready():
 	player_amount_label = $PlayerAmount
 	dealer_amount_label = $DealerAmount
 	card_container = $CardContainer
+	leave_button = $LeaveButton
 	dealer = Dealer.new()
 	var deck_card = card_scene.instantiate()
 	deck_card.setup("Deck Backs", 1)
@@ -217,6 +219,14 @@ func _on_bet_field_text_submitted(new_text: String) -> void:
 	show_labels()
 	start_game()
 	DialogueManager.show_dialogue_balloon_scene("res://scenes/balloon.tscn",resource, "start", [self])
+
+# NO LEAVING IN THE MIDDLE OF A ROUND
+func _process(delta):
+	leave_button.disabled = playing
+
+# GOES BACK TO THE CASINO
+func _on_leave_button_pressed():
+	GameManager.close_scene()
 
 func _on_dialogue_ended(ended_resource):
 	if ended_resource == resource:

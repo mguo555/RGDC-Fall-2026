@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://bolt0w1k7orna" path="res://scenes/Guard/GuardAmbusher.tscn" id="10_ambusher"]
 [ext_resource type="PackedScene" uid="uid://c0cgv6vg3xprd" path="res://scenes/Guard/GuardSlacker.tscn" id="11_slacker"]
 [ext_resource type="PackedScene" uid="uid://bc2hb40fros8" path="res://scenes/NPC/NPC.tscn" id="12_npc"]
+[ext_resource type="PackedScene" uid="uid://putf6gpire27" path="res://scenes/GameSpot/GameSpot.tscn" id="13_spot"]
+[ext_resource type="PackedScene" uid="uid://chvivmf6qqfj1" path="res://scenes/blackjack.tscn" id="14_blackjack"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_floor"]
 parsed_geometry_type = 1
@@ -25,6 +27,10 @@ texture = ExtResource("1_jyhfs")
 [node name="Floor" type="NavigationRegion2D" parent="." unique_id=795425564]
 navigation_polygon = SubResource("NavigationPolygon_floor")
 script = ExtResource("6_floor")
+
+[node name="BlackjackSpot" parent="." unique_id=2069133874 instance=ExtResource("13_spot")]
+position = Vector2(466, 481)
+game_scene = ExtResource("14_blackjack")
 
 [node name="HidingSpot" parent="." unique_id=250481482 instance=ExtResource("4_jyhfs")]
 position = Vector2(95, 188)

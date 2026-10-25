@@ -15,7 +15,7 @@ var introScene = load("res://scenes/intro.tscn")
 # remembers things between launches, for now just whether you've seen the intro
 const SAVE_PATH = "user://save.cfg"
 
-# the casino waits here (out of the tree) while the shop is open,
+# the casino waits here (out of the tree) while the shop or a game is open,
 # so the player comes back to the same spot
 var saved_scene = null
 # set when the player says yes to Mr. Shady, the shop opens once that dialogue is over
@@ -175,9 +175,13 @@ func go_to_casino():
 	call_deferred("switch_scene", casinoScene.instantiate(), false)
 
 func open_shop():
-	call_deferred("switch_scene", shopScene.instantiate(), true)
+	open_scene(shopScene)
 
-func close_shop():
+# opens a scene on top of the casino (shop, blackjack table, ...), close_scene goes back
+func open_scene(scene):
+	call_deferred("switch_scene", scene.instantiate(), true)
+
+func close_scene():
 	if saved_scene == null:
 		return
 	call_deferred("switch_scene", saved_scene, false)

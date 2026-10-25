@@ -19,4 +19,4 @@ func _unhandled_input(event: InputEvent) -> void:
 		DialogueManager.show_dialogue_balloon(resource, "greet", [GameManager])
 
 func _on_exit_button_pressed():
-	GameManager.close_shop()
+	GameManager.close_scene()

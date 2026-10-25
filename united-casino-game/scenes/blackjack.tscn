@@ -89,7 +89,21 @@ emoji_menu_enabled = false
 drag_and_drop_selection_enabled = false
 script = ExtResource("3_vyxl8")
 
+[node name="LeaveButton" type="Button" parent="." unique_id=1908239199]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -260.0
+offset_top = 40.0
+offset_right = -40.0
+offset_bottom = 130.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "Leave"
+
 [node name="HUD" parent="." unique_id=341470715 instance=ExtResource("9_hud")]
 
 [connection signal="text_changed" from="PromptCenterBox/PromptVertical Allignment/BetField" to="PromptCenterBox/PromptVertical Allignment/BetField" method="_on_text_changed"]
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]
 [connection signal="text_submitted" from="PromptCenterBox/PromptVertical Allignment/BetField" to="." method="_on_bet_field_text_submitted"]
