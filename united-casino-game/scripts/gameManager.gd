@@ -57,7 +57,7 @@ const BASE_QUOTA = 1000
 # pay off this many antes to be free of Mr. Shady
 const ANTES = 5
 var has_won = false
-var quota_mult = 5
+var quota_mult = 2
 var quotas_paid = 0
 var current_quota = BASE_QUOTA
 
