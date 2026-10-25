@@ -12,9 +12,7 @@ func _init():
 	reset()
 	
 func reset():
-	for card in dealer_hand:
-		card.queue_free()
-	dealer_hand.clear()
+	dealer_hand = []
 	has_stood = false
 	bust = false
 	stand_at = randi_range(MIN_STAND_AT, MAX_STAND_AT)

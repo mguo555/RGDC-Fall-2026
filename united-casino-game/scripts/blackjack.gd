@@ -10,6 +10,7 @@ var resource = load("res://dialogue/blackjack.dialogue")
 
 var dealer = null # STARTS NULL AS IS INSTANTIATED IN READY
 var card_list = [] # STARTS EMPTY, STARTS WITH A STANDARD DECK OF 52 CARDS
+var discard_list = []
 var player_hand = [] # STARTS EMPTY, IS DEALT CARDS IN START_GAME
 var next_card # EXISTS TO IMPLEMENT A CHEAT TO KNOW THE NEXT CARD
 var player_bet = 0 # TODO FIGURE OUT HOW TO DEAL WITH BETS
@@ -23,7 +24,7 @@ func _ready():
 
 # CLEARS THE LIST, AND REINITALIZES ALL THE CARDS WITH A STANDARD DECK OF CARDS
 func shuffle():
-	card_list.clear()
+	card_list = []
 	for suit in SUITS:
 		for i in range(2, 11, 1):
 			var new_card = card_scene.instantiate()
@@ -44,14 +45,22 @@ func shuffle():
 	next_card = card_list.pick_random()
 
 # FUNCTION USED TO ADD A CARD TO A HAND, AND REASSIGN THE NEXT CARD
-func deal_card(hand, card_x):
+func deal_card(hand, card_x, below = false):
 	if next_card == null:
-		shuffle()
+		card_list = discard_list.duplicate()
+		next_card = card_list.pick_random()
+		discard_list = []
+		discard_list.append(next_card)
+		card_list.erase(next_card)
+		
 	hand.append(next_card)
 	print(next_card)
-	get_tree().current_scene.add_child(next_card)
+	add_child(next_card)
+	if below:
+		move_child(next_card, 0)
 	next_card.change_sprite(card_x, CARD_HEIGHT)		
 	next_card = card_list.pick_random() 
+	discard_list.append(next_card)
 	card_list.erase(next_card) #REMOVES next card from the list of possible next cards
 
 # FUCNTION CALLED TO START A GAME, FIRST EMPTIES THE PLAYER'S AND DEALERS HANDS
@@ -61,8 +70,8 @@ func start_game():
 	deal_card(player_hand, PLAYER_CARD_START)
 	deal_card(player_hand, PLAYER_CARD_START + CARD_STEP)
 	#print("PLAYER", player_hand) # TEST CODE
-	deal_card(dealer.get_hand(), DEALER_CARD_START)
-	deal_card(dealer.get_hand(), DEALER_CARD_START - CARD_STEP)
+	deal_card(dealer.get_hand(), DEALER_CARD_START, true)
+	deal_card(dealer.get_hand(), DEALER_CARD_START - CARD_STEP, true)
 	#print("DEALER:", dealer.get_hand()) # TEST CODE
 
 # THE FUNCTION CALLED WHEN THE PLAYER WANTS TO HIT
@@ -74,7 +83,7 @@ func hit():
 	else:
 		# IF THE PLAYER HASNT BUSTED THE DEALERS TURN OCCURS
 		if dealer.hit():
-			deal_card(dealer.get_hand(), DEALER_CARD_START - CARD_STEP * len(dealer.get_hand()))
+			deal_card(dealer.get_hand(), DEALER_CARD_START - CARD_STEP * len(dealer.get_hand()), true)
 			#print("DEALER:", dealer.get_hand()) # TEST
 			if Card.bust(dealer.get_hand()):
 				# IF THE DEALER BUSTS PLAYER INSTA WINS
@@ -92,7 +101,7 @@ func win():
 # THE DEALER HAS INFINITE TURNS ONCE YOU STAND AND CAN HIT AS LONG AS THEY LIKE
 func stand():
 	while dealer.hit():
-		deal_card(dealer.get_hand(), DEALER_CARD_START - CARD_STEP * len(dealer.get_hand()))
+		deal_card(dealer.get_hand(), DEALER_CARD_START - CARD_STEP * len(dealer.get_hand()), true)
 		#print("DEALER:", dealer.get_hand()) # TEST
 
 # PLAYER WINS ONLY IF THEY HAVE A LARGER VAL THAN DEALER AND DIDNT BUST. DEALER WINS
@@ -109,7 +118,9 @@ func who_wins_after_standing():
 
 func kill_cards():
 	for card in player_hand:
-		card.queue_free()
+		remove_child(card)
+	for card in dealer.get_hand():
+		remove_child(card)
 	player_hand.clear()
 	dealer.reset()
 
