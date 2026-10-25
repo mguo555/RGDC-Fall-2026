@@ -4,6 +4,12 @@ extends CharacterBody2D
 
 const SPEED = 600
 
+# emitted when a security guard catches the player
+signal caught
+
+# true while the player is in a hiding spot (guards can't see them)
+var is_hidden = false
+
 @onready var sprite = $AnimatedSprite2D
 
 # Called when the node enters the scene tree for the first time.
@@ -14,6 +20,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	velocity.x = 0
 	velocity.y = 0
+	if is_hidden:
+		sprite.set_frame_and_progress(0, 0)
+		return
 	var x = 0
 	var y = 0
 	if Input.is_action_pressed("move_up"):

@@ -108,7 +108,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5pedr"]
 size = Vector2(67, 83)
 
-[node name="HidingSpot" type="Node2D" unique_id=250481482 groups=["player"]]
+[node name="HidingSpot" type="Node2D" unique_id=250481482 groups=["hiding_spot"]]
 script = ExtResource("1_2gc8v")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=832249690]
@@ -117,11 +117,12 @@ texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_2gc8v")
 animation = &"back"
 
-[node name="Area2D" type="Area2D" parent="." unique_id=993511016 groups=["player"]]
+[node name="Area2D" type="Area2D" parent="." unique_id=993511016 groups=["hiding_spot"]]
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=317906993 groups=["player"]]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=317906993 groups=["hiding_spot"]]
 position = Vector2(0.5, -2.5)
 shape = SubResource("RectangleShape2D_5pedr")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

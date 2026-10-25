@@ -6,11 +6,15 @@ var wait_time
 
 @onready var sprite = $AnimatedSprite2D
 
-var points = []
+const CATCH_DISTANCE = 150
+const SIGHT_DISTANCE = 150 * 2
+const LOSE_SIGHT_DISTANCE = 150 * 5
+const PATROL_POINTS = [Vector2.ZERO, Vector2(700, 700), Vector2(700, 0), Vector2(0, 700)]
+
+var points = PATROL_POINTS
 var target = 0
 var wait_timer = 0.0
 var chase = false
-var player_pos = Vector2(0, 0)
 
 
 func _ready() -> void:
@@ -20,25 +24,44 @@ func _ready() -> void:
 	wait_time = 1.0
 
 
+# the player is the node in the "player" group that has the caught signal
+# (the player's child nodes are in the group too)
+func find_player():
+	for node in get_tree().get_nodes_in_group("player"):
+		if node.has_signal("caught"):
+			return node
+	return null
+
+
+func stop_chase():
+	chase = false
+	points = PATROL_POINTS
+	target = 0
+
+
 func _physics_process(delta: float) -> void:
-	if get_tree().current_scene.has_node("Player"):
-		#print(chase)
+	var player = find_player()
+	if player:
+		var distance = player.global_position.distance_to(global_position)
 		if chase:
-			player_pos = get_tree().current_scene.find_child("Player").position
-			points = [player_pos]
-			target = 0
-			if player_pos.distance_to(position) < 150:
+			if player.is_hidden or distance > LOSE_SIGHT_DISTANCE:
+				print("Lost them...")
+				stop_chase()
+			elif distance < CATCH_DISTANCE:
 				print("CAUGHT!!!")
-			if player_pos.distance_to(position) > 150*5:
-				chase = false
-		else:
-			points = [Vector2.ZERO, Vector2(700, 700), Vector2(700, 0), Vector2(0, 700)]
-			if Input.is_action_pressed("debug_cheat_caught"):
-				if player_pos.distance_to(position) > 150*2:
-					chase = true
-					print("I SAW YOU!!!")
-				else:
-					print("Too far")
+				player.caught.emit()
+				stop_chase()
+			else:
+				points = [player.global_position]
+				target = 0
+		elif Input.is_action_just_pressed("debug_cheat_caught"):
+			if player.is_hidden:
+				print("Can't see anyone")
+			elif distance <= SIGHT_DISTANCE:
+				chase = true
+				print("I SAW YOU!!!")
+			else:
+				print("Too far")
 	velocity = Vector2.ZERO
 
 	#print(wait_time)
@@ -48,7 +71,7 @@ func _physics_process(delta: float) -> void:
 		wait_timer -= delta
 	elif global_position.distance_to(points[target]) <= speed * delta:
 		wait_timer = wait_time
-		
+
 		target = (target + 1) % points.size()
 	else:
 		velocity = global_position.direction_to(points[target]) * speed
