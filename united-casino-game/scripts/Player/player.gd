@@ -17,6 +17,24 @@ func _ready() -> void:
 	# getting caught by a guard ends the game
 	caught.connect(GameManager.game_over)
 
+# E goes to the closest thing in range (trash can, Mr. Shady, ...) so only one of them reacts.
+# unhandled so clicking through dialogue doesn't count as pressing E
+func _unhandled_input(event: InputEvent) -> void:
+	if not event.is_action_pressed("interact") or GameManager.is_dialogue_running:
+		return
+
+	var closest = null
+	var closest_distance = INF
+	for thing in get_tree().get_nodes_in_group("interactable"):
+		var distance = global_position.distance_to(thing.global_position)
+		if thing.can_interact() and distance < closest_distance:
+			closest = thing
+			closest_distance = distance
+
+	if closest:
+		get_viewport().set_input_as_handled()
+		closest.interact()
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	velocity.x = 0

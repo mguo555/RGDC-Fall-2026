@@ -29,11 +29,14 @@ func _ready() -> void:
 	wait_time = 10.0
 
 
-# unhandled so clicking through the dialogue doesn't start it again
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("interact") and player_near and not GameManager.is_dialogue_running:
-		get_viewport().set_input_as_handled()
-		DialogueManager.show_dialogue_balloon(shadyResource, "offer", [GameManager])
+# the player can press E on Mr. Shady while standing next to him
+func can_interact():
+	return player_near
+
+
+# called by the player when E is pressed and Mr. Shady is the closest thing to them
+func interact():
+	DialogueManager.show_dialogue_balloon(shadyResource, "offer", [GameManager])
 
 
 func _physics_process(delta: float) -> void:
