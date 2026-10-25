@@ -291,6 +291,7 @@ func reset():
 	shop_wanted = false
 	is_game_over = false
 	has_won = false
+	is_dialogue_running = false
 
 func game_over():
 	if is_game_over:

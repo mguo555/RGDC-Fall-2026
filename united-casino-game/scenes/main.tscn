@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://bc2hb40fros8" path="res://scenes/NPC/NPC.tscn" id="12_npc"]
 [ext_resource type="PackedScene" uid="uid://putf6gpire27" path="res://scenes/GameSpot/GameSpot.tscn" id="13_spot"]
 [ext_resource type="PackedScene" uid="uid://chvivmf6qqfj1" path="res://scenes/blackjack.tscn" id="14_blackjack"]
+[ext_resource type="PackedScene" uid="uid://hbp2uhvcqgld" path="res://scenes/pause_menu.tscn" id="20_pause"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_floor"]
 parsed_geometry_type = 1
@@ -69,3 +70,5 @@ scale = Vector2(1.35, 1.35)
 scale = Vector2(1.35, 1.35)
 
 [node name="HUD" parent="." unique_id=192917777 instance=ExtResource("9_hud")]
+
+[node name="PauseMenu" parent="." unique_id=2074438218 instance=ExtResource("20_pause")]

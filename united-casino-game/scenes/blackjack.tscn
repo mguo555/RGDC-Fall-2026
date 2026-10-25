@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://cpbawsy47eyi5" path="res://scripts/blackjack/security_camera.gd" id="11_cam"]
 [ext_resource type="Texture2D" uid="uid://b1ym4a5ctilxn" path="res://assets/sprites/cctv_camera_spritesheet.png" id="12_cam"]
 [ext_resource type="Script" uid="uid://cmntsxonnkyig" path="res://scripts/blackjack/sleight.gd" id="13_sleight"]
+[ext_resource type="PackedScene" uid="uid://hbp2uhvcqgld" path="res://scenes/pause_menu.tscn" id="20_pause"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prompt"]
 content_margin_left = 32.0
@@ -240,6 +241,8 @@ text = "Leave"
 script = ExtResource("13_sleight")
 
 [node name="HUD" parent="." unique_id=341470715 instance=ExtResource("9_hud")]
+
+[node name="PauseMenu" parent="." unique_id=753592848 instance=ExtResource("20_pause")]
 
 [connection signal="text_changed" from="PromptCenterBox/PromptPanel/PromptVertical Allignment/BetRow/BetField" to="PromptCenterBox/PromptPanel/PromptVertical Allignment/BetRow/BetField" method="_on_text_changed"]
 [connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]
