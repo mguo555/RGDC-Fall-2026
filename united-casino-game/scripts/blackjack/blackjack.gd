@@ -252,6 +252,7 @@ func _on_bet_field_text_submitted(_new_text: String) -> void:
 	tip = new_tip
 	if tip > 0:
 		GameManager.player_loseMoney(tip)
+		GameManager.add_heat()
 	playing = true
 	prompt_center_box.hide()
 	show_labels()

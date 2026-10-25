@@ -23,12 +23,17 @@ var patience_timer = 0.0
 
 @onready var sprite = $AnimatedSprite2D
 @onready var nav = $NavigationAgent2D
+@onready var alert = $Alert
 
 const CATCH_DISTANCE = 150
 # a guard who spots you yells, and guards this close join the chase
 const YELL_RADIUS = 600
 # how far ahead of the player the ambusher aims
 const AMBUSH_DISTANCE = 250
+# guards see this many degrees to each side of where they're facing
+const VIEW_ANGLE = 70
+# guards run a bit faster while chasing
+const CHASE_SPEED_BOOST = 1.15
 # how close the guard has to walk past a hiding spot to think about checking it
 const CHECK_DISTANCE = 200
 # if it should be walking but has barely moved for this long, the way is blocked
@@ -40,6 +45,7 @@ var points = []
 var target = 0
 var wait_timer = 0.0
 var stuck_timer = 0.0
+var facing = Vector2.DOWN
 
 # "patrol", "chase", "search" (sweeping the halls) or "check" (walking to a hiding spot)
 var state = "patrol"
@@ -115,9 +121,9 @@ func chase_player(player, delta):
 	if player.is_hidden:
 		print("Where did they go?")
 		start_search()
-	elif distance > lose_sight_distance:
+	elif distance > lose_sight_distance or not has_line_of_sight(player):
 		print("Lost them...")
-		start_patrol()
+		start_search()
 	elif patience_timer <= 0:
 		print("Ugh, not worth it.")
 		start_patrol()
@@ -132,6 +138,22 @@ func chase_player(player, delta):
 	else:
 		points = [player.global_position]
 		target = 0
+
+
+# a guard sees you if you're close enough, in front of them and nothing is in the way
+func can_see(player):
+	var to_player = player.global_position - global_position
+	if player.is_hidden or to_player.length() > sight_distance:
+		return false
+	if abs(rad_to_deg(facing.angle_to(to_player))) > VIEW_ANGLE:
+		return false
+	return has_line_of_sight(player)
+
+
+# true if no wall (collision layer 1) is between the guard and the player
+func has_line_of_sight(player):
+	var query = PhysicsRayQueryParameters2D.create(global_position, player.global_position, 1, [get_rid(), player.get_rid()])
+	return get_world_2d().direct_space_state.intersect_ray(query).is_empty()
 
 
 # every hiding spot the guard walks past during a search gets one roll to be checked
@@ -195,15 +217,9 @@ func _physics_process(delta: float) -> void:
 	if player:
 		if state == "chase":
 			chase_player(player, delta)
-		elif Input.is_action_just_pressed("debug_cheat_caught"):
-			var distance = player.global_position.distance_to(global_position)
-			if player.is_hidden:
-				print("Can't see anyone")
-			elif distance <= sight_distance:
-				print("I SAW YOU!!!")
-				start_chase(true)
-			else:
-				print("Too far")
+		elif GameManager.heat > 0 and can_see(player):
+			print("I SAW YOU!!!")
+			start_chase(true)
 	if state == "search":
 		roll_for_hiding_spots()
 	elif state == "check" and global_position.distance_to(spot_to_check.global_position) < CATCH_DISTANCE:
@@ -225,6 +241,8 @@ func _physics_process(delta: float) -> void:
 	else:
 		# head for the next corner of the path, the path goes around obstacles
 		velocity = global_position.direction_to(nav.get_next_path_position()) * speed
+		if state == "chase":
+			velocity *= CHASE_SPEED_BOOST
 
 	var start_position = global_position
 	var should_move = velocity.length() * delta
@@ -238,6 +256,14 @@ func _physics_process(delta: float) -> void:
 	if stuck_timer > STUCK_TIME:
 		stuck_timer = 0
 		path_blocked()
+
+	if velocity != Vector2.ZERO:
+		facing = velocity.normalized()
+
+	# ! while chasing, ? while searching
+	alert.visible = state != "patrol"
+	alert.text = "!" if state == "chase" else "?"
+	alert.modulate = Color(1, 0.3, 0.3) if state == "chase" else Color(1, 0.9, 0.3)
 
 	if velocity == Vector2.ZERO:
 		sprite.set_frame_and_progress(0, 0)

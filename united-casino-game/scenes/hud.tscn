@@ -19,32 +19,43 @@ bg_color = Color(0.95, 0.8, 0.35, 1)
 layer = 10
 script = ExtResource("1_hud")
 
-[node name="Panel" type="PanelContainer" parent="." unique_id=1108411487]
+[node name="Stack" type="VBoxContainer" parent="." unique_id=103243056]
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 440.0
-offset_bottom = 200.0
+offset_bottom = 400.0
+theme_override_constants/separation = 14
+
+[node name="Panel" type="PanelContainer" parent="Stack" unique_id=1108411487]
+layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
-[node name="VBox" type="VBoxContainer" parent="Panel" unique_id=341374706]
+[node name="VBox" type="VBoxContainer" parent="Stack/Panel" unique_id=341374706]
 layout_mode = 2
 
-[node name="MoneyLabel" type="Label" parent="Panel/VBox" unique_id=1740627847]
+[node name="MoneyLabel" type="Label" parent="Stack/Panel/VBox" unique_id=1740627847]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "Money: $0"
 
-[node name="GoalLabel" type="Label" parent="Panel/VBox" unique_id=943611813]
+[node name="GoalLabel" type="Label" parent="Stack/Panel/VBox" unique_id=943611813]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Round 1 goal: $1000"
 
-[node name="TimeLabel" type="Label" parent="Panel/VBox" unique_id=402484307]
+[node name="TimeLabel" type="Label" parent="Stack/Panel/VBox" unique_id=402484307]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Pay in 5:00"
 
-[node name="TimeBar" type="ProgressBar" parent="Panel/VBox" unique_id=1568587352]
+[node name="HeatLabel" type="Label" parent="Stack/Panel/VBox" unique_id=489965072]
+visible = false
+modulate = Color(1, 0.4, 0.4, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Security's onto you"
+
+[node name="TimeBar" type="ProgressBar" parent="Stack/Panel/VBox" unique_id=1568587352]
 custom_minimum_size = Vector2(380, 24)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_bar_back")
@@ -53,26 +64,23 @@ max_value = 300.0
 value = 300.0
 show_percentage = false
 
-[node name="InventoryPanel" type="PanelContainer" parent="." unique_id=777391917]
-offset_left = 20.0
-offset_top = 214.0
-offset_right = 440.0
-offset_bottom = 400.0
+[node name="InventoryPanel" type="PanelContainer" parent="Stack" unique_id=777391917]
+layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
-[node name="VBox" type="VBoxContainer" parent="InventoryPanel" unique_id=899829088]
+[node name="VBox" type="VBoxContainer" parent="Stack/InventoryPanel" unique_id=899829088]
 layout_mode = 2
 
-[node name="InventoryLabel" type="Label" parent="InventoryPanel/VBox" unique_id=1753279629]
+[node name="InventoryLabel" type="Label" parent="Stack/InventoryPanel/VBox" unique_id=1753279629]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Inventory"
 
-[node name="Slots" type="Control" parent="InventoryPanel/VBox" unique_id=1190918889]
+[node name="Slots" type="Control" parent="Stack/InventoryPanel/VBox" unique_id=1190918889]
 custom_minimum_size = Vector2(380, 104)
 layout_mode = 2
 
-[node name="BuffsLabel" type="Label" parent="InventoryPanel/VBox" unique_id=288091721]
+[node name="BuffsLabel" type="Label" parent="Stack/InventoryPanel/VBox" unique_id=288091721]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Buffs: none"

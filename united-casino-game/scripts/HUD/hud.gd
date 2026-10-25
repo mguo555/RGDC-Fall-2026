@@ -1,11 +1,12 @@
 extends CanvasLayer
 
-@onready var money_label = $Panel/VBox/MoneyLabel
-@onready var goal_label = $Panel/VBox/GoalLabel
-@onready var time_label = $Panel/VBox/TimeLabel
-@onready var time_bar = $Panel/VBox/TimeBar
-@onready var slots = $InventoryPanel/VBox/Slots
-@onready var buffs_label = $InventoryPanel/VBox/BuffsLabel
+@onready var money_label = $Stack/Panel/VBox/MoneyLabel
+@onready var goal_label = $Stack/Panel/VBox/GoalLabel
+@onready var time_label = $Stack/Panel/VBox/TimeLabel
+@onready var time_bar = $Stack/Panel/VBox/TimeBar
+@onready var heat_label = $Stack/Panel/VBox/HeatLabel
+@onready var slots = $Stack/InventoryPanel/VBox/Slots
+@onready var buffs_label = $Stack/InventoryPanel/VBox/BuffsLabel
 
 const card_scene = preload("res://scenes/card.tscn")
 const SLOT_SIZE = Vector2(68, 96)
@@ -24,6 +25,10 @@ func _process(delta):
 	time_label.text = "Pay in %d:%02d" % [int(seconds / 60.0), seconds % 60]
 	time_bar.max_value = GameManager.QUOTA_TIME
 	time_bar.value = GameManager.quota_timer
+
+	# shows how long guards will chase you on sight after a cheat
+	heat_label.visible = GameManager.heat > 0
+	heat_label.text = "Security's onto you: %ds" % ceil(GameManager.heat)
 
 	# only redraw the inventory when something in it changed
 	if GameManager.inventory != shown_inventory or GameManager.inventorySpace != shown_space:

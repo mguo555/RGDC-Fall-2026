@@ -26,6 +26,11 @@ var is_game_over = false
 # buffs will be able to lower this later
 var hiding_spot_check_chance = 0.5
 
+# after you get away with a cheat you're "hot" for a while,
+# any guard that sees you while you're hot comes after you
+const HEAT_TIME = 30.0
+var heat = 0.0
+
 # var player_money = 500
 var player_money = 1001
 # each round's goal is 1000 * 5^round: 1000, then 5000, then 25000, ...
@@ -132,6 +137,9 @@ func buyItem(item: Item):
 	player_loseMoney(getCost(item))
 	return 1
 
+func add_heat():
+	heat = HEAT_TIME
+
 # a random playing card for the inventory
 func random_card():
 	var suits = ["Clubs", "Spades", "Diamonds", "Hearts"]
@@ -157,6 +165,10 @@ func update_UI():
 func _process(delta):
 	# update the quota timer (delta is in seconds, so this counts down in real time)
 	quota_timer = max(quota_timer - delta, 0)
+	heat = max(heat - delta, 0)
+	# debug: space pretends you just cheated
+	if Input.is_action_just_pressed("debug_cheat_caught"):
+		add_heat()
 	pass
 
 func _on_dialogue_started(dialogue) -> void:
