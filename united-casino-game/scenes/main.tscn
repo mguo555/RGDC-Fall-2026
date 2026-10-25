@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://dq7kw0r6kl803" path="res://scenes/Jimbo/Jimbo.tscn" id="5_tbgi4"]
 [ext_resource type="Script" uid="uid://driq8yuplj0js" path="res://scripts/Floor/floor.gd" id="6_floor"]
 [ext_resource type="PackedScene" uid="uid://bjjv6nodj24mx" path="res://scenes/hud.tscn" id="9_hud"]
+[ext_resource type="PackedScene" uid="uid://bolt0w1k7orna" path="res://scenes/Guard/GuardAmbusher.tscn" id="10_ambusher"]
+[ext_resource type="PackedScene" uid="uid://c0cgv6vg3xprd" path="res://scenes/Guard/GuardSlacker.tscn" id="11_slacker"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_floor"]
 parsed_geometry_type = 1
@@ -33,6 +35,16 @@ scale = Vector2(1.35, 1.35)
 [node name="Guard" parent="." unique_id=1359353346 instance=ExtResource("4_tbgi4")]
 position = Vector2(815, 388)
 scale = Vector2(1.35, 1.35)
+
+[node name="GuardAmbusher" parent="." unique_id=795255020 instance=ExtResource("10_ambusher")]
+position = Vector2(1300, 300)
+scale = Vector2(1.35, 1.35)
+patrol_points = Array[Vector2]([Vector2(1100, 250), Vector2(1580, 250), Vector2(1580, 650), Vector2(1100, 650)])
+
+[node name="GuardSlacker" parent="." unique_id=1191912686 instance=ExtResource("11_slacker")]
+position = Vector2(500, 700)
+scale = Vector2(1.35, 1.35)
+patrol_points = Array[Vector2]([Vector2(400, 700), Vector2(900, 700), Vector2(1200, 300), Vector2(500, 300)])
 
 [node name="Jimbo" parent="." unique_id=1628255682 instance=ExtResource("5_tbgi4")]
 scale = Vector2(1.35, 1.35)
