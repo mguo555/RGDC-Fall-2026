@@ -2,6 +2,7 @@ extends Node
 var resource = load("res://dialogue/shopDialogue/shop.dialogue")
 
 @onready var exit_button = $UI/ExitButton
+@onready var talk_hint = $UI/TalkHint
 
 func _ready():
 	DialogueManager.show_dialogue_balloon(resource, "greet", [GameManager])
@@ -9,6 +10,7 @@ func _ready():
 func _process(delta):
 	# no walking out in the middle of a conversation
 	exit_button.disabled = GameManager.is_dialogue_running
+	talk_hint.visible = not GameManager.is_dialogue_running
 
 # unhandled so the balloon's own clicks and keys don't reopen the shop
 func _unhandled_input(event: InputEvent) -> void:

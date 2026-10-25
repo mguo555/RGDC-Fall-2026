@@ -22,6 +22,10 @@ func _process(delta: float) -> void:
 func can_interact():
 	return entered and player != null
 
+# what the E prompt says for this
+func prompt_text():
+	return "Get out" if player.is_hidden else "Hide"
+
 # called by the player when E is pressed and this is the closest thing to them
 func interact():
 	# press interact again to come back out
@@ -29,9 +33,9 @@ func interact():
 	# inside the trash can nothing bumps into you (bumping made the screen shake)
 	player.get_node("CollisionShape2D").set_deferred("disabled", player.is_hidden)
 	if player.is_hidden:
-		player.modulate.a = 0.4
+		player.sprite.modulate.a = 0.4
 	else:
-		player.modulate.a = 1
+		player.sprite.modulate.a = 1
 		player.sprite.animation = "front"
 		player.velocity = Vector2.ZERO
 	print("HIDING" if player.is_hidden else "LEFT HIDING SPOT")

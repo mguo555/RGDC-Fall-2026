@@ -11,18 +11,15 @@ signal caught
 var is_hidden = false
 
 @onready var sprite = $AnimatedSprite2D
+@onready var prompt = $InteractPrompt
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# getting caught by a guard ends the game
 	caught.connect(GameManager.game_over)
 
-# E goes to the closest thing in range (trash can, Mr. Shady, ...) so only one of them reacts.
-# unhandled so clicking through dialogue doesn't count as pressing E
-func _unhandled_input(event: InputEvent) -> void:
-	if not event.is_action_pressed("interact") or GameManager.is_dialogue_running:
-		return
-
+# the closest thing in range that E would use right now (trash can, Mr. Shady, ...), or null
+func find_closest_interactable():
 	var closest = null
 	var closest_distance = INF
 	for thing in get_tree().get_nodes_in_group("interactable"):
@@ -30,13 +27,30 @@ func _unhandled_input(event: InputEvent) -> void:
 		if thing.can_interact() and distance < closest_distance:
 			closest = thing
 			closest_distance = distance
+	return closest
 
+# E goes to the closest thing in range so only one of them reacts.
+# unhandled so clicking through dialogue doesn't count as pressing E
+func _unhandled_input(event: InputEvent) -> void:
+	if not event.is_action_pressed("interact") or GameManager.is_dialogue_running:
+		return
+	var closest = find_closest_interactable()
 	if closest:
 		get_viewport().set_input_as_handled()
 		closest.interact()
 
+# shows "E: Hide", "E: Talk", ... above whatever E would use
+func update_prompt():
+	var closest = find_closest_interactable()
+	prompt.visible = closest != null and not GameManager.is_dialogue_running
+	if prompt.visible:
+		prompt.text = "E: " + closest.prompt_text()
+		prompt.reset_size()
+		prompt.position = closest.global_position - Vector2(prompt.size.x / 2, 110)
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	update_prompt()
 	velocity.x = 0
 	velocity.y = 0
 	if is_hidden:

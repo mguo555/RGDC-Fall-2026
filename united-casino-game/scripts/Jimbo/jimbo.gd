@@ -34,6 +34,11 @@ func can_interact():
 	return player_near
 
 
+# what the E prompt says for Mr. Shady
+func prompt_text():
+	return "Talk"
+
+
 # called by the player when E is pressed and Mr. Shady is the closest thing to them
 func interact():
 	DialogueManager.show_dialogue_balloon(shadyResource, "offer", [GameManager])

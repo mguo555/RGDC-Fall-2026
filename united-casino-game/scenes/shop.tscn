@@ -47,6 +47,23 @@ grow_horizontal = 0
 theme_override_font_sizes/font_size = 48
 text = "Exit"
 
+[node name="TalkHint" type="Label" parent="UI" unique_id=813447292]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -140.0
+offset_right = 200.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 48
+text = "E: Talk"
+horizontal_alignment = 1
+
 [node name="HUD" parent="." unique_id=397836500 instance=ExtResource("9_hud")]
 
 [connection signal="pressed" from="UI/ExitButton" to="." method="_on_exit_button_pressed"]
