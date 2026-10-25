@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var entered = false
 @onready var to_zeroed = false
-@onready var player = $"../Player"
+@onready var player = get_node_or_null("../Player")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -29,7 +29,7 @@ func _process(delta: float) -> void:
 			player._physics_process(delta)
 		else:
 			to_zeroed = false
-	if player.is_hidden and position.distance_to(player.position) < 5:
+	if player and player.is_hidden and position.distance_to(player.position) < 5:
 		player.sprite.animation = "front"
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
