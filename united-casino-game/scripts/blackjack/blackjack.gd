@@ -60,8 +60,8 @@ func _ready():
 	camera_label = $CameraLabel
 	dealer_sprite = $DealerSprite
 	dealer_y = dealer_sprite.position.y
-	bet_field = $"PromptCenterBox/PromptPanel/PromptVertical Allignment/BetField"
-	tip_field = $"PromptCenterBox/PromptPanel/PromptVertical Allignment/TipField"
+	bet_field = $"PromptCenterBox/PromptPanel/PromptVertical Allignment/BetRow/BetField"
+	tip_field = $"PromptCenterBox/PromptPanel/PromptVertical Allignment/TipRow/TipField"
 	dealer = Dealer.new()
 	var deck_card = card_scene.instantiate()
 	deck_card.setup("Deck Backs", 1)
@@ -266,7 +266,10 @@ func can_afford_bet():
 func favor():
 	return min(float(tip) / GameManager.current_bet, 1.0)
 
-# PRESSING ENTER IN THE BET OR TIP BOX STARTS THE ROUND
+func _on_deal_button_pressed():
+	_on_bet_field_text_submitted("")
+
+# PRESSING DEAL (OR ENTER IN THE BET OR TIP BOX) STARTS THE ROUND
 func _on_bet_field_text_submitted(_new_text: String) -> void:
 	# IGNORE NEW BETS WHILE A ROUND IS STILL BEING PLAYED
 	if playing:
