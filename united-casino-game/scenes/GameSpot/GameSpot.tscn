@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://putf6gpire27"]
+
+[ext_resource type="Script" uid="uid://bsk0j6cp0o7cx" path="res://scripts/GameSpot/game_spot.gd" id="1_spot"]
+[ext_resource type="Texture2D" uid="uid://7b65hn0fw40t" path="res://assets/sprites/arrow.png" id="2_arrow"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_spot"]
+radius = 170.0
+
+[node name="GameSpot" type="Node2D" unique_id=517765554 groups=["interactable"]]
+script = ExtResource("1_spot")
+
+[node name="Arrow" type="Sprite2D" parent="." unique_id=1021193754]
+z_index = 10
+position = Vector2(0, -190)
+scale = Vector2(5, 5)
+texture = ExtResource("2_arrow")
+
+[node name="Area" type="Area2D" parent="." unique_id=1831037823]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area" unique_id=898992439]
+shape = SubResource("CircleShape2D_spot")
+
+[connection signal="area_entered" from="Area" to="." method="_on_area_area_entered"]
+[connection signal="area_exited" from="Area" to="." method="_on_area_area_exited"]

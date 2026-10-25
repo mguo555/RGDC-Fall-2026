@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=18
+type="Resource"
+uid="uid://c12ch2fr1ess3"
+path="res://.godot/imported/game_over.dialogue-011b914789c79af347cd3b91c58dc48a.tres"
+
+[deps]
+
+source_file="res://dialogue/game_over.dialogue"
+dest_files=["res://.godot/imported/game_over.dialogue-011b914789c79af347cd3b91c58dc48a.tres"]
+
+[params]
+
+defaults=true

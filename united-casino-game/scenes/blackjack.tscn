@@ -3,7 +3,50 @@
 [ext_resource type="Script" uid="uid://b1kmu3pyngg4d" path="res://scripts/blackjack/blackjack.gd" id="1_3frkl"]
 [ext_resource type="Script" uid="uid://g32um0mltv5d" path="res://addons/dialogue_manager/nodes/dialogue_label/dialogue_label.gd" id="2_kvb06"]
 [ext_resource type="Script" uid="uid://b636n426f5j8m" path="res://scripts/blackjack/bet_field_script.gd" id="3_vyxl8"]
-[ext_resource type="Texture2D" uid="uid://bir5c4erpnppf" path="res://assets/sprites/blackjack_bg.png" id="4_4fu0r"]
+[ext_resource type="Texture2D" uid="uid://ck0qtcnlq5ao4" path="res://assets/sprites/blackjack_table.png" id="4_4fu0r"]
+[ext_resource type="Texture2D" uid="uid://d16yfpya5r4uk" path="res://assets/sprites/blackjack_dealer.png" id="14_dealer"]
+[ext_resource type="PackedScene" uid="uid://bjjv6nodj24mx" path="res://scenes/hud.tscn" id="9_hud"]
+[ext_resource type="Script" uid="uid://c1ujvfw2robaw" path="res://scripts/blackjack/passersby.gd" id="10_pass"]
+[ext_resource type="Script" uid="uid://cpbawsy47eyi5" path="res://scripts/blackjack/security_camera.gd" id="11_cam"]
+[ext_resource type="Texture2D" uid="uid://b1ym4a5ctilxn" path="res://assets/sprites/cctv_camera_spritesheet.png" id="12_cam"]
+[ext_resource type="Script" uid="uid://cmntsxonnkyig" path="res://scripts/blackjack/sleight.gd" id="13_sleight"]
+[ext_resource type="PackedScene" uid="uid://hbp2uhvcqgld" path="res://scenes/pause_menu.tscn" id="20_pause"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prompt"]
+content_margin_left = 32.0
+content_margin_top = 20.0
+content_margin_right = 32.0
+content_margin_bottom = 28.0
+bg_color = Color(0, 0, 0, 0.92)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_field"]
+content_margin_left = 12.0
+content_margin_right = 12.0
+bg_color = Color(0.16, 0.16, 0.19, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.6, 0.6, 0.6, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_field_focus"]
+content_margin_left = 12.0
+content_margin_right = 12.0
+bg_color = Color(0.16, 0.16, 0.19, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.95, 0.8, 0.35, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_deal"]
+bg_color = Color(0.95, 0.8, 0.35, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_deal_hover"]
+bg_color = Color(1, 0.88, 0.5, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_deal_pressed"]
+bg_color = Color(0.8, 0.65, 0.25, 1)
 
 [node name="Blackjack" type="Control" unique_id=1298565065]
 layout_mode = 3
@@ -14,10 +57,41 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3frkl")
 
+[node name="Passersby" type="Node2D" parent="." unique_id=1348014694]
+script = ExtResource("10_pass")
+
+[node name="DealerSprite" type="Sprite2D" parent="." unique_id=1617355546]
+position = Vector2(544, 83)
+scale = Vector2(1.08, 1.08)
+texture = ExtResource("14_dealer")
+centered = false
+
 [node name="BlackjackBg" type="Sprite2D" parent="." unique_id=2070246228]
 scale = Vector2(1.08, 1.08)
 texture = ExtResource("4_4fu0r")
 centered = false
+
+[node name="SecurityCamera" type="Sprite2D" parent="." unique_id=1919171247]
+position = Vector2(1400, 72)
+scale = Vector2(5, 5)
+texture = ExtResource("12_cam")
+flip_v = true
+hframes = 15
+vframes = 11
+script = ExtResource("11_cam")
+
+[node name="CameraLabel" type="Label" parent="." unique_id=1413494179]
+visible = false
+layout_mode = 0
+offset_left = 1200.0
+offset_top = 150.0
+offset_right = 1600.0
+offset_bottom = 200.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "Camera off"
+horizontal_alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=758799715]
 layout_mode = 0
@@ -43,23 +117,23 @@ metadata/_custom_type_script = "uid://g32um0mltv5d"
 [node name="PlayerAmount" type="Label" parent="." unique_id=1430202910]
 layout_mode = 0
 offset_left = 120.0
-offset_top = 575.0
+offset_top = 545.0
 offset_right = 420.0
-offset_bottom = 630.0
+offset_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 8
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 48
 horizontal_alignment = 1
 
 [node name="DealerAmount" type="Label" parent="." unique_id=1639922256]
 layout_mode = 0
 offset_left = 1500.0
-offset_top = 575.0
+offset_top = 545.0
 offset_right = 1800.0
-offset_bottom = 630.0
+offset_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 8
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 48
 horizontal_alignment = 1
 
 [node name="PromptCenterBox" type="CenterContainer" parent="." unique_id=861012954]
@@ -67,26 +141,112 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -310.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PromptVertical Allignment" type="VBoxContainer" parent="PromptCenterBox" unique_id=2050633851]
+[node name="PromptPanel" type="PanelContainer" parent="PromptCenterBox" unique_id=195725785]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_prompt")
 
-[node name="Bet Field Label" type="Label" parent="PromptCenterBox/PromptVertical Allignment" unique_id=742479620]
+[node name="PromptVertical Allignment" type="VBoxContainer" parent="PromptCenterBox/PromptPanel" unique_id=2050633851]
 layout_mode = 2
-theme_override_font_sizes/font_size = 60
-text = "Place your bet!"
+theme_override_constants/separation = 16
+
+[node name="Bet Field Label" type="Label" parent="PromptCenterBox/PromptPanel/PromptVertical Allignment" unique_id=742479620]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Place your bet"
 horizontal_alignment = 1
 
-[node name="BetField" type="LineEdit" parent="PromptCenterBox/PromptVertical Allignment" unique_id=1432340901]
-custom_minimum_size = Vector2(300, 100)
+[node name="BetRow" type="HBoxContainer" parent="PromptCenterBox/PromptPanel/PromptVertical Allignment" unique_id=1262692065]
 layout_mode = 2
-theme_override_font_sizes/font_size = 45
+theme_override_constants/separation = 16
+
+[node name="BetLabel" type="Label" parent="PromptCenterBox/PromptPanel/PromptVertical Allignment/BetRow" unique_id=1434148784]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Bet $"
+
+[node name="BetField" type="LineEdit" parent="PromptCenterBox/PromptPanel/PromptVertical Allignment/BetRow" unique_id=1432340901]
+custom_minimum_size = Vector2(300, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_field")
+theme_override_styles/focus = SubResource("StyleBoxFlat_field_focus")
+placeholder_text = "100"
 context_menu_enabled = false
 emoji_menu_enabled = false
 drag_and_drop_selection_enabled = false
 script = ExtResource("3_vyxl8")
 
-[connection signal="text_changed" from="PromptCenterBox/PromptVertical Allignment/BetField" to="PromptCenterBox/PromptVertical Allignment/BetField" method="_on_text_changed"]
-[connection signal="text_submitted" from="PromptCenterBox/PromptVertical Allignment/BetField" to="." method="_on_bet_field_text_submitted"]
+[node name="TipRow" type="HBoxContainer" parent="PromptCenterBox/PromptPanel/PromptVertical Allignment" unique_id=1081624689]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TipLabel" type="Label" parent="PromptCenterBox/PromptPanel/PromptVertical Allignment/TipRow" unique_id=2049486833]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Tip $"
+
+[node name="TipField" type="LineEdit" parent="PromptCenterBox/PromptPanel/PromptVertical Allignment/TipRow" unique_id=1504157700]
+custom_minimum_size = Vector2(300, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_field")
+theme_override_styles/focus = SubResource("StyleBoxFlat_field_focus")
+placeholder_text = "0"
+context_menu_enabled = false
+emoji_menu_enabled = false
+drag_and_drop_selection_enabled = false
+script = ExtResource("3_vyxl8")
+
+[node name="Tip Label" type="Label" parent="PromptCenterBox/PromptPanel/PromptVertical Allignment" unique_id=165617050]
+modulate = Color(0.75, 0.75, 0.75, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Only tip when nobody can see you"
+horizontal_alignment = 1
+
+[node name="DealButton" type="Button" parent="PromptCenterBox/PromptPanel/PromptVertical Allignment" unique_id=1354816141]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.1, 0.08, 0.05, 1)
+theme_override_colors/font_hover_color = Color(0.1, 0.08, 0.05, 1)
+theme_override_colors/font_pressed_color = Color(0.1, 0.08, 0.05, 1)
+theme_override_colors/font_focus_color = Color(0.1, 0.08, 0.05, 1)
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_deal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_deal_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_deal_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_deal_hover")
+text = "Deal"
+
+[node name="LeaveButton" type="Button" parent="." unique_id=1908239199]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -260.0
+offset_top = 40.0
+offset_right = -40.0
+offset_bottom = 130.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "Leave"
+
+[node name="Sleight" type="Node2D" parent="." unique_id=252702209]
+script = ExtResource("13_sleight")
+
+[node name="HUD" parent="." unique_id=341470715 instance=ExtResource("9_hud")]
+
+[node name="PauseMenu" parent="." unique_id=753592848 instance=ExtResource("20_pause")]
+
+[connection signal="text_changed" from="PromptCenterBox/PromptPanel/PromptVertical Allignment/BetRow/BetField" to="PromptCenterBox/PromptPanel/PromptVertical Allignment/BetRow/BetField" method="_on_text_changed"]
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]
+[connection signal="pressed" from="PromptCenterBox/PromptPanel/PromptVertical Allignment/DealButton" to="." method="_on_deal_button_pressed"]
+[connection signal="text_submitted" from="PromptCenterBox/PromptPanel/PromptVertical Allignment/BetRow/BetField" to="." method="_on_bet_field_text_submitted"]
+[connection signal="text_changed" from="PromptCenterBox/PromptPanel/PromptVertical Allignment/TipRow/TipField" to="PromptCenterBox/PromptPanel/PromptVertical Allignment/TipRow/TipField" method="_on_text_changed"]
+[connection signal="text_submitted" from="PromptCenterBox/PromptPanel/PromptVertical Allignment/TipRow/TipField" to="." method="_on_bet_field_text_submitted"]

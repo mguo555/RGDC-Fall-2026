@@ -5,12 +5,33 @@
 [ext_resource type="PackedScene" uid="uid://xwklnwwj2elx" path="res://scenes/HidingSpot/HidingSpot.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://btlj8yjhcpjbf" path="res://scenes/Guard/Guard.tscn" id="4_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://dq7kw0r6kl803" path="res://scenes/Jimbo/Jimbo.tscn" id="5_tbgi4"]
+[ext_resource type="Script" uid="uid://driq8yuplj0js" path="res://scripts/Floor/floor.gd" id="6_floor"]
+[ext_resource type="PackedScene" uid="uid://bjjv6nodj24mx" path="res://scenes/hud.tscn" id="9_hud"]
+[ext_resource type="PackedScene" uid="uid://bolt0w1k7orna" path="res://scenes/Guard/GuardAmbusher.tscn" id="10_ambusher"]
+[ext_resource type="PackedScene" uid="uid://c0cgv6vg3xprd" path="res://scenes/Guard/GuardSlacker.tscn" id="11_slacker"]
+[ext_resource type="PackedScene" uid="uid://bc2hb40fros8" path="res://scenes/NPC/NPC.tscn" id="12_npc"]
+[ext_resource type="PackedScene" uid="uid://putf6gpire27" path="res://scenes/GameSpot/GameSpot.tscn" id="13_spot"]
+[ext_resource type="PackedScene" uid="uid://chvivmf6qqfj1" path="res://scenes/blackjack.tscn" id="14_blackjack"]
+[ext_resource type="PackedScene" uid="uid://hbp2uhvcqgld" path="res://scenes/pause_menu.tscn" id="20_pause"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_floor"]
+parsed_geometry_type = 1
+agent_radius = 70.0
+outlines = Array[PackedVector2Array]([PackedVector2Array(4, -4, 1796, -4, 1796, 1004, 4, 1004)])
 
 [node name="Main" type="Node2D" unique_id=567748980]
 
 [node name="Background" type="Sprite2D" parent="." unique_id=2118096023]
 position = Vector2(900, 500)
 texture = ExtResource("1_jyhfs")
+
+[node name="Floor" type="NavigationRegion2D" parent="." unique_id=795425564]
+navigation_polygon = SubResource("NavigationPolygon_floor")
+script = ExtResource("6_floor")
+
+[node name="BlackjackSpot" parent="." unique_id=2069133874 instance=ExtResource("13_spot")]
+position = Vector2(466, 481)
+game_scene = ExtResource("14_blackjack")
 
 [node name="HidingSpot" parent="." unique_id=250481482 instance=ExtResource("4_jyhfs")]
 position = Vector2(95, 188)
@@ -23,5 +44,31 @@ scale = Vector2(1.35, 1.35)
 position = Vector2(815, 388)
 scale = Vector2(1.35, 1.35)
 
+[node name="GuardAmbusher" parent="." unique_id=795255020 instance=ExtResource("10_ambusher")]
+position = Vector2(1300, 300)
+scale = Vector2(1.35, 1.35)
+patrol_points = Array[Vector2]([Vector2(1100, 250), Vector2(1580, 250), Vector2(1580, 650), Vector2(1100, 650)])
+
+[node name="GuardSlacker" parent="." unique_id=1191912686 instance=ExtResource("11_slacker")]
+position = Vector2(500, 700)
+scale = Vector2(1.35, 1.35)
+patrol_points = Array[Vector2]([Vector2(400, 700), Vector2(900, 700), Vector2(1200, 300), Vector2(500, 300)])
+
+[node name="NPC1" parent="." unique_id=1165487252 instance=ExtResource("12_npc")]
+position = Vector2(600, 450)
+scale = Vector2(1.35, 1.35)
+
+[node name="NPC2" parent="." unique_id=1912032964 instance=ExtResource("12_npc")]
+position = Vector2(1000, 700)
+scale = Vector2(1.35, 1.35)
+
+[node name="NPC3" parent="." unique_id=1939886767 instance=ExtResource("12_npc")]
+position = Vector2(1450, 450)
+scale = Vector2(1.35, 1.35)
+
 [node name="Jimbo" parent="." unique_id=1628255682 instance=ExtResource("5_tbgi4")]
 scale = Vector2(1.35, 1.35)
+
+[node name="HUD" parent="." unique_id=192917777 instance=ExtResource("9_hud")]
+
+[node name="PauseMenu" parent="." unique_id=2074438218 instance=ExtResource("20_pause")]

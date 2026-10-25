@@ -10,27 +10,52 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("interact") and entered and player:
-		# press interact again to come back out
-		player.is_hidden = not player.is_hidden
-		if player.is_hidden:
-			player.modulate.a = 0.4
-		else:
-			player.modulate.a = 1
-			player.sprite.animation = "front"
-			player.velocity = Vector2.ZERO
-		print("HIDING" if player.is_hidden else "LEFT HIDING SPOT")
-		to_zeroed = true
 	if to_zeroed and player and player.is_hidden:
-		if position.distance_to(player.position) > 0:
-			print("moving")
-			var angle = player.position.direction_to(position)
-			player.velocity = 300 * angle
-			player._physics_process(delta)
-		else:
-			to_zeroed = false
-	if player and player.is_hidden and position.distance_to(player.position) < 5:
+		walk_into_can(delta)
+
+# walks the player into the can facing the way they're going,
+# then stops exactly on it (overshooting made the screen shake)
+func walk_into_can(delta):
+	var direction = player.global_position.direction_to(global_position)
+	player.global_position = player.global_position.move_toward(global_position, 300 * delta)
+
+	if abs(direction.x) > abs(direction.y):
+		player.sprite.animation = "side"
+		player.sprite.flip_h = direction.x < 0
+	elif direction.y < 0:
+		player.sprite.animation = "back"
+	else:
 		player.sprite.animation = "front"
+	player.sprite.play()
+
+	if player.global_position == global_position:
+		# inside now: face front, stand still and fade
+		to_zeroed = false
+		player.sprite.animation = "front"
+		player.sprite.flip_h = false
+		player.sprite.stop()
+		player.sprite.modulate.a = 0.4
+
+# the player can use this while standing in it
+func can_interact():
+	return entered and player != null
+
+# what the E prompt says for this
+func prompt_text():
+	return "Get out" if player.is_hidden else "Hide"
+
+# called by the player when this gets used (E or clicking on it)
+func interact():
+	# press interact again to come back out
+	player.is_hidden = not player.is_hidden
+	# inside the trash can nothing bumps into you (bumping made the screen shake)
+	player.get_node("CollisionShape2D").set_deferred("disabled", player.is_hidden)
+	if not player.is_hidden:
+		player.sprite.modulate.a = 1
+		player.sprite.animation = "front"
+		player.velocity = Vector2.ZERO
+	print("HIDING" if player.is_hidden else "LEFT HIDING SPOT")
+	to_zeroed = player.is_hidden
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player"):

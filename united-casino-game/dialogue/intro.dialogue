@@ -1,0 +1,16 @@
+~ start
+Mr. Shady: There you are.
+Player: Mr. Shady! I was just about to call you.
+Mr. Shady: Sure you were.
+Mr. Shady: You owe me a lot of money, kid. We'll do it in payments.
+Mr. Shady: First one's ${{current_quota}}. You've got five minutes.
+Player: Five minutes? I'm broke!
+Mr. Shady: You're standing in a casino.
+Player: I'm terrible at blackjack.
+Mr. Shady: Then cheat.
+Mr. Shady: Just don't get caught. Security throws cheaters out, and if you're out, you can't pay me.
+Mr. Shady: And people who can't pay me... well.
+Player: Got it. Don't get caught.
+Mr. Shady: If the guards get close, hide in a trash can. They hate digging through trash. Usually.
+Mr. Shady: I'll be around if you need anything. For a price.
+=> END

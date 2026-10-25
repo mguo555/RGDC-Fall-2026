@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://hbp2uhvcqgld"]
+
+[ext_resource type="Script" uid="uid://c5cvlt4sjht7d" path="res://scripts/menus/pause_menu.gd" id="1_pause"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gold"]
+bg_color = Color(0.95, 0.8, 0.35, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gold_hover"]
+bg_color = Color(1, 0.88, 0.5, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dark"]
+bg_color = Color(0.15, 0.15, 0.18, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.6, 0.6, 0.6, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dark_hover"]
+bg_color = Color(0.25, 0.25, 0.3, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.8, 0.35, 1)
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=2035959523]
+process_mode = 3
+layer = 120
+visible = false
+script = ExtResource("1_pause")
+
+[node name="Dim" type="ColorRect" parent="." unique_id=1939344088]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="Box" type="VBoxContainer" parent="." unique_id=525583920]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -230.0
+offset_right = 300.0
+offset_bottom = 230.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 24
+
+[node name="Title" type="Label" parent="Box" unique_id=367795771]
+layout_mode = 2
+theme_override_font_sizes/font_size = 96
+text = "Paused"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="Box" unique_id=1870937716]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.1, 0.08, 0.05, 1)
+theme_override_colors/font_hover_color = Color(0.1, 0.08, 0.05, 1)
+theme_override_colors/font_pressed_color = Color(0.1, 0.08, 0.05, 1)
+theme_override_colors/font_focus_color = Color(0.1, 0.08, 0.05, 1)
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxFlat_gold")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gold_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gold")
+theme_override_styles/focus = SubResource("StyleBoxFlat_gold_hover")
+text = "Resume"
+
+[node name="MenuButton" type="Button" parent="Box" unique_id=239074282]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxFlat_dark")
+theme_override_styles/hover = SubResource("StyleBoxFlat_dark_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_dark")
+theme_override_styles/focus = SubResource("StyleBoxFlat_dark_hover")
+text = "Exit to menu"
+
+[node name="Warning" type="Label" parent="Box" unique_id=225806183]
+modulate = Color(0.75, 0.75, 0.75, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Exiting to the menu loses this run"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="Box/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="Box/MenuButton" to="." method="_on_menu_button_pressed"]

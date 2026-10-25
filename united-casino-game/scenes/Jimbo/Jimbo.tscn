@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://jbienisejadw" path="res://scripts/Jimbo/jimbo.gd" id="1_ph3kn"]
 [ext_resource type="Texture2D" uid="uid://co1cdrsvtl530" path="res://assets/sprites/shady_sheet.png" id="2_e15t7"]
+[ext_resource type="PackedScene" uid="uid://bll8ap04hel3d" path="res://scenes/TalkArea/TalkArea.tscn" id="3_talk"]
+[ext_resource type="Resource" uid="uid://clr1okjx5e1ci" path="res://dialogue/shady.dialogue" id="4_shady"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4a1xo"]
 atlas = ExtResource("2_e15t7")
@@ -108,7 +110,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0mswu"]
 size = Vector2(67, 83)
 
-[node name="Jimbo" type="CharacterBody2D" unique_id=1165609474 groups=["guard"]]
+[node name="Jimbo" type="CharacterBody2D" unique_id=1165609474 groups=["npc"]]
+collision_layer = 4
+collision_mask = 1
 motion_mode = 1
 script = ExtResource("1_ph3kn")
 
@@ -117,13 +121,19 @@ texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_pq3n5")
 animation = &"side"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=954828523 groups=["guard"]]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=998017869]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=954828523 groups=["npc"]]
 position = Vector2(0.5, -2.5)
 shape = SubResource("RectangleShape2D_0mswu")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=819786090 groups=["guard"]]
+[node name="Area2D" type="Area2D" parent="." unique_id=819786090 groups=["npc"]]
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=171619258 groups=["guard"]]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=171619258 groups=["npc"]]
 position = Vector2(0.5, -2.5)
 shape = SubResource("RectangleShape2D_0mswu")
+
+[node name="TalkArea" parent="." unique_id=1190580830 instance=ExtResource("3_talk")]
+dialogue = ExtResource("4_shady")
+cue = "offer"

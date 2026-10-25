@@ -413,6 +413,6 @@ animations = [{
 script = ExtResource("1_6u4wf")
 
 [node name="Cardsprite" type="AnimatedSprite2D" parent="." unique_id=600531078]
-scale = Vector2(4, 4)
+scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_uvpor")
 animation = &"Spades"

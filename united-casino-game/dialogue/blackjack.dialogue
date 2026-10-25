@@ -1,4 +1,7 @@
 ~ start
+if round_over
+	Dealer: Blackjack!
+	=> result
 % Dealer: Are you going to push your luck?
 % Dealer: Why don't you hit!
 % Dealer: Stand, if you're afraid of a little risk!
@@ -18,20 +21,27 @@
 		% Dealer: Oof, over 21. You lose.
 		% Dealer: Too many! You lose.
 		=> newgame
-	elif has_player_won()
-		=> win
+	elif round_over
+		=> result
 	else
 		=> start
 - Stand
 	do stand()
-	if who_wins_after_standing()
-		=> win
-	else
-		% Dealer: Should've tried harder! Better luck next time. Loser.
-		% Dealer: How unfortunate. You lost.
-		% Dealer: Maybe next time will be in your favor? You lose!
-		% Dealer: Seems you failed to believe in the heart of the cards!
-		=> newgame
+	=> result
+
+~ result
+if player_won
+	=> win
+elif is_push
+	% Dealer: A push. Nobody wins, nobody loses.
+	% Dealer: Tie game. You keep your chips.
+	=> newgame
+else
+	% Dealer: Should've tried harder! Better luck next time. Loser.
+	% Dealer: How unfortunate. You lost.
+	% Dealer: Maybe next time will be in your favor? You lose!
+	% Dealer: Seems you failed to believe in the heart of the cards!
+	=> newgame
 
 ~ newgame
 % Dealer: Want to play again?
@@ -42,12 +52,13 @@
 	do ask_bet()
 	=> END
 - Stop 
-	do kill_cards()
-	do hide_labels()
+	do ask_bet()
 	=> END
 => END
 
 ~ win
+if dealer_helped
+	Dealer: *slides you a few extra chips* Don't mention it. Seriously, don't.
 % Dealer: Congrats! You win.
 % Dealer: You won! Lady luck decided to favor you! 
 % Dealer: Congrats, you won! Why not go double or nothing?
@@ -56,3 +67,8 @@
 % Dealer: My compliments to the winner!
 % Dealer: Congrats on your newfound fortune! You Win!
 => newgame
+
+~ caught
+Dealer: Hey! Security!
+Guard: Please LEAVE!!!
+=> END

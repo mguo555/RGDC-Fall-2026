@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://de5j0d5jaci7" path="res://scripts/Guard/guard.gd" id="1_0mswu"]
 [ext_resource type="Texture2D" uid="uid://bus7hv2a5kip5" path="res://assets/sprites/guard1_sheet.png" id="2_0mswu"]
+[ext_resource type="PackedScene" uid="uid://bll8ap04hel3d" path="res://scenes/TalkArea/TalkArea.tscn" id="3_talk"]
+[ext_resource type="Resource" uid="uid://colqybh6rl25a" path="res://dialogue/guard.dialogue" id="4_guard"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bvqhm"]
 atlas = ExtResource("2_0mswu")
@@ -109,6 +111,8 @@ animations = [{
 size = Vector2(67, 83)
 
 [node name="Guard" type="CharacterBody2D" unique_id=1165609474 groups=["guard"]]
+collision_layer = 4
+collision_mask = 1
 motion_mode = 1
 script = ExtResource("1_0mswu")
 
@@ -116,6 +120,8 @@ script = ExtResource("1_0mswu")
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_pq3n5")
 animation = &"back"
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1031247021]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=954828523 groups=["guard"]]
 position = Vector2(0.5, -2.5)
@@ -127,3 +133,19 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=171619258 groups=["guard"]]
 position = Vector2(0.5, -2.5)
 shape = SubResource("RectangleShape2D_0mswu")
+
+[node name="TalkArea" parent="." unique_id=2011557997 instance=ExtResource("3_talk")]
+dialogue = ExtResource("4_guard")
+
+[node name="Alert" type="Label" parent="." unique_id=255406041]
+visible = false
+z_index = 10
+offset_left = -32.0
+offset_top = -136.0
+offset_right = 32.0
+offset_bottom = -64.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 64
+text = "!"
+horizontal_alignment = 1

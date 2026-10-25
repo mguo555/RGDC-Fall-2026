@@ -5,13 +5,13 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5pedr"]
 size = Vector2(89, 109)
 
-[node name="HidingSpot" type="Node2D" unique_id=250481482 groups=["hiding_spot"]]
+[node name="HidingSpot" type="Node2D" unique_id=250481482 groups=["hiding_spot", "interactable"]]
 script = ExtResource("1_2gc8v")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=993511016 groups=["hiding_spot"]]
+[node name="Area2D" type="Area2D" parent="." unique_id=993511016]
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=317906993 groups=["hiding_spot"]]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=317906993]
 shape = SubResource("RectangleShape2D_5pedr")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

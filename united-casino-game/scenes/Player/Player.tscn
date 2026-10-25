@@ -108,7 +108,20 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ky53y"]
 size = Vector2(67, 83)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prompt"]
+content_margin_left = 10.0
+content_margin_top = 2.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.75)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
 [node name="Player" type="CharacterBody2D" unique_id=1165609474 groups=["player"]]
+collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_ky53y")
 
@@ -130,3 +143,13 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1734645298 groups=["player"]]
 position = Vector2(0.5, -2.5)
 shape = SubResource("RectangleShape2D_ky53y")
+
+[node name="InteractPrompt" type="Label" parent="." unique_id=918235696]
+visible = false
+top_level = true
+z_index = 10
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_prompt")
+text = "E: Talk"

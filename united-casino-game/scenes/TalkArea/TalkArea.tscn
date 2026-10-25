@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bll8ap04hel3d"]
+
+[ext_resource type="Script" uid="uid://kvr6v20xkj30" path="res://scripts/TalkArea/talk_area.gd" id="1_talk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_talk"]
+radius = 110.0
+
+[node name="TalkArea" type="Area2D" unique_id=1425301226 groups=["interactable"]]
+collision_mask = 2
+script = ExtResource("1_talk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1932245937]
+shape = SubResource("CircleShape2D_talk")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
