@@ -3,5 +3,6 @@ Guard: Please LEAVE!!!
 Guard: And don't come back. We don't let cheaters in here.
 Mr. Shady: Kicked out, huh? No casino means no money. No money means no payments.
 Player: NOO! Don't do it, Ji...[next=0.4]
+do play_death()
 Mr. Shady: *SHOOTS*
 => END

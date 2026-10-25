@@ -1,5 +1,7 @@
 extends Node
 var resource = load("res://dialogue/shopDialogue/shop.dialogue")
+var normalMusic = load("res://assets/music/normal-background-music.mp3")
+
 
 @onready var exit_button = $UI/ExitButton
 @onready var talk_hint = $UI/TalkHint
@@ -19,4 +21,5 @@ func _unhandled_input(event: InputEvent) -> void:
 		DialogueManager.show_dialogue_balloon(resource, "greet", [GameManager])
 
 func _on_exit_button_pressed():
+	SoundManager.play_music(normalMusic)
 	GameManager.close_scene()

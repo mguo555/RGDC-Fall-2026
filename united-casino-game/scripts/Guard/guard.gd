@@ -6,6 +6,9 @@ enum Type { CHASER, AMBUSHER, SLACKER }
 # the points this guard walks between, can be different for every guard
 @export var patrol_points: Array[Vector2] = [Vector2.ZERO, Vector2(700, 700), Vector2(700, 0), Vector2(0, 700)]
 
+var alarmSfx = load("res://assets/sfx/security_alarm.mp3")
+
+
 # speed: how fast they walk, sight: how far away they can spot you,
 # lose_sight: how far you have to get to escape, patience: seconds they chase before giving up
 const TYPES = {
@@ -94,6 +97,7 @@ func start_chase(yell):
 	wait_timer = 0
 	patience_timer = patience
 	if yell:
+		SoundManager.play_sfx(alarmSfx)
 		print("HEY! Stop right there!")
 		for guard in get_tree().get_nodes_in_group("guard"):
 			if guard != self and guard.has_method("start_chase") and global_position.distance_to(guard.global_position) < YELL_RADIUS:

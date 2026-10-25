@@ -6,6 +6,7 @@ extends Node
 # music
 var chaseMusic = load("res://assets/music/chase.mp3")
 var normalMusic = load("res://assets/music/normal-background-music.mp3")
+var shopMusic = load("res://assets/music/chase.mp3")
 
 # sfx
 var alarmSfx = load("res://assets/sfx/security_alarm.mp3")
@@ -163,7 +164,9 @@ func buyItem(item: Item):
 	return 1
 
 func add_heat():
+	
 	SoundManager.play_music(chaseMusic)
+	SoundManager.play_sfx(alarmSfx)
 	heat = HEAT_TIME
 
 # a random playing card for the inventory
@@ -226,12 +229,13 @@ func intro_done():
 	go_to_casino()
 
 # the pay clock starts when you get to the casino
-func go_to_casino():
+func go_to_casino():	
 	SoundManager.play_music(normalMusic)
 	quota_timer = QUOTA_TIME
 	call_deferred("switch_scene", casinoScene.instantiate(), false)
 
 func open_shop():
+	SoundManager.play_music(shopMusic)
 	open_scene(shopScene)
 
 # opens a scene on top of the casino (shop, blackjack table, ...), close_scene goes back
@@ -258,7 +262,6 @@ func caught_cheating():
 
 # the guard closest to you comes running and yells for backup
 func sound_alarm():
-	SoundManager.play_sfx(alarmSfx)
 	var player = null
 	for node in get_tree().get_nodes_in_group("player"):
 		if node.has_signal("caught"):
@@ -323,6 +326,12 @@ func save_seen_intro():
 	save.load(SAVE_PATH)
 	save.set_value("progress", "seen_intro", true)
 	save.save(SAVE_PATH)
+
+func play_death():
+	SoundManager.play_sfx(deathSfx)
+	
+func play_whoosh():
+	SoundManager.play_sfx(transitionSfx)
 
 # keep_old saves the old scene to come back to, otherwise it gets deleted
 func switch_scene(new_scene, keep_old):
