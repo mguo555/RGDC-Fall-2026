@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://8hr4s2o523p4"]
+
+[node name="SoundManager" type="AudioStreamPlayer2D" unique_id=1119286477]

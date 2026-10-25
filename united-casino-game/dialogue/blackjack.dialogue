@@ -69,6 +69,5 @@ if dealer_helped
 => newgame
 
 ~ caught
-Dealer: Hey! Security!
-Guard: Please LEAVE!!!
+Guard: Hey! Bribing the dealer? Not on my watch!
 => END

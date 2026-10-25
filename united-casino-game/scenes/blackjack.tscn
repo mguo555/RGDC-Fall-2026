@@ -4,12 +4,12 @@
 [ext_resource type="Script" uid="uid://g32um0mltv5d" path="res://addons/dialogue_manager/nodes/dialogue_label/dialogue_label.gd" id="2_kvb06"]
 [ext_resource type="Script" uid="uid://b636n426f5j8m" path="res://scripts/blackjack/bet_field_script.gd" id="3_vyxl8"]
 [ext_resource type="Texture2D" uid="uid://ck0qtcnlq5ao4" path="res://assets/sprites/blackjack_table.png" id="4_4fu0r"]
-[ext_resource type="Texture2D" uid="uid://d16yfpya5r4uk" path="res://assets/sprites/blackjack_dealer.png" id="14_dealer"]
 [ext_resource type="PackedScene" uid="uid://bjjv6nodj24mx" path="res://scenes/hud.tscn" id="9_hud"]
 [ext_resource type="Script" uid="uid://c1ujvfw2robaw" path="res://scripts/blackjack/passersby.gd" id="10_pass"]
 [ext_resource type="Script" uid="uid://cpbawsy47eyi5" path="res://scripts/blackjack/security_camera.gd" id="11_cam"]
 [ext_resource type="Texture2D" uid="uid://b1ym4a5ctilxn" path="res://assets/sprites/cctv_camera_spritesheet.png" id="12_cam"]
 [ext_resource type="Script" uid="uid://cmntsxonnkyig" path="res://scripts/blackjack/sleight.gd" id="13_sleight"]
+[ext_resource type="Texture2D" uid="uid://d16yfpya5r4uk" path="res://assets/sprites/blackjack_dealer.png" id="14_dealer"]
 [ext_resource type="PackedScene" uid="uid://hbp2uhvcqgld" path="res://scenes/pause_menu.tscn" id="20_pause"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prompt"]
@@ -42,11 +42,11 @@ border_color = Color(0.95, 0.8, 0.35, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_deal"]
 bg_color = Color(0.95, 0.8, 0.35, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_deal_hover"]
-bg_color = Color(1, 0.88, 0.5, 1)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_deal_pressed"]
 bg_color = Color(0.8, 0.65, 0.25, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_deal_hover"]
+bg_color = Color(1, 0.88, 0.5, 1)
 
 [node name="Blackjack" type="Control" unique_id=1298565065]
 layout_mode = 3
@@ -214,13 +214,13 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.1, 0.08, 0.05, 1)
-theme_override_colors/font_hover_color = Color(0.1, 0.08, 0.05, 1)
-theme_override_colors/font_pressed_color = Color(0.1, 0.08, 0.05, 1)
 theme_override_colors/font_focus_color = Color(0.1, 0.08, 0.05, 1)
+theme_override_colors/font_pressed_color = Color(0.1, 0.08, 0.05, 1)
+theme_override_colors/font_hover_color = Color(0.1, 0.08, 0.05, 1)
 theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_deal")
-theme_override_styles/hover = SubResource("StyleBoxFlat_deal_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_deal_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_deal_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_deal_hover")
 text = "Deal"
 
@@ -245,8 +245,8 @@ script = ExtResource("13_sleight")
 [node name="PauseMenu" parent="." unique_id=753592848 instance=ExtResource("20_pause")]
 
 [connection signal="text_changed" from="PromptCenterBox/PromptPanel/PromptVertical Allignment/BetRow/BetField" to="PromptCenterBox/PromptPanel/PromptVertical Allignment/BetRow/BetField" method="_on_text_changed"]
-[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]
-[connection signal="pressed" from="PromptCenterBox/PromptPanel/PromptVertical Allignment/DealButton" to="." method="_on_deal_button_pressed"]
 [connection signal="text_submitted" from="PromptCenterBox/PromptPanel/PromptVertical Allignment/BetRow/BetField" to="." method="_on_bet_field_text_submitted"]
 [connection signal="text_changed" from="PromptCenterBox/PromptPanel/PromptVertical Allignment/TipRow/TipField" to="PromptCenterBox/PromptPanel/PromptVertical Allignment/TipRow/TipField" method="_on_text_changed"]
 [connection signal="text_submitted" from="PromptCenterBox/PromptPanel/PromptVertical Allignment/TipRow/TipField" to="." method="_on_bet_field_text_submitted"]
+[connection signal="pressed" from="PromptCenterBox/PromptPanel/PromptVertical Allignment/DealButton" to="." method="_on_deal_button_pressed"]
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]
