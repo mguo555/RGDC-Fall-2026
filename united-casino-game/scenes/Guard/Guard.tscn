@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://de5j0d5jaci7" path="res://scripts/Guard/guard.gd" id="1_0mswu"]
 [ext_resource type="Texture2D" uid="uid://bus7hv2a5kip5" path="res://assets/sprites/guard1_sheet.png" id="2_0mswu"]
+[ext_resource type="PackedScene" uid="uid://bll8ap04hel3d" path="res://scenes/TalkArea/TalkArea.tscn" id="3_talk"]
+[ext_resource type="Resource" uid="uid://colqybh6rl25a" path="res://dialogue/guard.dialogue" id="4_guard"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bvqhm"]
 atlas = ExtResource("2_0mswu")
@@ -131,3 +133,6 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=171619258 groups=["guard"]]
 position = Vector2(0.5, -2.5)
 shape = SubResource("RectangleShape2D_0mswu")
+
+[node name="TalkArea" parent="." unique_id=2011557997 instance=ExtResource("3_talk")]
+dialogue = ExtResource("4_guard")

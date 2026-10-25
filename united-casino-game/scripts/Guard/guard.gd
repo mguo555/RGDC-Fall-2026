@@ -169,7 +169,10 @@ func _physics_process(delta: float) -> void:
 	if nav.target_position != points[target]:
 		nav.target_position = points[target]
 
-	if wait_timer > 0:
+	# stand still during conversations
+	if GameManager.is_dialogue_running:
+		pass
+	elif wait_timer > 0:
 		wait_timer -= delta
 	elif nav.is_navigation_finished():
 		reached_point()

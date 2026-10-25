@@ -1,11 +1,11 @@
 extends CharacterBody2D
 
-# Jimbo is Mr. Shady: he wanders the casino and offers to sell you stuff when you talk to him
+# Jimbo is Mr. Shady: he wanders the casino and offers to sell you stuff when you talk to him.
+# his TalkArea starts the "offer" dialogue
 
 @export var patrol_path: Path2D
 var speed
 var wait_time
-var shadyResource = load("res://dialogue/shady.dialogue")
 
 @onready var sprite = $AnimatedSprite2D
 @onready var nav = $NavigationAgent2D
@@ -18,7 +18,6 @@ var points = PATROL_POINTS
 var target = 0
 var wait_timer = 0.0
 var stuck_timer = 0.0
-var player_near = false
 
 
 func _ready() -> void:
@@ -27,21 +26,6 @@ func _ready() -> void:
 	speed = 500
 	nav.target_position = points[target]
 	wait_time = 10.0
-
-
-# the player can press E on Mr. Shady while standing next to him
-func can_interact():
-	return player_near
-
-
-# what the E prompt says for Mr. Shady
-func prompt_text():
-	return "Talk"
-
-
-# called by the player when E is pressed and Mr. Shady is the closest thing to them
-func interact():
-	DialogueManager.show_dialogue_balloon(shadyResource, "offer", [GameManager])
 
 
 func _physics_process(delta: float) -> void:
@@ -87,13 +71,3 @@ func _physics_process(delta: float) -> void:
 		sprite.play("back")
 	else:
 		sprite.play("front")
-
-
-func _on_talk_area_area_entered(area: Area2D) -> void:
-	if area.is_in_group("player"):
-		player_near = true
-
-
-func _on_talk_area_area_exited(area: Area2D) -> void:
-	if area.is_in_group("player"):
-		player_near = false
