@@ -66,6 +66,23 @@ Shop: Take your pick.
 	- Go Back
 		Shop: Having second thoughts? Bit too late for that.
 		=>< shop
+- EMF
+	# TODO (Matthew): polish these lines
+	Shop: An EMF jammer. Point it at a camera and it goes dark for thirty seconds.
+	Shop: {{getCost(Item.emf)}}. One use.
+	- Buy
+		if not hasEnough(getCost(Item.emf)):
+			Shop: What do you take me for, a charity?
+			Shop: Get outta here. => END!
+		elif not hasInventorySpace():
+			Shop: Maybe try again after you got a bit more space in your inventory.
+			=>< options
+		else:
+			do buyItem(Item.emf)
+			Shop: Pleasure doing business.
+		=> shop
+	- Go Back
+		=> shop
 - Nevermind
 	Shop: Welp, I won't push you on it. Remember to pay your debts on time.
 	=> END!

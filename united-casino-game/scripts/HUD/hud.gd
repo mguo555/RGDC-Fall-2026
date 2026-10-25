@@ -9,6 +9,7 @@ extends CanvasLayer
 @onready var buffs_label = $Stack/InventoryPanel/VBox/BuffsLabel
 
 const card_scene = preload("res://scenes/card.tscn")
+const EMF_ICON = preload("res://assets/sprites/emf.png")
 const SLOT_SIZE = Vector2(68, 96)
 const SLOT_GAP = 12
 
@@ -51,12 +52,22 @@ func show_inventory():
 		slot.position = slot_position(i)
 		slot.size = SLOT_SIZE
 		slots.add_child(slot)
-		if i < GameManager.inventory.size() and GameManager.inventory[i] is Dictionary:
+		if i >= GameManager.inventory.size():
+			continue
+		var item = GameManager.inventory[i]
+		var middle = slot.position + SLOT_SIZE / 2
+		if item is Dictionary:
 			var card = card_scene.instantiate()
-			card.setup(GameManager.inventory[i].suit, GameManager.inventory[i].value)
+			card.setup(item.suit, item.value)
 			card.scale = Vector2(0.4, 0.4)
 			slots.add_child(card)
-			card.change_sprite(slot.position.x + SLOT_SIZE.x / 2, slot.position.y + SLOT_SIZE.y / 2)
+			card.change_sprite(middle.x, middle.y)
+		elif item == GameManager.Item.emf:
+			var icon = Sprite2D.new()
+			icon.texture = EMF_ICON
+			icon.scale = Vector2(6, 6)
+			icon.position = middle
+			slots.add_child(icon)
 
 
 func slot_position(i):
@@ -64,7 +75,7 @@ func slot_position(i):
 
 
 # which inventory slot is under this screen position, -1 if none
-func inventory_card_at(screen_position):
+func inventory_item_at(screen_position):
 	for i in GameManager.inventory.size():
 		if Rect2(slots.global_position + slot_position(i), SLOT_SIZE).has_point(screen_position):
 			return i

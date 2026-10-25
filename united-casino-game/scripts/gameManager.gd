@@ -51,7 +51,8 @@ var firstBuy = true
 var firstCards = true
 
 enum Item {
-	card = 100
+	card = 100,
+	emf = 150, # knocks the blackjack camera out for 30 seconds
 }
 
 # cards in here look like {"suit": "Hearts", "value": "Ace"} (see random_card)

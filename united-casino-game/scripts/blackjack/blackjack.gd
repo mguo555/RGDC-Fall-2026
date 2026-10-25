@@ -36,6 +36,7 @@ var leave_button
 var security_camera
 var passersby
 var hud
+var camera_label
 var dealer_sprite
 var dealer_y # WHERE THE DEALER SITS, HE BOBS AROUND THIS
 var bob_time = 0.0
@@ -54,6 +55,7 @@ func _ready():
 	security_camera = $SecurityCamera
 	passersby = $Passersby
 	hud = $HUD
+	camera_label = $CameraLabel
 	dealer_sprite = $DealerSprite
 	dealer_y = dealer_sprite.position.y
 	bet_field = $"PromptCenterBox/PromptPanel/PromptVertical Allignment/BetField"
@@ -275,6 +277,9 @@ func _process(delta):
 	dealer_sprite.position.y = dealer_y + sin(bob_time * 2.5) * 6
 	# NO LEAVING IN THE MIDDLE OF A ROUND
 	leave_button.disabled = playing
+	# COUNTDOWN WHILE AN EMF HAS THE CAMERA KNOCKED OUT
+	camera_label.visible = security_camera.off_timer > 0
+	camera_label.text = "Camera off: %ds" % ceil(security_camera.off_timer)
 
 # YOU CAN ONLY CHEAT WHILE THE CAMERA LOOKS AWAY AND NO GUARD IS LOOKING AT YOUR TABLE
 func is_being_watched():
@@ -312,6 +317,15 @@ func swap_card(hand_index, inventory_card):
 	player_hand[hand_index] = new_card
 	update_label_amounts()
 	GameManager.add_heat()
+
+# CLICKING AN EMF IN YOUR INVENTORY KNOCKS OUT THE CAMERA
+func _input(event):
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		var index = hud.inventory_item_at(event.position)
+		if index != -1 and GameManager.inventory[index] is int and GameManager.inventory[index] == GameManager.Item.emf:
+			get_viewport().set_input_as_handled()
+			GameManager.inventory.remove_at(index)
+			security_camera.knock_out()
 
 # GOES BACK TO THE CASINO
 func _on_leave_button_pressed():

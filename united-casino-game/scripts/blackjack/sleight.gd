@@ -17,7 +17,7 @@ func _input(event):
 	if not (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT):
 		return
 	if event.pressed and held_card == null and blackjack.can_swap():
-		var index = blackjack.hud.inventory_card_at(event.position)
+		var index = blackjack.hud.inventory_item_at(event.position)
 		if index != -1 and GameManager.inventory[index] is Dictionary:
 			get_viewport().set_input_as_handled()
 			pick_up(index)

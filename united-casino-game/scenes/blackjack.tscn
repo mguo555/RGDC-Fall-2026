@@ -42,12 +42,26 @@ texture = ExtResource("4_4fu0r")
 centered = false
 
 [node name="SecurityCamera" type="Sprite2D" parent="." unique_id=1919171247]
-position = Vector2(1760, 240)
-scale = Vector2(3, 3)
+position = Vector2(1400, 72)
+scale = Vector2(5, 5)
 texture = ExtResource("12_cam")
+flip_v = true
 hframes = 15
 vframes = 11
 script = ExtResource("11_cam")
+
+[node name="CameraLabel" type="Label" parent="." unique_id=1413494179]
+visible = false
+layout_mode = 0
+offset_left = 1200.0
+offset_top = 150.0
+offset_right = 1600.0
+offset_bottom = 200.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "Camera off"
+horizontal_alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=758799715]
 layout_mode = 0
