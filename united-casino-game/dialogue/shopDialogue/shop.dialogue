@@ -3,13 +3,14 @@
 ~ greet
 Shop: Well, if it isn't my favorite little gambling addict.
 Shop: What are you here for?
+=>< options
+
+~ options
 - Buy
 	if firstBuy:
 		Shop: Really now? You're already struggling to pay off your debt, and you'd rather gamble more?
 		Shop: .. I like your ambition. Come, let's make this quick.
 		Shop: Don't want those pesky security guards catching us.
-#		Shop: But first, pay up.
-#		do test()
 		set firstBuy = false
 	else:
 		Shop: That's what I like to hear!
@@ -18,12 +19,12 @@ Shop: What are you here for?
 	=>< payLoan
 - Nevermind
 Shop: Don't let the door hit you on your way out.
-=> END
+=> END!
 
 ~ payLoan
-if GameManager.hasEnough(GameManager.current_quota):
-	do GameManager.payLoan()
-	if GameManager.quotas_paid == 1:
+if hasEnough(current_quota):
+	do payLoan()
+	if quotas_paid == 1:
 		Shop: Well, color me surprised. You managed to pay off part of your interest.
 		Shop: But you're not free to go just yet, oh no. You'll be sticking around for quite a while.
 		Shop: Here's your new quota. And because I'm in a good mood, I'll throw you a little something.
@@ -43,20 +44,34 @@ Shop: Take your pick.
 	if firstCards:
 		Shop: Oh, these? I give you a random card from this deck here.
 		Shop: If you're good, you can swap out one of your cards at the blackjack table.
-		Shop: It's {{getCost(card)}}. If you don't like it, don't buy.
+		Shop: It's {{getCost(Item.card)}}. If you don't like it, don't buy.
+		set firstCards = false
 	else: 
-		Shop: {{getCost(card)}}. Don't like it, don't buy it.
+		Shop: {{getCost(Item.card)}}. Don't like it, don't buy it.
 	- Buy
-		if buyItem(card) == true:
+		if buyItem(Item.card) == 1:
 			Shop: Pleasure doing business.
+			Shop: Anything else?
+		elif buyItem(Item.card) == 0:
+			Shop: Maybe try again after you got a bit more space in your inventory.
+			Shop: Anything else you want from me?
+			=>< options
 		else: 
 			Shop: What do you take me for, a charity?
 			Shop: Get outta here. => END!
+		=> shop
 	- Go Back
 		Shop: Having second thoughts? Bit too late for that.
 		=>< shop
+- Nevermind
+	Shop: Welp, I won't push you on it. Remember to pay your debts on time.
+	=> END!
 
 ~ buy 
 	
 
+# TODO: Implement buffs
 ~ buff
+% - Test 1
+% - Test 2
+% - Test 3

@@ -748,6 +748,7 @@ func show_error_for_missing_state_value(message: String, extra_game_states: Arra
 
 		# If you're here then you're missing a method or property in your game state. The error
 		# message down in the debugger will give you some more information.
+
 		assert(false, message)
 
 

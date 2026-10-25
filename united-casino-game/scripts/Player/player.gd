@@ -52,9 +52,10 @@ func _process(delta: float) -> void:
 			velocity.y = y * SPEED / mag
 		else:
 			sprite.set_frame_and_progress(0, 0)
-
+	
 		sprite.animation = animation
 		sprite.play()
-
+	else:
+		sprite.set_frame_and_progress(0, 0)
 func _physics_process(delta: float) -> void:
 	move_and_slide()
