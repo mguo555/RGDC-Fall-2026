@@ -35,7 +35,6 @@ var card_container
 var leave_button
 var security_camera
 var passersby
-var watch_label
 var hud
 var dealer_sprite
 var dealer_y # WHERE THE DEALER SITS, HE BOBS AROUND THIS
@@ -54,7 +53,6 @@ func _ready():
 	leave_button = $LeaveButton
 	security_camera = $SecurityCamera
 	passersby = $Passersby
-	watch_label = $WatchLabel
 	hud = $HUD
 	dealer_sprite = $DealerSprite
 	dealer_y = dealer_sprite.position.y
@@ -277,15 +275,8 @@ func _process(delta):
 	dealer_sprite.position.y = dealer_y + sin(bob_time * 2.5) * 6
 	# NO LEAVING IN THE MIDDLE OF A ROUND
 	leave_button.disabled = playing
-	# SHOWS IF ANYONE CAN SEE YOU RIGHT NOW
-	if is_being_watched():
-		watch_label.text = "Someone's watching..."
-		watch_label.modulate = Color(1, 0.4, 0.4)
-	else:
-		watch_label.text = "Nobody's looking"
-		watch_label.modulate = Color(0.5, 1, 0.5)
 
-# YOU CAN ONLY CHEAT WHILE THE CAMERA LOOKS AWAY AND NOBODY IS WALKING BY
+# YOU CAN ONLY CHEAT WHILE THE CAMERA LOOKS AWAY AND NO GUARD IS LOOKING AT YOUR TABLE
 func is_being_watched():
 	return security_camera.is_looking() or passersby.anyone_watching()
 

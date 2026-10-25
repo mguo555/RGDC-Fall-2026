@@ -49,16 +49,6 @@ hframes = 15
 vframes = 11
 script = ExtResource("11_cam")
 
-[node name="WatchLabel" type="Label" parent="." unique_id=518232089]
-layout_mode = 0
-offset_left = 560.0
-offset_top = 16.0
-offset_right = 1360.0
-offset_bottom = 76.0
-theme_override_font_sizes/font_size = 48
-text = "Nobody's looking"
-horizontal_alignment = 1
-
 [node name="ColorRect" type="ColorRect" parent="." unique_id=758799715]
 layout_mode = 0
 offset_left = -87.0
