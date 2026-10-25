@@ -76,6 +76,8 @@ func _ready():
 func setBet(bet):
 	current_bet = bet
 
+# TODO: decide what happens when the player hits $0. right now they just can't bet anymore,
+# so they can't make money or pay the quota (game over? an emergency loan? selling cards back?)
 # returns false if the player couldn't cover the full amount (money hits 0)
 func player_loseMoney(amount) -> bool:
 	var could_pay = player_money - amount > 0
