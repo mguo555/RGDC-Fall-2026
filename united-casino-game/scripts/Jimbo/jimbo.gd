@@ -12,7 +12,8 @@ var wait_time
 
 # if it should be walking but has barely moved for this long, the way is blocked
 const STUCK_TIME = 5.0
-const PATROL_POINTS = [Vector2(800, 800), Vector2(200, 200), Vector2(800, 200), Vector2(200, 800)]
+#const PATROL_POINTS = [Vector2(800, 800), Vector2(200, 200), Vector2(800, 200), Vector2(200, 800)]
+const PATROL_POINTS = [Vector2(700, 230), Vector2(1580, 230), Vector2(1580, 650), Vector2(700, 500), Vector2(180, 500), Vector2(160, 250)]
 
 var points = PATROL_POINTS
 var target = 0
