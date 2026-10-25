@@ -11,15 +11,28 @@ config_version=5
 [application]
 
 config/name="United Casino Game"
-run/main_scene="uid://dvjuysasjr4rh"
+run/main_scene="uid://cg5vye1hln0pv"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
+<<<<<<< HEAD
+=======
+<<<<<<<HEADrun/main_scene="uid://cg5vye1hln0pv"
+
+[autoload]
+
+DialogueManager="*uid://c3rodes2l3gxb"
+
+[dialogue_manager]
+
+runtime/balloon_path="res:///balloon.tscn"
+>>>>>>> parent of 23d2edd (Merge branch 'main' into blackjack)
 
 [display]
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+<<<<<<< HEAD
 [input]
 
 move_up={
@@ -57,6 +70,15 @@ interact={
 , Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(300, 10),"global_position":Vector2(309, 58),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
+=======
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
+
+[internationalization]
+
+locale/translations_pot_files=PackedStringArray("res://testDialogue/testGreet.dialogue", "res://dialogue/blackjack.dialogue")
+>>>>>>> parent of 23d2edd (Merge branch 'main' into blackjack)
 
 [physics]
 
@@ -68,4 +90,8 @@ textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+<<<<<<< HEAD
 2d/snap/snap_2d_transforms_to_pixel=true
+=======
+textures/default_filters/use_nearest_mipmap_filter=true
+>>>>>>> parent of 23d2edd (Merge branch 'main' into blackjack)
