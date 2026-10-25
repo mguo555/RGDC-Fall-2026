@@ -42,18 +42,17 @@ func get_value():
 # with ace being 11 if it can fit, otherwise 1
 static func summed_values(card_list):
 	var total_value = 0
-	var ace = false
+	var aces = 0
 	for card in card_list:
 		var temp_val = card.get_value()
 		if temp_val is Vector2i:
-			ace = true
+			aces += 1
+			total_value += 1
 		else:
 			total_value += temp_val
-	if ace:
-		if total_value + 11 < 22:
-			total_value += 11
-		else:
-			total_value += 1
+	# ONLY ONE ACE CAN EVER COUNT AS 11 (TWO WOULD ALREADY BE 22)
+	if aces > 0 and total_value + 10 < 22:
+		total_value += 10
 	return total_value
 
 # just checking if summed values is a bust

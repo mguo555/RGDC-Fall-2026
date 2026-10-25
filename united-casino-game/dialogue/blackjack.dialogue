@@ -38,7 +38,7 @@
 % Dealer: Up for another round?
 % Dealer: Let's go again!
 % Dealer: Keep playing, won't you?
-- Play again
+- Play again [if can_afford_bet() /]
 	do start_game()
 	=> start
 - Stop 

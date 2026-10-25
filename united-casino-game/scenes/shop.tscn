@@ -6,8 +6,6 @@
 [node name="Shop" type="Node2D" unique_id=1215063840]
 script = ExtResource("1_xfvoa")
 
-[node name="GameManager" type="Node" parent="." unique_id=236281224]
-
 [node name="DialogueLabel" type="RichTextLabel" parent="." unique_id=1364112540]
 offset_right = 40.0
 offset_bottom = 40.0
