@@ -9,12 +9,18 @@ var dialogueScene = load("res://scenes/balloon.tscn")
 # scenes the game manager swaps between
 var casinoScene = load("res://scenes/main.tscn")
 var shopScene = load("res://scenes/shop.tscn")
+var gameOverScene = load("res://scenes/game_over.tscn")
 
 # the casino waits here (out of the tree) while the shop is open,
 # so the player comes back to the same spot
 var saved_scene = null
 # set when the player says yes to Mr. Shady, the shop opens once that dialogue is over
 var shop_wanted = false
+var is_game_over = false
+
+# chance (0 to 1) that a searching guard checks a hiding spot it walks past.
+# buffs will be able to lower this later
+var hiding_spot_check_chance = 0.5
 
 # var player_money = 500
 var player_money = 1001
@@ -152,6 +158,12 @@ func close_shop():
 		return
 	call_deferred("switch_scene", saved_scene, false)
 	saved_scene = null
+
+func game_over():
+	if is_game_over:
+		return
+	is_game_over = true
+	call_deferred("switch_scene", gameOverScene.instantiate(), false)
 
 # keep_old saves the old scene to come back to, otherwise it gets deleted
 func switch_scene(new_scene, keep_old):

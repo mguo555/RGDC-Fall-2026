@@ -10,12 +10,22 @@ var wait_time
 const CATCH_DISTANCE = 150
 const SIGHT_DISTANCE = 150 * 2
 const LOSE_SIGHT_DISTANCE = 150 * 5
+# how close the guard has to walk past a hiding spot to think about checking it
+const CHECK_DISTANCE = 200
 const PATROL_POINTS = [Vector2.ZERO, Vector2(700, 700), Vector2(700, 0), Vector2(0, 700)]
+# the halls the guard sweeps through after the player hides
+const SEARCH_POINTS = [Vector2(160, 250), Vector2(700, 230), Vector2(1580, 230), Vector2(1580, 650), Vector2(700, 500), Vector2(450, 712), Vector2(180, 500)]
 
 var points = PATROL_POINTS
 var target = 0
 var wait_timer = 0.0
-var chase = false
+
+# "patrol", "chase", "search" (sweeping the halls) or "check" (walking to a hiding spot)
+var state = "patrol"
+var search_points_left = 0
+# hiding spots the guard already rolled for during this search
+var rolled_spots = []
+var spot_to_check = null
 
 
 func _ready() -> void:
@@ -35,40 +45,112 @@ func find_player():
 	return null
 
 
-func stop_chase():
-	chase = false
-	points = PATROL_POINTS
-	target = 0
+func go_to(new_points, first_target):
+	points = new_points
+	target = first_target
+	wait_timer = 0
+
+
+func start_patrol():
+	state = "patrol"
+	go_to(PATROL_POINTS, 0)
+
+
+func start_search():
+	state = "search"
+	rolled_spots = []
+	search_points_left = SEARCH_POINTS.size()
+	go_to(SEARCH_POINTS, closest_point(SEARCH_POINTS))
+
+
+func closest_point(list):
+	var best = 0
+	for i in list.size():
+		if global_position.distance_to(list[i]) < global_position.distance_to(list[best]):
+			best = i
+	return best
+
+
+func chase_player(player):
+	var distance = player.global_position.distance_to(global_position)
+	if player.is_hidden:
+		print("Where did they go?")
+		start_search()
+	elif distance > LOSE_SIGHT_DISTANCE:
+		print("Lost them...")
+		start_patrol()
+	elif distance < CATCH_DISTANCE:
+		print("CAUGHT!!!")
+		player.caught.emit()
+		start_patrol()
+	else:
+		points = [player.global_position]
+		target = 0
+
+
+# every hiding spot the guard walks past during a search gets one roll to be checked
+func roll_for_hiding_spots():
+	for spot in get_tree().get_nodes_in_group("hiding_spot"):
+		if spot in rolled_spots or global_position.distance_to(spot.global_position) > CHECK_DISTANCE:
+			continue
+		rolled_spots.append(spot)
+		if randf() < GameManager.hiding_spot_check_chance:
+			print("Let me check in there...")
+			state = "check"
+			spot_to_check = spot
+			go_to([spot.global_position], 0)
+			return
+
+
+func check_hiding_spot():
+	var player = find_player()
+	if player and player.is_hidden and spot_to_check.entered:
+		print("Found you!")
+		player.caught.emit()
+		start_patrol()
+	else:
+		print("Nobody in here.")
+		state = "search"
+		go_to(SEARCH_POINTS, closest_point(SEARCH_POINTS))
+
+
+# called when the guard gets to the point it was walking to
+func reached_point():
+	if state == "check":
+		check_hiding_spot()
+		return
+	if state == "search":
+		search_points_left -= 1
+		if search_points_left <= 0:
+			print("Must have been nothing.")
+			start_patrol()
+			return
+	wait_timer = wait_time
+	target = (target + 1) % points.size()
 
 
 func _physics_process(delta: float) -> void:
 	var player = find_player()
 	if player:
-		var distance = player.global_position.distance_to(global_position)
-		if chase:
-			if player.is_hidden or distance > LOSE_SIGHT_DISTANCE:
-				print("Lost them...")
-				stop_chase()
-			elif distance < CATCH_DISTANCE:
-				print("CAUGHT!!!")
-				player.caught.emit()
-				stop_chase()
-			else:
-				points = [player.global_position]
-				target = 0
+		if state == "chase":
+			chase_player(player)
 		elif Input.is_action_just_pressed("debug_cheat_caught"):
+			var distance = player.global_position.distance_to(global_position)
 			if player.is_hidden:
 				print("Can't see anyone")
 			elif distance <= SIGHT_DISTANCE:
-				chase = true
+				state = "chase"
+				wait_timer = 0
 				print("I SAW YOU!!!")
 			else:
 				print("Too far")
+	if state == "search":
+		roll_for_hiding_spots()
+	elif state == "check" and global_position.distance_to(spot_to_check.global_position) < CATCH_DISTANCE:
+		# close enough to look inside (a hidden player blocks the guard from the exact spot)
+		check_hiding_spot()
 	velocity = Vector2.ZERO
 
-	#print(wait_time)
-
-	#print(target, " ", points.size())
 	# only set a new target when it changes, setting it makes the agent plan a new path
 	if nav.target_position != points[target]:
 		nav.target_position = points[target]
@@ -76,9 +158,7 @@ func _physics_process(delta: float) -> void:
 	if wait_timer > 0:
 		wait_timer -= delta
 	elif nav.is_navigation_finished():
-		wait_timer = wait_time
-
-		target = (target + 1) % points.size()
+		reached_point()
 	else:
 		# head for the next corner of the path, the path goes around obstacles
 		velocity = global_position.direction_to(nav.get_next_path_position()) * speed
