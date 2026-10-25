@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://btlj8yjhcpjbf" path="res://scenes/Guard/Guard.tscn" id="4_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://dq7kw0r6kl803" path="res://scenes/Jimbo/Jimbo.tscn" id="5_tbgi4"]
 [ext_resource type="Script" uid="uid://driq8yuplj0js" path="res://scripts/Floor/floor.gd" id="6_floor"]
+[ext_resource type="PackedScene" uid="uid://bjjv6nodj24mx" path="res://scenes/hud.tscn" id="9_hud"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_floor"]
 parsed_geometry_type = 1
@@ -35,3 +36,5 @@ scale = Vector2(1.35, 1.35)
 
 [node name="Jimbo" parent="." unique_id=1628255682 instance=ExtResource("5_tbgi4")]
 scale = Vector2(1.35, 1.35)
+
+[node name="HUD" parent="." unique_id=192917777 instance=ExtResource("9_hud")]

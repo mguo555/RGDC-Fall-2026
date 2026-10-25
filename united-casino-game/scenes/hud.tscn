@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://bjjv6nodj24mx"]
+
+[ext_resource type="Script" uid="uid://bhsr2ctycdd4n" path="res://scripts/HUD/hud.gd" id="1_hud"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 20.0
+content_margin_top = 14.0
+content_margin_right = 20.0
+content_margin_bottom = 18.0
+bg_color = Color(0, 0, 0, 0.6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_back"]
+bg_color = Color(0.25, 0.25, 0.25, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_fill"]
+bg_color = Color(0.95, 0.8, 0.35, 1)
+
+[node name="HUD" type="CanvasLayer" unique_id=126367329]
+layer = 10
+script = ExtResource("1_hud")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1108411487]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 440.0
+offset_bottom = 200.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="Panel" unique_id=341374706]
+layout_mode = 2
+
+[node name="MoneyLabel" type="Label" parent="Panel/VBox" unique_id=1740627847]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Money: $0"
+
+[node name="GoalLabel" type="Label" parent="Panel/VBox" unique_id=943611813]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Round 1 goal: $1000"
+
+[node name="TimeLabel" type="Label" parent="Panel/VBox" unique_id=402484307]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Pay in 5:00"
+
+[node name="TimeBar" type="ProgressBar" parent="Panel/VBox" unique_id=1568587352]
+custom_minimum_size = Vector2(380, 24)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_back")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bar_fill")
+max_value = 300.0
+value = 300.0
+show_percentage = false

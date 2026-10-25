@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cscw0hsjl6ttp" path="res://scripts/shop/shop.gd" id="1_xfvoa"]
 [ext_resource type="Script" uid="uid://g32um0mltv5d" path="res://addons/dialogue_manager/nodes/dialogue_label/dialogue_label.gd" id="2_1l46r"]
 [ext_resource type="Texture2D" uid="uid://co1cdrsvtl530" path="res://assets/sprites/shady_sheet.png" id="3_shady"]
+[ext_resource type="PackedScene" uid="uid://bjjv6nodj24mx" path="res://scenes/hud.tscn" id="9_hud"]
 
 [node name="Shop" type="Node2D" unique_id=1215063840]
 script = ExtResource("1_xfvoa")
@@ -35,11 +36,17 @@ hframes = 4
 vframes = 4
 
 [node name="ExitButton" type="Button" parent="UI" unique_id=1070302523]
-offset_left = 40.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -260.0
 offset_top = 40.0
-offset_right = 260.0
+offset_right = -40.0
 offset_bottom = 130.0
+grow_horizontal = 0
 theme_override_font_sizes/font_size = 48
 text = "Exit"
+
+[node name="HUD" parent="." unique_id=397836500 instance=ExtResource("9_hud")]
 
 [connection signal="pressed" from="UI/ExitButton" to="." method="_on_exit_button_pressed"]

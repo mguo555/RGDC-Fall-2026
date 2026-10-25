@@ -24,12 +24,16 @@ var hiding_spot_check_chance = 0.5
 
 # var player_money = 500
 var player_money = 1001
-var current_quota = 1000
+# each round's goal is 1000 * 5^round: 1000, then 5000, then 25000, ...
+# quotas_paid counts the rounds already paid, so round 1 is 5^0
+const BASE_QUOTA = 1000
 var quota_mult = 5
 var quotas_paid = 0
+var current_quota = BASE_QUOTA
 
-# in seconds
-var quota_timer = 300
+# seconds you get to pay each round
+const QUOTA_TIME = 300
+var quota_timer = QUOTA_TIME
 var current_bet = 0
 var is_dialogue_running = false
 
@@ -99,7 +103,9 @@ func getCost(cost):
 func payLoan():
 	player_money -= current_quota
 	quotas_paid += 1
-	current_quota *= quota_mult
+	current_quota = BASE_QUOTA * quota_mult ** quotas_paid
+	# new round, new clock
+	quota_timer = QUOTA_TIME
 	
 	update_UI()
 	pass
@@ -148,6 +154,7 @@ func _on_dialogue_ended(dialogue) -> void:
 # scene switching: the current scene is taken out of the tree and the next one is added.
 # it happens at the end of the frame (call_deferred) so nothing is removed halfway through an update
 func play():
+	quota_timer = QUOTA_TIME
 	call_deferred("switch_scene", casinoScene.instantiate(), false)
 
 func open_shop():

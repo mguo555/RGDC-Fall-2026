@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://g32um0mltv5d" path="res://addons/dialogue_manager/nodes/dialogue_label/dialogue_label.gd" id="2_kvb06"]
 [ext_resource type="Script" uid="uid://b636n426f5j8m" path="res://scripts/blackjack/bet_field_script.gd" id="3_vyxl8"]
 [ext_resource type="Texture2D" uid="uid://bir5c4erpnppf" path="res://assets/sprites/blackjack_bg.png" id="4_4fu0r"]
+[ext_resource type="PackedScene" uid="uid://bjjv6nodj24mx" path="res://scenes/hud.tscn" id="9_hud"]
 
 [node name="Blackjack" type="Control" unique_id=1298565065]
 layout_mode = 3
@@ -87,6 +88,8 @@ context_menu_enabled = false
 emoji_menu_enabled = false
 drag_and_drop_selection_enabled = false
 script = ExtResource("3_vyxl8")
+
+[node name="HUD" parent="." unique_id=341470715 instance=ExtResource("9_hud")]
 
 [connection signal="text_changed" from="PromptCenterBox/PromptVertical Allignment/BetField" to="PromptCenterBox/PromptVertical Allignment/BetField" method="_on_text_changed"]
 [connection signal="text_submitted" from="PromptCenterBox/PromptVertical Allignment/BetField" to="." method="_on_bet_field_text_submitted"]
