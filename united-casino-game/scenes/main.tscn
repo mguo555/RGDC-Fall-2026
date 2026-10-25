@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bjjv6nodj24mx" path="res://scenes/hud.tscn" id="9_hud"]
 [ext_resource type="PackedScene" uid="uid://bolt0w1k7orna" path="res://scenes/Guard/GuardAmbusher.tscn" id="10_ambusher"]
 [ext_resource type="PackedScene" uid="uid://c0cgv6vg3xprd" path="res://scenes/Guard/GuardSlacker.tscn" id="11_slacker"]
+[ext_resource type="PackedScene" uid="uid://bc2hb40fros8" path="res://scenes/NPC/NPC.tscn" id="12_npc"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_floor"]
 parsed_geometry_type = 1
@@ -45,6 +46,18 @@ patrol_points = Array[Vector2]([Vector2(1100, 250), Vector2(1580, 250), Vector2(
 position = Vector2(500, 700)
 scale = Vector2(1.35, 1.35)
 patrol_points = Array[Vector2]([Vector2(400, 700), Vector2(900, 700), Vector2(1200, 300), Vector2(500, 300)])
+
+[node name="NPC1" parent="." unique_id=1165487252 instance=ExtResource("12_npc")]
+position = Vector2(600, 450)
+scale = Vector2(1.35, 1.35)
+
+[node name="NPC2" parent="." unique_id=1912032964 instance=ExtResource("12_npc")]
+position = Vector2(1000, 700)
+scale = Vector2(1.35, 1.35)
+
+[node name="NPC3" parent="." unique_id=1939886767 instance=ExtResource("12_npc")]
+position = Vector2(1450, 450)
+scale = Vector2(1.35, 1.35)
 
 [node name="Jimbo" parent="." unique_id=1628255682 instance=ExtResource("5_tbgi4")]
 scale = Vector2(1.35, 1.35)
