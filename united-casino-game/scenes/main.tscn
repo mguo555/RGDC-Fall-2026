@@ -5,12 +5,22 @@
 [ext_resource type="PackedScene" uid="uid://xwklnwwj2elx" path="res://scenes/HidingSpot/HidingSpot.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://btlj8yjhcpjbf" path="res://scenes/Guard/Guard.tscn" id="4_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://dq7kw0r6kl803" path="res://scenes/Jimbo/Jimbo.tscn" id="5_tbgi4"]
+[ext_resource type="Script" uid="uid://driq8yuplj0js" path="res://scripts/Floor/floor.gd" id="6_floor"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_floor"]
+parsed_geometry_type = 1
+agent_radius = 70.0
+outlines = Array[PackedVector2Array]([PackedVector2Array(4, -4, 1796, -4, 1796, 1004, 4, 1004)])
 
 [node name="Main" type="Node2D" unique_id=567748980]
 
 [node name="Background" type="Sprite2D" parent="." unique_id=2118096023]
 position = Vector2(900, 500)
 texture = ExtResource("1_jyhfs")
+
+[node name="Floor" type="NavigationRegion2D" parent="." unique_id=795425564]
+navigation_polygon = SubResource("NavigationPolygon_floor")
+script = ExtResource("6_floor")
 
 [node name="HidingSpot" parent="." unique_id=250481482 instance=ExtResource("4_jyhfs")]
 position = Vector2(95, 188)

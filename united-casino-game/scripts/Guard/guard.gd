@@ -5,6 +5,7 @@ var speed
 var wait_time
 
 @onready var sprite = $AnimatedSprite2D
+@onready var nav = $NavigationAgent2D
 
 const CATCH_DISTANCE = 150
 const SIGHT_DISTANCE = 150 * 2
@@ -21,6 +22,7 @@ func _ready() -> void:
 	#for i in patrol_path.curve.point_count:
 		#points.append(patrol_path.to_global(patrol_path.curve.get_point_position(i)))
 	speed = 500
+	nav.target_position = points[target]
 	wait_time = 1.0
 
 
@@ -67,14 +69,19 @@ func _physics_process(delta: float) -> void:
 	#print(wait_time)
 
 	#print(target, " ", points.size())
+	# only set a new target when it changes, setting it makes the agent plan a new path
+	if nav.target_position != points[target]:
+		nav.target_position = points[target]
+
 	if wait_timer > 0:
 		wait_timer -= delta
-	elif global_position.distance_to(points[target]) <= speed * delta:
+	elif nav.is_navigation_finished():
 		wait_timer = wait_time
 
 		target = (target + 1) % points.size()
 	else:
-		velocity = global_position.direction_to(points[target]) * speed
+		# head for the next corner of the path, the path goes around obstacles
+		velocity = global_position.direction_to(nav.get_next_path_position()) * speed
 
 	move_and_slide()
 

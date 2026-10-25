@@ -109,6 +109,8 @@ animations = [{
 size = Vector2(67, 83)
 
 [node name="Guard" type="CharacterBody2D" unique_id=1165609474 groups=["guard"]]
+collision_layer = 4
+collision_mask = 1
 motion_mode = 1
 script = ExtResource("1_0mswu")
 
@@ -116,6 +118,8 @@ script = ExtResource("1_0mswu")
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_pq3n5")
 animation = &"back"
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1031247021]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=954828523 groups=["guard"]]
 position = Vector2(0.5, -2.5)

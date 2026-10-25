@@ -109,6 +109,7 @@ animations = [{
 size = Vector2(67, 83)
 
 [node name="Player" type="CharacterBody2D" unique_id=1165609474 groups=["player"]]
+collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_ky53y")
 
