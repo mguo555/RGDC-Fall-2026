@@ -12,6 +12,8 @@ const SIGHT_DISTANCE = 150 * 2
 const LOSE_SIGHT_DISTANCE = 150 * 5
 # how close the guard has to walk past a hiding spot to think about checking it
 const CHECK_DISTANCE = 200
+# if it should be walking but has barely moved for this long, the way is blocked
+const STUCK_TIME = 5.0
 const PATROL_POINTS = [Vector2.ZERO, Vector2(700, 700), Vector2(700, 0), Vector2(0, 700)]
 # the halls the guard sweeps through after the player hides
 const SEARCH_POINTS = [Vector2(160, 250), Vector2(700, 230), Vector2(1580, 230), Vector2(1580, 650), Vector2(700, 500), Vector2(450, 712), Vector2(180, 500)]
@@ -19,6 +21,7 @@ const SEARCH_POINTS = [Vector2(160, 250), Vector2(700, 230), Vector2(1580, 230),
 var points = PATROL_POINTS
 var target = 0
 var wait_timer = 0.0
+var stuck_timer = 0.0
 
 # "patrol", "chase", "search" (sweeping the halls) or "check" (walking to a hiding spot)
 var state = "patrol"
@@ -114,6 +117,17 @@ func check_hiding_spot():
 		go_to(SEARCH_POINTS, closest_point(SEARCH_POINTS))
 
 
+# the way to the current point is blocked, so move on to the next one
+func path_blocked():
+	print("Something's in the way...")
+	if state == "check":
+		# can't get to the trash can, keep searching instead
+		state = "search"
+		go_to(SEARCH_POINTS, closest_point(SEARCH_POINTS))
+	elif state != "chase":
+		reached_point()
+
+
 # called when the guard gets to the point it was walking to
 func reached_point():
 	if state == "check":
@@ -163,7 +177,18 @@ func _physics_process(delta: float) -> void:
 		# head for the next corner of the path, the path goes around obstacles
 		velocity = global_position.direction_to(nav.get_next_path_position()) * speed
 
+	var start_position = global_position
+	var should_move = velocity.length() * delta
 	move_and_slide()
+
+	# moving less than a quarter of what it should means something is in the way
+	if should_move > 0 and global_position.distance_to(start_position) < should_move / 4:
+		stuck_timer += delta
+	else:
+		stuck_timer = 0
+	if stuck_timer > STUCK_TIME:
+		stuck_timer = 0
+		path_blocked()
 
 	if velocity == Vector2.ZERO:
 		sprite.set_frame_and_progress(0, 0)

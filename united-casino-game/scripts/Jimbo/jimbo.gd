@@ -10,11 +10,14 @@ var shadyResource = load("res://dialogue/shady.dialogue")
 @onready var sprite = $AnimatedSprite2D
 @onready var nav = $NavigationAgent2D
 
+# if it should be walking but has barely moved for this long, the way is blocked
+const STUCK_TIME = 5.0
 const PATROL_POINTS = [Vector2(800, 800), Vector2(200, 200), Vector2(800, 200), Vector2(200, 800)]
 
 var points = PATROL_POINTS
 var target = 0
 var wait_timer = 0.0
+var stuck_timer = 0.0
 var player_near = false
 
 
@@ -53,7 +56,19 @@ func _physics_process(delta: float) -> void:
 		# head for the next corner of the path, the path goes around obstacles
 		velocity = global_position.direction_to(nav.get_next_path_position()) * speed
 
+	var start_position = global_position
+	var should_move = velocity.length() * delta
 	move_and_slide()
+
+	# moving less than a quarter of what it should means something is in the way
+	if should_move > 0 and global_position.distance_to(start_position) < should_move / 4:
+		stuck_timer += delta
+	else:
+		stuck_timer = 0
+	if stuck_timer > STUCK_TIME:
+		stuck_timer = 0
+		print("Can't get through, going somewhere else")
+		target = (target + 1) % points.size()
 
 	if velocity == Vector2.ZERO:
 		sprite.set_frame_and_progress(0, 0)
