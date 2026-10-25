@@ -41,6 +41,8 @@ else:
 Shop: Take your pick.
 - Cards
 	# getCost take cardCost * anteMult
+	# TODO (Matthew): buying gives a random card (GameManager.random_card), it shows up in the
+	# inventory HUD and can be swapped into your hand at the blackjack table
 	if firstCards:
 		Shop: Oh, these? I give you a random card from this deck here.
 		Shop: If you're good, you can swap out one of your cards at the blackjack table.

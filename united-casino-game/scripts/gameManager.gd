@@ -49,10 +49,15 @@ enum Item {
 	card = 100
 }
 
+# cards in here look like {"suit": "Hearts", "value": "Ace"} (see random_card)
 var inventory = []
 
 # can upgrade to 5 with the inventory space buff
 var inventorySpace = 3
+
+# buffs you have, the HUD lists whatever is in here
+# TODO: buffs aren't designed yet, paying off a round should give one (see payLoan)
+var buffs = []
 
 func _ready():
 	DialogueManager.dialogue_started.connect(_on_dialogue_started)
@@ -119,11 +124,19 @@ func buyItem(item: Item):
 	if !hasEnough(getCost(item)):
 		return -1
 	
-	# add item to inventory
-	if !add_to_inventory(item):
+	# add item to inventory, a card comes out random
+	# TODO (Matthew): maybe let the player see or pick the card before paying
+	var thing = random_card() if item == Item.card else item
+	if !add_to_inventory(thing):
 		return 0
 	player_loseMoney(getCost(item))
 	return 1
+
+# a random playing card for the inventory
+func random_card():
+	var suits = ["Clubs", "Spades", "Diamonds", "Hearts"]
+	var values = [2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King", "Ace"]
+	return {"suit": suits.pick_random(), "value": values.pick_random()}
 
 func hasInventorySpace():
 	return len(inventory) < inventorySpace

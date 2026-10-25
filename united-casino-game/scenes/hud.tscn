@@ -52,3 +52,27 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_bar_fill")
 max_value = 300.0
 value = 300.0
 show_percentage = false
+
+[node name="InventoryPanel" type="PanelContainer" parent="." unique_id=777391917]
+offset_left = 20.0
+offset_top = 214.0
+offset_right = 440.0
+offset_bottom = 400.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="InventoryPanel" unique_id=899829088]
+layout_mode = 2
+
+[node name="InventoryLabel" type="Label" parent="InventoryPanel/VBox" unique_id=1753279629]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Inventory"
+
+[node name="Slots" type="Control" parent="InventoryPanel/VBox" unique_id=1190918889]
+custom_minimum_size = Vector2(380, 104)
+layout_mode = 2
+
+[node name="BuffsLabel" type="Label" parent="InventoryPanel/VBox" unique_id=288091721]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Buffs: none"
