@@ -13,6 +13,8 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("interact") and entered and player:
 		# press interact again to come back out
 		player.is_hidden = not player.is_hidden
+		# inside the trash can nothing bumps into you (bumping made the screen shake)
+		player.get_node("CollisionShape2D").set_deferred("disabled", player.is_hidden)
 		if player.is_hidden:
 			player.modulate.a = 0.4
 		else:
