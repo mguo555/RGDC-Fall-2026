@@ -10,7 +10,7 @@ Shop: What are you here for?
 		Shop: Don't want those pesky security guards catching us.
 #		Shop: But first, pay up.
 #		do test()
-		set firstBuy = true
+		set firstBuy = false
 	else:
 		Shop: That's what I like to hear!
 	=>< shop
@@ -21,9 +21,9 @@ Shop: Don't let the door hit you on your way out.
 => END
 
 ~ payLoan
-if hasEnough(loanAmount):
-	do payLoan()
-	if loans == 0:
+if GameManager.hasEnough(GameManager.current_quota):
+	do GameManager.payLoan()
+	if GameManager.quotas_paid == 1:
 		Shop: Well, color me surprised. You managed to pay off part of your interest.
 		Shop: But you're not free to go just yet, oh no. You'll be sticking around for quite a while.
 		Shop: Here's your new quota. And because I'm in a good mood, I'll throw you a little something.
@@ -31,7 +31,7 @@ if hasEnough(loanAmount):
 	else:
 		Shop: You know the drill. Pay your loan, get a buff.
 	=>< buff
-elif :
+else:
 	Shop: Buddy, where did you learn to count? This is nowhere near enough.
 	Shop: Get back out there and earn me some more money. I don't care how you do it.
 	=> END
