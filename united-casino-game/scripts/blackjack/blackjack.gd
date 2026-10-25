@@ -4,6 +4,7 @@ const CARD_HEIGHT = 800
 const PLAYER_CARD_START = 200
 const CARD_STEP = 128
 const DEALER_CARD_START = 1700
+const DECK_X = 960
 var resource = load("res://dialogue/blackjack.dialogue")
 
 
@@ -31,8 +32,9 @@ func _ready():
 	dealer = Dealer.new()
 	var deck_card = card_scene.instantiate()
 	deck_card.setup("Deck Backs", 1)
-	# TODO FIGURE OUT HOW TO MOVE IT TO THE CORRECT POSITION
 	add_child(deck_card)
+	move_child(deck_card, card_container.get_index())
+	deck_card.change_sprite(DECK_X, CARD_HEIGHT)
 	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
 
 # CARDS THAT AREN'T ON THE TABLE AREN'T CHILDREN, SO THEY HAVE TO BE FREED BY HAND
@@ -156,9 +158,10 @@ func stand():
 		#print("DEALER:", dealer.get_hand()) # TEST
 	if Card.bust(dealer.get_hand()):
 		dealer.busted()
+	end_round(who_wins_after_standing())
 
-# PLAYER WINS IF THE DEALER BUSTS, OR IF THEY DIDNT BUST AND HAVE AT LEAST THE
-# DEALER'S VALUE (TIES GO TO THE PLAYER)
+# PLAYER WINS IF THE DEALER BUSTS, OR IF THEY DIDNT BUST AND BEAT THE
+# DEALER'S VALUE (TIES GO TO THE DEALER)
 func who_wins_after_standing():
 	var player_sum = Card.summed_values(player_hand)
 	var dealer_sum = Card.summed_values(dealer.get_hand())
@@ -169,9 +172,9 @@ func who_wins_after_standing():
 
 func kill_cards():
 	for card in player_hand:
-		remove_child(card)
+		card_container.remove_child(card)
 	for card in dealer.get_hand():
-		remove_child(card)
+		card_container.remove_child(card)
 	player_hand.clear()
 	dealer.reset()
 
