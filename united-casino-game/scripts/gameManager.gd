@@ -88,14 +88,19 @@ func payLoan():
 	update_UI()
 	pass
 
+# only charges if the item fits in the inventory
 func buyItem(item: Item):
-	if !player_loseMoney(getCost(item)):
+	if !hasEnough(getCost(item)):
 		return -1
 	
 	# add item to inventory
 	if !add_to_inventory(item):
 		return 0
+	player_loseMoney(getCost(item))
 	return 1
+
+func hasInventorySpace():
+	return len(inventory) < inventorySpace
 
 func add_to_inventory(item):
 	print("Inventory: ", inventory)

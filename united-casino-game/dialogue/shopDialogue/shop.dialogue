@@ -49,16 +49,17 @@ Shop: Take your pick.
 	else: 
 		Shop: {{getCost(Item.card)}}. Don't like it, don't buy it.
 	- Buy
-		if buyItem(Item.card) == 1:
-			Shop: Pleasure doing business.
-			Shop: Anything else?
-		elif buyItem(Item.card) == 0:
+		if not hasEnough(getCost(Item.card)):
+			Shop: What do you take me for, a charity?
+			Shop: Get outta here. => END!
+		elif not hasInventorySpace():
 			Shop: Maybe try again after you got a bit more space in your inventory.
 			Shop: Anything else you want from me?
 			=>< options
-		else: 
-			Shop: What do you take me for, a charity?
-			Shop: Get outta here. => END!
+		else:
+			do buyItem(Item.card)
+			Shop: Pleasure doing business.
+			Shop: Anything else?
 		=> shop
 	- Go Back
 		Shop: Having second thoughts? Bit too late for that.
