@@ -35,6 +35,7 @@ var saved_scene = null
 # set when the player says yes to Mr. Shady, the shop opens once that dialogue is over
 var shop_wanted = false
 var is_game_over = false
+var quota_missed = false
 
 # chance (0 to 1) that a searching guard checks a hiding spot it walks past.
 # buffs will be able to lower this later
@@ -57,7 +58,7 @@ const BASE_QUOTA = 1000
 # pay off this many antes to be free of Mr. Shady
 const ANTES = 5
 var has_won = false
-var quota_mult = 5
+var quota_mult = 2
 var quotas_paid = 0
 var current_quota = BASE_QUOTA
 
@@ -70,6 +71,7 @@ var is_dialogue_running = false
 # shop interaction variables
 var firstBuy = true
 var firstCards = true
+var isLoanPaid = false
 
 enum Item {
 	card = 100,
@@ -119,9 +121,15 @@ func player_loseBet():
 # called when the timer runs out
 func loanTimeUp():
 	# play animation
-
+	if isLoanPaid == false:
+		DialogueManager.show_dialogue_balloon_scene(dialogueScene, shopResource, "payLoanDeath", [self])
+		isLoanPaid = true
+		is_game_over = true
+	
 	# call the dialogue
-	DialogueManager.show_dialogue_balloon_scene(dialogueScene, shopResource, "payLoan", [self])
+	print("LoanTimeUp")
+	DialogueManager.show_dialogue_balloon_scene(dialogueScene, shopResource, "payLoanDeath", [self])
+	
 	pass
 
 # couldn't pay your debts on time / money reaches 0
@@ -195,6 +203,10 @@ func _process(delta):
 	quota_timer = max(quota_timer - delta, 0)
 	heat = max(heat - delta, 0)
 	head_start = max(head_start - delta, 0)
+	
+	if quota_timer == 0 and not is_game_over:
+		loanTimeUp()
+		
 	# debug: space pretends you are cheating
 	#if Input.is_action_just_pressed("debug_cheat_caught"):
 		#add_heat()

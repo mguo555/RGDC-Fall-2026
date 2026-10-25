@@ -26,6 +26,22 @@ Shop: What are you here for?
 Shop: Don't let the door hit you on your way out.
 => END!
 
+~ payLoanDeath
+Mr. Shady: Alright, time's up. Let's see if you got the money for your quota.
+if hasEnough(current_quota):
+	do payLoan()
+	if quotas_paid == 1:
+		Mr. Shady: Well, color me surprised. You managed to pay off part of your interest.
+		Mr. Shady: But you're not free to go just yet, oh no. You'll be sticking around for quite a while.
+		Mr. Shady: Here's your new quota. Now get to it. Chop-chop.
+	else:
+		Mr. Shady: Good on ya, paying your quotas. Here's your next. Chop-chop.
+else:
+	Mr. Shady: Oh, no. This amount simply won't do.
+	set is_game_over = false
+	do game_over()
+	=> END!
+
 ~ payLoan
 if hasEnough(current_quota):
 	do payLoan()
@@ -35,6 +51,7 @@ if hasEnough(current_quota):
 		Shop: Here's your new quota. Now get to it. Chop-chop.
 	else:
 		Shop: Good on ya, paying your quotas. Here's your next. Chop-chop.
+	=> END!
 else:
 	Shop: Buddy, where did you learn to count? This is nowhere near enough.
 	Shop: Get back out there and earn me some more money. I don't care how you do it.
