@@ -10,6 +10,10 @@ var dialogueScene = load("res://scenes/balloon.tscn")
 var casinoScene = load("res://scenes/main.tscn")
 var shopScene = load("res://scenes/shop.tscn")
 var gameOverScene = load("res://scenes/game_over.tscn")
+var introScene = load("res://scenes/intro.tscn")
+
+# remembers things between launches, for now just whether you've seen the intro
+const SAVE_PATH = "user://save.cfg"
 
 # the casino waits here (out of the tree) while the shop is open,
 # so the player comes back to the same spot
@@ -153,7 +157,20 @@ func _on_dialogue_ended(dialogue) -> void:
 
 # scene switching: the current scene is taken out of the tree and the next one is added.
 # it happens at the end of the frame (call_deferred) so nothing is removed halfway through an update
+# the intro cutscene only plays the first time
 func play():
+	if has_seen_intro():
+		go_to_casino()
+	else:
+		call_deferred("switch_scene", introScene.instantiate(), false)
+
+# the intro calls this once its dialogue is over
+func intro_done():
+	save_seen_intro()
+	go_to_casino()
+
+# the pay clock starts when you get to the casino
+func go_to_casino():
 	quota_timer = QUOTA_TIME
 	call_deferred("switch_scene", casinoScene.instantiate(), false)
 
@@ -171,6 +188,17 @@ func game_over():
 		return
 	is_game_over = true
 	call_deferred("switch_scene", gameOverScene.instantiate(), false)
+
+func has_seen_intro():
+	var save = ConfigFile.new()
+	save.load(SAVE_PATH)
+	return save.get_value("progress", "seen_intro", false)
+
+func save_seen_intro():
+	var save = ConfigFile.new()
+	save.load(SAVE_PATH)
+	save.set_value("progress", "seen_intro", true)
+	save.save(SAVE_PATH)
 
 # keep_old saves the old scene to come back to, otherwise it gets deleted
 func switch_scene(new_scene, keep_old):
