@@ -28,6 +28,7 @@ var player_won = false
 var playing = false # TRUE WHILE THE BLACKJACK DIALOGUE IS OPEN
 var tip = 0
 var dealer_helped = false # TRUE WHEN THE DEALER SLIPPED YOU EXTRA THIS ROUND
+var kicked_out = false # TRUE ONCE YOU'VE BEEN CAUGHT CHEATING
 var prompt_center_box
 var player_amount_label
 var dealer_amount_label
@@ -288,10 +289,21 @@ func is_being_watched():
 func can_cheat():
 	return not is_being_watched()
 
-# CHEATING IN FRONT OF SOMEONE GETS YOU KICKED OUT
+# CHEATING IN FRONT OF SOMEONE GETS YOU THROWN BACK ONTO THE FLOOR WITH SECURITY ON YOUR TAIL
 func caught_cheating():
+	if kicked_out:
+		return
 	print("CAUGHT CHEATING")
-	GameManager.game_over()
+	kicked_out = true
+	# YOU LEAVE YOUR BET ON THE TABLE
+	if playing and not round_over:
+		round_over = true
+		GameManager.player_loseBet()
+	# CUT OFF WHATEVER THE DEALER WAS SAYING
+	for child in get_children():
+		if child.get_script() and child.get_script().resource_path == "res://scripts/balloon.gd":
+			child.queue_free()
+	DialogueManager.show_dialogue_balloon_scene("res://scenes/balloon.tscn", resource, "caught", [self])
 
 # YOU CAN ONLY SWAP CARDS DURING YOUR TURN
 func can_swap():
@@ -334,3 +346,5 @@ func _on_leave_button_pressed():
 func _on_dialogue_ended(ended_resource):
 	if ended_resource == resource:
 		playing = false
+		if kicked_out:
+			GameManager.caught_cheating()

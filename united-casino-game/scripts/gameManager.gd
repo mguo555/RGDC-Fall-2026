@@ -30,6 +30,9 @@ var hiding_spot_check_chance = 0.5
 # any guard that sees you while you're hot comes after you
 const HEAT_TIME = 30.0
 var heat = 0.0
+# after you're thrown out of a table you get a couple of seconds to run before anyone can grab you
+const HEAD_START = 2.0
+var head_start = 0.0
 
 # var player_money = 500
 var player_money = 1001
@@ -167,6 +170,7 @@ func _process(delta):
 	# update the quota timer (delta is in seconds, so this counts down in real time)
 	quota_timer = max(quota_timer - delta, 0)
 	heat = max(heat - delta, 0)
+	head_start = max(head_start - delta, 0)
 	# debug: space pretends you just cheated
 	if Input.is_action_just_pressed("debug_cheat_caught"):
 		add_heat()
@@ -212,6 +216,32 @@ func close_scene():
 		return
 	call_deferred("switch_scene", saved_scene, false)
 	saved_scene = null
+
+# caught cheating at a table: you're thrown back onto the floor and security comes after you.
+# you only lose if a guard actually catches you out there
+func caught_cheating():
+	add_heat()
+	head_start = HEAD_START
+	if saved_scene == null:
+		# nowhere to run (the table was opened on its own for testing), so it's over
+		game_over()
+		return
+	close_scene()
+	call_deferred("sound_alarm")
+
+# the guard closest to you comes running and yells for backup
+func sound_alarm():
+	var player = null
+	for node in get_tree().get_nodes_in_group("player"):
+		if node.has_signal("caught"):
+			player = node
+	var closest = null
+	for guard in get_tree().get_nodes_in_group("guard"):
+		if guard.has_method("start_chase"):
+			if closest == null or guard.global_position.distance_to(player.global_position) < closest.global_position.distance_to(player.global_position):
+				closest = guard
+	if closest:
+		closest.start_chase(true)
 
 func game_over():
 	if is_game_over:

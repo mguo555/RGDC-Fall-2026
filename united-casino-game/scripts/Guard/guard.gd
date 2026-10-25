@@ -127,7 +127,7 @@ func chase_player(player, delta):
 	elif patience_timer <= 0:
 		print("Ugh, not worth it.")
 		start_patrol()
-	elif distance < CATCH_DISTANCE:
+	elif distance < CATCH_DISTANCE and GameManager.head_start <= 0:
 		print("CAUGHT!!!")
 		player.caught.emit()
 		start_patrol()

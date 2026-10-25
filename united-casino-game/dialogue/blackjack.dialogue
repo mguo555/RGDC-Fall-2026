@@ -60,3 +60,8 @@ if dealer_helped
 % Dealer: My compliments to the winner!
 % Dealer: Congrats on your newfound fortune! You Win!
 => newgame
+
+~ caught
+Dealer: Hey! Security!
+Guard: Please LEAVE!!!
+=> END

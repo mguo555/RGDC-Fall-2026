@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 # someone gambling at the casino. they wander between random spots,
 # and you can talk to them with E (their TalkArea)
+# TODO (Matthew): bribing a gambler to swap clothes with you should make chasing guards lose you
+# (something like: every guard that is chasing calls start_search(), and GameManager.heat = 0)
 
 # where they wander around, in world positions
 @export var wander_area = Rect2(200, 250, 1400, 450)
