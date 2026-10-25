@@ -9,6 +9,13 @@
 [ext_resource type="Script" uid="uid://cpbawsy47eyi5" path="res://scripts/blackjack/security_camera.gd" id="11_cam"]
 [ext_resource type="Texture2D" uid="uid://b1ym4a5ctilxn" path="res://assets/sprites/cctv_camera_spritesheet.png" id="12_cam"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prompt"]
+content_margin_left = 32.0
+content_margin_top = 20.0
+content_margin_right = 32.0
+content_margin_bottom = 28.0
+bg_color = Color(0, 0, 0, 0.92)
+
 [node name="Blackjack" type="Control" unique_id=1298565065]
 layout_mode = 3
 anchors_preset = 15
@@ -92,22 +99,43 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -220.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PromptVertical Allignment" type="VBoxContainer" parent="PromptCenterBox" unique_id=2050633851]
+[node name="PromptPanel" type="PanelContainer" parent="PromptCenterBox" unique_id=195725785]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_prompt")
+
+[node name="PromptVertical Allignment" type="VBoxContainer" parent="PromptCenterBox/PromptPanel" unique_id=2050633851]
 layout_mode = 2
 
-[node name="Bet Field Label" type="Label" parent="PromptCenterBox/PromptVertical Allignment" unique_id=742479620]
+[node name="Bet Field Label" type="Label" parent="PromptCenterBox/PromptPanel/PromptVertical Allignment" unique_id=742479620]
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
 text = "Place your bet!"
 horizontal_alignment = 1
 
-[node name="BetField" type="LineEdit" parent="PromptCenterBox/PromptVertical Allignment" unique_id=1432340901]
+[node name="BetField" type="LineEdit" parent="PromptCenterBox/PromptPanel/PromptVertical Allignment" unique_id=1432340901]
 custom_minimum_size = Vector2(300, 100)
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
+context_menu_enabled = false
+emoji_menu_enabled = false
+drag_and_drop_selection_enabled = false
+script = ExtResource("3_vyxl8")
+
+[node name="Tip Label" type="Label" parent="PromptCenterBox/PromptPanel/PromptVertical Allignment" unique_id=165617050]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Tip the dealer? (only when nobody's looking)"
+horizontal_alignment = 1
+
+[node name="TipField" type="LineEdit" parent="PromptCenterBox/PromptPanel/PromptVertical Allignment" unique_id=1504157700]
+custom_minimum_size = Vector2(300, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+placeholder_text = "0"
 context_menu_enabled = false
 emoji_menu_enabled = false
 drag_and_drop_selection_enabled = false
@@ -128,6 +156,8 @@ text = "Leave"
 
 [node name="HUD" parent="." unique_id=341470715 instance=ExtResource("9_hud")]
 
-[connection signal="text_changed" from="PromptCenterBox/PromptVertical Allignment/BetField" to="PromptCenterBox/PromptVertical Allignment/BetField" method="_on_text_changed"]
+[connection signal="text_changed" from="PromptCenterBox/PromptPanel/PromptVertical Allignment/BetField" to="PromptCenterBox/PromptPanel/PromptVertical Allignment/BetField" method="_on_text_changed"]
 [connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]
-[connection signal="text_submitted" from="PromptCenterBox/PromptVertical Allignment/BetField" to="." method="_on_bet_field_text_submitted"]
+[connection signal="text_submitted" from="PromptCenterBox/PromptPanel/PromptVertical Allignment/BetField" to="." method="_on_bet_field_text_submitted"]
+[connection signal="text_changed" from="PromptCenterBox/PromptPanel/PromptVertical Allignment/TipField" to="PromptCenterBox/PromptPanel/PromptVertical Allignment/TipField" method="_on_text_changed"]
+[connection signal="text_submitted" from="PromptCenterBox/PromptPanel/PromptVertical Allignment/TipField" to="." method="_on_bet_field_text_submitted"]

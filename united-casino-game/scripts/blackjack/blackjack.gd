@@ -7,6 +7,15 @@ const DEALER_CARD_START = 1700
 const DECK_X = 960
 var resource = load("res://dialogue/blackjack.dialogue")
 
+# TIP THE DEALER. IT'S A BRIBE, SO ONLY TIP WHEN NOBODY'S WATCHING OR YOU GET KICKED OUT
+# THE TIP IS PAID UP FRONT AND THE DEALER KEEPS IT, WIN OR LOSE. IT CAN'T BE MORE THAN YOUR BET
+# FAVOR = TIP / BET. WHEN YOU WIN, THE DEALER HELPS WITH A CHANCE OF FAVOR
+# AND SLIPS YOU AN EXTRA BET * (1 + TIP_BONUS * FAVOR)
+#   TIP 25% OF BET: 25% CHANCE OF +1.5X BET, LOSES MORE THAN NOT TIPPING
+#   TIP 75% OF BET: 75% CHANCE OF +2.5X BET, ABOUT EVEN
+#   TIP 100% OF BET: ALWAYS +3X BET ON A WIN, BEATS THE HOUSE (ABOUT +0.2 BETS A ROUND)
+const TIP_BONUS = 2
+
 
 var dealer = null # STARTS NULL AS IS INSTANTIATED IN READY
 var card_list = [] # STARTS EMPTY, STARTS WITH A STANDARD DECK OF 52 CARDS
@@ -16,6 +25,8 @@ var next_card # EXISTS TO IMPLEMENT A CHEAT TO KNOW THE NEXT CARD
 var round_over = true # MAKES SURE EACH ROUND IS ONLY PAID OUT ONCE
 var player_won = false
 var playing = false # TRUE WHILE THE BLACKJACK DIALOGUE IS OPEN
+var tip = 0
+var dealer_helped = false # TRUE WHEN THE DEALER SLIPPED YOU EXTRA THIS ROUND
 var prompt_center_box
 var player_amount_label
 var dealer_amount_label
@@ -24,6 +35,8 @@ var leave_button
 var security_camera
 var passersby
 var watch_label
+var bet_field
+var tip_field
 
 const SUITS = ["Clubs", "Spades", "Diamonds", "Hearts"] # USED TO INITIALIZE ALL THE SUITS
 
@@ -37,6 +50,8 @@ func _ready():
 	security_camera = $SecurityCamera
 	passersby = $Passersby
 	watch_label = $WatchLabel
+	bet_field = $"PromptCenterBox/PromptPanel/PromptVertical Allignment/BetField"
+	tip_field = $"PromptCenterBox/PromptPanel/PromptVertical Allignment/TipField"
 	dealer = Dealer.new()
 	var deck_card = card_scene.instantiate()
 	deck_card.setup("Deck Backs", 1)
@@ -108,6 +123,7 @@ func start_game():
 	kill_cards()
 	round_over = false
 	player_won = false
+	dealer_helped = false
 	deal_card(player_hand, PLAYER_CARD_START)
 	deal_card(player_hand, PLAYER_CARD_START + CARD_STEP)
 	#print("PLAYER", player_hand) # TEST CODE
@@ -157,6 +173,10 @@ func end_round(won):
 	player_won = won
 	if won:
 		GameManager.player_winBet()
+		# A TIP BUYS A CHANCE THAT THE DEALER SLIPS YOU EXTRA ON A WIN
+		if tip > 0 and randf() < favor():
+			dealer_helped = true
+			GameManager.player_winMoney(int(GameManager.current_bet * (1 + TIP_BONUS * favor())))
 	else:
 		GameManager.player_loseBet()
 	print("ROUND OVER, PLAYER WON: ", won, " MONEY: ", GameManager.player_money)
@@ -211,15 +231,27 @@ func can_afford_bet():
 	return GameManager.current_bet <= GameManager.player_money
 
 
-func _on_bet_field_text_submitted(new_text: String) -> void:
+# HOW MUCH THE DEALER LIKES YOU THIS ROUND, FROM 0 TO 1
+func favor():
+	return min(float(tip) / GameManager.current_bet, 1.0)
+
+# PRESSING ENTER IN THE BET OR TIP BOX STARTS THE ROUND
+func _on_bet_field_text_submitted(_new_text: String) -> void:
 	# IGNORE NEW BETS WHILE A ROUND IS STILL BEING PLAYED
 	if playing:
 		return
-	var bet = int(new_text)
-	if bet <= 0 or bet > GameManager.player_money:
-		print("CAN'T BET ", bet, ", YOU HAVE ", GameManager.player_money)
+	var bet = int(bet_field.text)
+	var new_tip = int(tip_field.text)
+	if bet <= 0 or new_tip > bet or bet + new_tip > GameManager.player_money:
+		print("CAN'T BET ", bet, " AND TIP ", new_tip, ", YOU HAVE ", GameManager.player_money)
+		return
+	if new_tip > 0 and is_being_watched():
+		caught_cheating()
 		return
 	GameManager.setBet(bet)
+	tip = new_tip
+	if tip > 0:
+		GameManager.player_loseMoney(tip)
 	playing = true
 	prompt_center_box.hide()
 	show_labels()
