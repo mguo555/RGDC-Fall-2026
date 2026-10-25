@@ -30,7 +30,7 @@ if hasEnough(current_quota):
 		Shop: Here's your new quota. And because I'm in a good mood, I'll throw you a little something.
 		Shop: Take your pick.
 	else:
-		Shop: You know the drill. Pay your loan, get a buff.
+		Shop: You know the drill. Pay your quota, get a buff.
 	=>< buff
 else:
 	Shop: Buddy, where did you learn to count? This is nowhere near enough.
