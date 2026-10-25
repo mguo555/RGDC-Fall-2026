@@ -1,10 +1,12 @@
 [gd_scene format=3 uid="uid://bgefdbgigyyt1"]
 
+[ext_resource type="Script" uid="uid://bb3hojn3efufp" path="res://scripts/gameManager.gd" id="1_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://h0b8rhi8evjw" path="res://scenes/shop.tscn" id="1_lnu2h"]
 [ext_resource type="Script" uid="uid://g32um0mltv5d" path="res://addons/dialogue_manager/nodes/dialogue_label/dialogue_label.gd" id="2_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://cchdgno8ahqom" path="res://scenes/Player/Player.tscn" id="3_iywne"]
 
 [node name="Game" type="Node2D" unique_id=830147291]
+script = ExtResource("1_lbhrr")
 
 [node name="Player" parent="." unique_id=700347979 instance=ExtResource("3_iywne")]
 

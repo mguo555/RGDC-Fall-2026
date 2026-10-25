@@ -73,4 +73,5 @@ func _process(delta):
 	quota_timer = max(quota_timer - delta, 0)
 	pass
 
-
+func is_dialogue_running():
+	return get_tree().get_nodes_in_group("dialogue_balloon").size() > 0
