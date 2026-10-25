@@ -22,12 +22,9 @@ func _process(delta: float) -> void:
 		print("HIDING" if player.is_hidden else "LEFT HIDING SPOT")
 		to_zeroed = true
 	if to_zeroed and player and player.is_hidden:
-		if position.distance_to(player.position) > 0:
-			print("moving")
-			var angle = player.position.direction_to(position)
-			player.velocity = 300 * angle
-			player._physics_process(delta)
-		else:
+		# slide into the spot and stop exactly on it (overshooting made the screen shake)
+		player.global_position = player.global_position.move_toward(global_position, 300 * delta)
+		if player.global_position == global_position:
 			to_zeroed = false
 	if player and player.is_hidden and position.distance_to(player.position) < 5:
 		player.sprite.animation = "front"
