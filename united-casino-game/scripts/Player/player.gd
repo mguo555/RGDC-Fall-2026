@@ -27,7 +27,8 @@ func _process(delta: float) -> void:
 	var x = 0
 	var y = 0
 	
-	if !(game_manager.is_dialogue_running()):
+	#if !(game_manager.is_dialogue_running()):
+	if true:
 		if Input.is_action_pressed("move_up"):
 			animation = "back"
 			sprite.flip_h = false
