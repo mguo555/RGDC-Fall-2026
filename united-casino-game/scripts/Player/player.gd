@@ -11,7 +11,6 @@ signal caught
 var is_hidden = false
 
 @onready var sprite = $AnimatedSprite2D
-@onready var game_manager = $".."
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -27,8 +26,7 @@ func _process(delta: float) -> void:
 	var x = 0
 	var y = 0
 	
-	#if !(game_manager.is_dialogue_running()):
-	if true:
+	if not GameManager.is_dialogue_running:
 		if Input.is_action_pressed("move_up"):
 			animation = "back"
 			sprite.flip_h = false
@@ -53,9 +51,10 @@ func _process(delta: float) -> void:
 			velocity.y = y * SPEED / mag
 		else:
 			sprite.set_frame_and_progress(0, 0)
-
+	
 		sprite.animation = animation
 		sprite.play()
-
+	else:
+		sprite.set_frame_and_progress(0, 0)
 func _physics_process(delta: float) -> void:
 	move_and_slide()

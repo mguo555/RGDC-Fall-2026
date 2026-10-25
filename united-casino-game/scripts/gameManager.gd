@@ -6,7 +6,8 @@ extends Node
 var shopResource = load("res://dialogue/shopDialogue/shop.dialogue")
 var dialogueScene = load("res://scenes/balloon.tscn")
 
-var player_money = 500
+# var player_money = 500
+var player_money = 1001
 var current_quota = 1000
 var quota_mult = 5
 var quotas_paid = 0
@@ -14,6 +15,24 @@ var quotas_paid = 0
 # in seconds
 var quota_timer = 300
 var current_bet = 0
+var is_dialogue_running = false
+
+# shop interaction variables
+var firstBuy = true
+var firstCards = true
+
+enum Item {
+	card = 100
+}
+
+var inventory = []
+
+# can upgrade to 5 with the inventory space buff
+var inventorySpace = 3
+
+func _ready():
+	DialogueManager.dialogue_started.connect(_on_dialogue_started)
+	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
 
 # sets bet
 func setBet(bet):
@@ -23,6 +42,8 @@ func setBet(bet):
 func player_loseMoney(amount) -> bool:
 	var could_pay = player_money - amount > 0
 	player_money = max(player_money - amount, 0)
+	
+	print("Money: ", player_money)
 	update_UI()
 	return could_pay
 
@@ -48,20 +69,41 @@ func loanTimeUp():
 func lose():
 	DialogueManager.show_dialogue_balloon_scene(dialogueScene, shopResource, "lose", [self])
 
-	# show your stats (total money made,
+	# show your stats (total money made, total quotas paid, # times caught, etc.)
 	pass
+
+
 
 func hasEnough(cost):
 	return (player_money - cost) > 0
+
+func getCost(cost):
+	return cost * (quotas_paid + 1)
 
 func payLoan():
 	player_money -= current_quota
 	quotas_paid += 1
 	current_quota *= quota_mult
-
+	
 	update_UI()
 	pass
 
+func buyItem(item: Item):
+	if !player_loseMoney(getCost(item)):
+		return -1
+	
+	# add item to inventory
+	if !add_to_inventory(item):
+		return 0
+	return 1
+
+func add_to_inventory(item):
+	print("Inventory: ", inventory)
+	if len(inventory) < inventorySpace:
+		inventory.append(item)
+		return true
+	return false
+	
 # updates the UI
 func update_UI():
 
@@ -73,5 +115,9 @@ func _process(delta):
 	quota_timer = max(quota_timer - delta, 0)
 	pass
 
-func is_dialogue_running():
-	return get_tree().get_nodes_in_group("dialogue_balloon").size() > 0
+func _on_dialogue_started(dialogue) -> void:
+	is_dialogue_running = true
+
+func _on_dialogue_ended(dialogue) -> void:
+	is_dialogue_running = false
+	
