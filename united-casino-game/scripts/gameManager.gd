@@ -72,5 +72,3 @@ func _process(delta):
 	# update the quota timer (delta is in seconds, so this counts down in real time)
 	quota_timer = max(quota_timer - delta, 0)
 	pass
-
-
