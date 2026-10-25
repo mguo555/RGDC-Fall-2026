@@ -11,11 +11,8 @@ signal caught
 var is_hidden = false
 
 @onready var sprite = $AnimatedSprite2D
-@onready var game_manager = $".."
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+# @onready var isDialogueRunning = game_manager.is_dialogue_running
+# @onready var game_manager = $".."
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -26,8 +23,8 @@ func _process(delta: float) -> void:
 		return
 	var x = 0
 	var y = 0
-	
-	if game_manager.is_dialogue_running == false:
+		
+	if GameManager.is_dialogue_running == false:
 		if Input.is_action_pressed("move_up"):
 			animation = "back"
 			sprite.flip_h = false

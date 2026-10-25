@@ -1,18 +1,12 @@
 [gd_scene format=3 uid="uid://bgefdbgigyyt1"]
 
-[ext_resource type="Script" uid="uid://bb3hojn3efufp" path="res://scripts/gameManager.gd" id="1_oo155"]
-[ext_resource type="PackedScene" uid="uid://cchdgno8ahqom" path="res://scenes/Player/Player.tscn" id="2_eaq8r"]
-[ext_resource type="PackedScene" uid="uid://h0b8rhi8evjw" path="res://scenes/shop.tscn" id="3_ternb"]
+[ext_resource type="Script" uid="uid://cscw0hsjl6ttp" path="res://scripts/shop/shop.gd" id="1_glms7"]
 [ext_resource type="Script" uid="uid://g32um0mltv5d" path="res://addons/dialogue_manager/nodes/dialogue_label/dialogue_label.gd" id="4_q8mjp"]
 
-[node name="GameManager" type="Node2D" unique_id=830147291]
-script = ExtResource("1_oo155")
+[node name="Shop" type="Node2D" unique_id=830147291]
+script = ExtResource("1_glms7")
 
-[node name="Player" parent="." unique_id=700347979 instance=ExtResource("2_eaq8r")]
-
-[node name="Shop" parent="." unique_id=1215063840 instance=ExtResource("3_ternb")]
-
-[node name="DialogueLabel2" type="RichTextLabel" parent="Shop" unique_id=1633707253]
+[node name="DialogueLabel2" type="RichTextLabel" parent="." unique_id=1633707253]
 offset_right = 40.0
 offset_bottom = 40.0
 bbcode_enabled = true
@@ -21,5 +15,5 @@ skip_pause_at_abbreviations = PackedStringArray("Mr", "Mrs", "Ms", "Dr", "etc", 
 metadata/_custom_type_script = "uid://g32um0mltv5d"
 metadata/_edit_use_anchors_ = true
 
-[connection signal="finished_typing" from="Shop/DialogueLabel2" to="." method="is_finished_typing"]
-[connection signal="started_typing" from="Shop/DialogueLabel2" to="." method="is_typing"]
+[connection signal="finished_typing" from="DialogueLabel2" to="." method="is_finished_typing"]
+[connection signal="started_typing" from="DialogueLabel2" to="." method="is_typing"]

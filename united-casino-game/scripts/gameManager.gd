@@ -5,6 +5,8 @@ extends Node
 
 var shopResource = load("res://dialogue/shopDialogue/shop.dialogue")
 var dialogueScene = load("res://scenes/balloon.tscn")
+# @onready var playerStats = $CanvasLayer/CenterContainer/VBoxContainer/PlayerStats
+signal updatedUI
 
 # var player_money = 500
 var player_money = 1001
@@ -18,8 +20,11 @@ var current_bet = 0
 var is_dialogue_running = false
 
 # shop interaction variables
-var firstBuy = true
-var firstCards = true
+# TODO: Change  them
+var firstBuy = false
+var firstCards = false
+#var firstBuy = true
+#var firstCards = true
 
 enum Item {
 	card = 100
@@ -33,7 +38,8 @@ var inventorySpace = 3
 func _ready():
 	DialogueManager.dialogue_started.connect(_on_dialogue_started)
 	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
-
+	updatedUI.emit()
+	
 # sets bet
 func setBet(bet):
 	current_bet = bet
@@ -42,8 +48,6 @@ func setBet(bet):
 func player_loseMoney(amount) -> bool:
 	var could_pay = player_money - amount > 0
 	player_money = max(player_money - amount, 0)
-	
-	print("Money: ", player_money)
 	update_UI()
 	return could_pay
 
@@ -95,6 +99,7 @@ func buyItem(item: Item):
 	# add item to inventory
 	if !add_to_inventory(item):
 		return 0
+	update_UI()
 	return 1
 
 func add_to_inventory(item):
@@ -106,14 +111,14 @@ func add_to_inventory(item):
 	
 # updates the UI
 func update_UI():
-
+	print("Emitting signal")
+	print("GameManager: ", player_money)
+	updatedUI.emit()
 	# tick down the quota timer
-	pass
 
 func _process(delta):
 	# update the quota timer (delta is in seconds, so this counts down in real time)
 	quota_timer = max(quota_timer - delta, 0)
-	pass
 
 func _on_dialogue_started(dialogue) -> void:
 	is_dialogue_running = true

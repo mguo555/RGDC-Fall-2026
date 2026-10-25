@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cdcu46nv3o7go"]
+
+[node name="UiOverlay" type="CanvasLayer" unique_id=1079185585]
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=2064175699]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -261.0
+offset_top = -155.0
+offset_right = -1498.0
+offset_bottom = -837.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1482134076]
+layout_mode = 2
+
+[node name="PlayerStats" type="Label" parent="CenterContainer/VBoxContainer" unique_id=274927623]
+layout_mode = 2
+text = "TestLabel"
