@@ -30,7 +30,8 @@ func _ready():
 	card_container = $CardContainer
 	dealer = Dealer.new()
 	var deck_card = card_scene.instantiate()
-	deck_card.setup("Deck Backs", 0)
+	deck_card.setup("Deck Backs", 1)
+	# TODO FIGURE OUT HOW TO MOVE IT TO THE CORRECT POSITION
 	add_child(deck_card)
 	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
 
