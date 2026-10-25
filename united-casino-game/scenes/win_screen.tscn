@@ -33,6 +33,23 @@ theme_override_font_sizes/font_size = 128
 text = "YOU'RE FREE"
 horizontal_alignment = 1
 
+[node name="MenuButton" type="Button" parent="." unique_id=1146105086]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = 60.0
+offset_right = 240.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "Back to menu"
+
 [node name="QuitButton" type="Button" parent="." unique_id=805028462]
 visible = false
 layout_mode = 1
@@ -41,13 +58,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -160.0
-offset_top = 60.0
-offset_right = 160.0
-offset_bottom = 170.0
+offset_left = -240.0
+offset_top = 200.0
+offset_right = 240.0
+offset_bottom = 310.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 64
 text = "Quit"
 
 [connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="MenuButton" to="." method="_on_menu_button_pressed"]

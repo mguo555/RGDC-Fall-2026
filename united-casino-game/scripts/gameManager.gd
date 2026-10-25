@@ -12,6 +12,7 @@ var shopScene = load("res://scenes/shop.tscn")
 var gameOverScene = load("res://scenes/game_over.tscn")
 var introScene = load("res://scenes/intro.tscn")
 var winScene = load("res://scenes/win_screen.tscn")
+var startScene = load("res://scenes/start_screen.tscn")
 
 # remembers things between launches, for now just whether you've seen the intro
 const SAVE_PATH = "user://save.cfg"
@@ -36,7 +37,8 @@ const HEAD_START = 2.0
 var head_start = 0.0
 
 # var player_money = 500
-var player_money = 1001
+const STARTING_MONEY = 1001
+var player_money = STARTING_MONEY
 # each round's goal is 1000 * 5^round: 1000, then 5000, then 25000, ...
 # quotas_paid counts the rounds already paid, so round 1 is 5^0
 const BASE_QUOTA = 1000
@@ -66,7 +68,8 @@ enum Item {
 var inventory = []
 
 # can upgrade to 5 with the inventory space buff
-var inventorySpace = 3
+const STARTING_INVENTORY_SPACE = 3
+var inventorySpace = STARTING_INVENTORY_SPACE
 
 # buffs you have, the HUD lists whatever is in here
 # TODO: buffs aren't designed yet, paying off a round should give one (see payLoan)
@@ -261,6 +264,33 @@ func win():
 		saved_scene.queue_free()
 		saved_scene = null
 	call_deferred("switch_scene", winScene.instantiate(), false)
+
+# back to the start screen with a fresh run (from the game over and win screens)
+func back_to_menu():
+	reset()
+	call_deferred("switch_scene", startScene.instantiate(), false)
+
+# puts everything back to how a new run starts.
+# if you add something that changes during a run, reset it here too
+func reset():
+	if saved_scene:
+		saved_scene.queue_free()
+		saved_scene = null
+	player_money = STARTING_MONEY
+	quotas_paid = 0
+	current_quota = BASE_QUOTA
+	quota_timer = QUOTA_TIME
+	current_bet = 0
+	inventory = []
+	inventorySpace = STARTING_INVENTORY_SPACE
+	buffs = []
+	firstBuy = true
+	firstCards = true
+	heat = 0.0
+	head_start = 0.0
+	shop_wanted = false
+	is_game_over = false
+	has_won = false
 
 func game_over():
 	if is_game_over:

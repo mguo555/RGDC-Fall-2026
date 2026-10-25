@@ -9,6 +9,10 @@ func _ready():
 func _on_dialogue_ended(_resource):
 	$GameOverLabel.show()
 	$QuitButton.show()
+	$MenuButton.show()
+
+func _on_menu_button_pressed():
+	GameManager.back_to_menu()
 
 func _on_quit_button_pressed():
 	get_tree().quit()
