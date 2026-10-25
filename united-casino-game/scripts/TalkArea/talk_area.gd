@@ -8,7 +8,7 @@ extends Area2D
 var player_near = false
 
 
-# the player can press E while standing close enough
+# the player can use this while standing close enough
 func can_interact():
 	return player_near
 
@@ -18,7 +18,7 @@ func prompt_text():
 	return "Talk"
 
 
-# called by the player when E is pressed and this npc is the closest thing to them
+# called by the player when this npc gets used (E or clicking on them)
 func interact():
 	DialogueManager.show_dialogue_balloon(dialogue, cue, [GameManager])
 

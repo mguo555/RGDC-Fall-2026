@@ -3,6 +3,8 @@ extends CharacterBody2D
 @onready var animation = "front"
 
 const SPEED = 600
+# how close to the middle of something a click has to land to count as clicking on it
+const CLICK_RADIUS = 70
 
 # emitted when a security guard catches the player
 signal caught
@@ -29,15 +31,28 @@ func find_closest_interactable():
 			closest_distance = distance
 	return closest
 
-# E goes to the closest thing in range so only one of them reacts.
-# unhandled so clicking through dialogue doesn't count as pressing E
+# the thing at click_position, if the player is close enough to use it, or null
+func find_clicked_interactable(click_position):
+	for thing in get_tree().get_nodes_in_group("interactable"):
+		if thing.can_interact() and click_position.distance_to(thing.global_position) < CLICK_RADIUS:
+			return thing
+	return null
+
+# E uses the closest thing in range, clicking uses the thing you clicked on.
+# unhandled so clicks on the dialogue box and buttons don't count
 func _unhandled_input(event: InputEvent) -> void:
-	if not event.is_action_pressed("interact") or GameManager.is_dialogue_running:
+	if GameManager.is_dialogue_running:
 		return
-	var closest = find_closest_interactable()
-	if closest:
+
+	var thing = null
+	if event.is_action_pressed("interact"):
+		thing = find_closest_interactable()
+	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		thing = find_clicked_interactable(get_global_mouse_position())
+
+	if thing:
 		get_viewport().set_input_as_handled()
-		closest.interact()
+		thing.interact()
 
 # shows "E: Hide", "E: Talk", ... above whatever E would use
 func update_prompt():
@@ -54,7 +69,7 @@ func _process(delta: float) -> void:
 	velocity.x = 0
 	velocity.y = 0
 	if is_hidden:
-		sprite.set_frame_and_progress(0, 0)
+		# the hiding spot takes care of the sprite while you're in the can
 		return
 	var x = 0
 	var y = 0
