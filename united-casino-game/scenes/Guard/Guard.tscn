@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://btlj8yjhcpjbf"]
 
 [ext_resource type="Script" uid="uid://de5j0d5jaci7" path="res://scripts/Guard/guard.gd" id="1_0mswu"]
-[ext_resource type="Texture2D" uid="uid://dwx83okwdrv2t" path="res://assets/sprites/player/player_sheet.png" id="2_0mswu"]
+[ext_resource type="Texture2D" uid="uid://bus7hv2a5kip5" path="res://assets/sprites/guard1_sheet.png" id="2_0mswu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bvqhm"]
 atlas = ExtResource("2_0mswu")
@@ -113,7 +113,6 @@ motion_mode = 1
 script = ExtResource("1_0mswu")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2121763910]
-modulate = Color(1, 0.3372549, 0.3137255, 1)
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_pq3n5")
 animation = &"back"
