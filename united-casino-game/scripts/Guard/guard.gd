@@ -22,20 +22,17 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if get_tree().current_scene.has_node("Player"):
-		print(chase)
+		#print(chase)
 		if chase:
 			player_pos = get_tree().current_scene.find_child("Player").position
 			points = [player_pos]
 			target = 0
 			if player_pos.distance_to(position) < 150:
 				print("CAUGHT!!!")
-			else:
-				print("Chasing")
 			if player_pos.distance_to(position) > 150*5:
 				chase = false
 		else:
 			points = [Vector2.ZERO, Vector2(700, 700), Vector2(700, 0), Vector2(0, 700)]
-			print("Not chasing")
 			if Input.is_action_pressed("debug_cheat_caught"):
 				if player_pos.distance_to(position) > 150*2:
 					chase = true
@@ -44,9 +41,9 @@ func _physics_process(delta: float) -> void:
 					print("Too far")
 	velocity = Vector2.ZERO
 
-	print(wait_time)
+	#print(wait_time)
 
-	print(target, " ", points.size())
+	#print(target, " ", points.size())
 	if wait_timer > 0:
 		wait_timer -= delta
 	elif global_position.distance_to(points[target]) <= speed * delta:

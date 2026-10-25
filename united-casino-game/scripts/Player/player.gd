@@ -1,7 +1,5 @@
 extends CharacterBody2D
 
-@onready var money = $".".get_meta("money")
-@onready var inventory = $".".get_meta("inventory")
 @onready var animation = "front"
 
 const SPEED = 600
@@ -14,9 +12,6 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	money = $".".get_meta("metadata/money")
-	print(money)
-
 	velocity.x = 0
 	velocity.y = 0
 	var x = 0
