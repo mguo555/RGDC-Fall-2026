@@ -5,6 +5,7 @@ const PLAYER_CARD_START = 200
 const CARD_STEP = 128
 const DEALER_CARD_START = 1700
 const DECK_X = 960
+const CARD_SIZE = Vector2(168, 240) # A 56x80 CARD AT 3X
 var resource = load("res://dialogue/blackjack.dialogue")
 
 # TIP THE DEALER. IT'S A BRIBE, SO ONLY TIP WHEN NOBODY'S WATCHING OR YOU GET KICKED OUT
@@ -35,6 +36,7 @@ var leave_button
 var security_camera
 var passersby
 var watch_label
+var hud
 var bet_field
 var tip_field
 
@@ -50,6 +52,7 @@ func _ready():
 	security_camera = $SecurityCamera
 	passersby = $Passersby
 	watch_label = $WatchLabel
+	hud = $HUD
 	bet_field = $"PromptCenterBox/PromptPanel/PromptVertical Allignment/BetField"
 	tip_field = $"PromptCenterBox/PromptPanel/PromptVertical Allignment/TipField"
 	dealer = Dealer.new()
@@ -196,7 +199,8 @@ func stand():
 func who_wins_after_standing():
 	var player_sum = Card.summed_values(player_hand)
 	var dealer_sum = Card.summed_values(dealer.get_hand())
-	if (player_sum > dealer_sum && player_sum <= 21) or dealer.bust:
+	# A BUSTED HAND ALWAYS LOSES, EVEN IF THE DEALER BUSTS TOO
+	if player_sum <= 21 and (player_sum > dealer_sum or dealer.bust):
 		return true
 	else:
 		return false
@@ -204,6 +208,9 @@ func who_wins_after_standing():
 func kill_cards():
 	for card in player_hand:
 		card_container.remove_child(card)
+		# CARDS SWAPPED IN FROM YOUR INVENTORY AREN'T PART OF THE DECK, SO THEY GET THROWN OUT
+		if not card in discard_list:
+			card.queue_free()
 	for card in dealer.get_hand():
 		card_container.remove_child(card)
 	player_hand.clear()
@@ -281,6 +288,31 @@ func can_cheat():
 func caught_cheating():
 	print("CAUGHT CHEATING")
 	GameManager.game_over()
+
+# YOU CAN ONLY SWAP CARDS DURING YOUR TURN
+func can_swap():
+	return playing and not round_over
+
+# WHICH CARD IN YOUR HAND IS UNDER THIS SPOT, -1 IF NONE (THE TOP CARD WINS WHERE THEY OVERLAP)
+func hand_card_at(spot):
+	for i in range(player_hand.size() - 1, -1, -1):
+		var card = player_hand[i]
+		if Rect2(card.position - CARD_SIZE / 2, CARD_SIZE).has_point(spot):
+			return i
+	return -1
+
+# SLEIGHT OF HAND: PUTS A CARD FROM YOUR INVENTORY INTO YOUR HAND IN PLACE OF ANOTHER ONE
+func swap_card(hand_index, inventory_card):
+	var old_card = player_hand[hand_index]
+	var new_card = card_scene.instantiate()
+	new_card.setup(inventory_card.suit, inventory_card.value)
+	card_container.add_child(new_card)
+	card_container.move_child(new_card, old_card.get_index())
+	new_card.change_sprite(old_card.position.x, old_card.position.y)
+	card_container.remove_child(old_card)
+	player_hand[hand_index] = new_card
+	update_label_amounts()
+	GameManager.add_heat()
 
 # GOES BACK TO THE CASINO
 func _on_leave_button_pressed():

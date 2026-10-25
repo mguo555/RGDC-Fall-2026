@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://c1ujvfw2robaw" path="res://scripts/blackjack/passersby.gd" id="10_pass"]
 [ext_resource type="Script" uid="uid://cpbawsy47eyi5" path="res://scripts/blackjack/security_camera.gd" id="11_cam"]
 [ext_resource type="Texture2D" uid="uid://b1ym4a5ctilxn" path="res://assets/sprites/cctv_camera_spritesheet.png" id="12_cam"]
+[ext_resource type="Script" uid="uid://cmntsxonnkyig" path="res://scripts/blackjack/sleight.gd" id="13_sleight"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prompt"]
 content_margin_left = 32.0
@@ -153,6 +154,9 @@ offset_bottom = 130.0
 grow_horizontal = 0
 theme_override_font_sizes/font_size = 48
 text = "Leave"
+
+[node name="Sleight" type="Node2D" parent="." unique_id=252702209]
+script = ExtResource("13_sleight")
 
 [node name="HUD" parent="." unique_id=341470715 instance=ExtResource("9_hud")]
 
