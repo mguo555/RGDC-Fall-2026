@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cscw0hsjl6ttp" path="res://scripts/shop/shop.gd" id="1_xfvoa"]
 [ext_resource type="Script" uid="uid://g32um0mltv5d" path="res://addons/dialogue_manager/nodes/dialogue_label/dialogue_label.gd" id="2_1l46r"]
+[ext_resource type="Texture2D" uid="uid://co1cdrsvtl530" path="res://assets/sprites/shady_sheet.png" id="3_shady"]
 
 [node name="Shop" type="Node2D" unique_id=1215063840]
 script = ExtResource("1_xfvoa")
@@ -14,3 +15,31 @@ script = ExtResource("2_1l46r")
 skip_pause_at_abbreviations = PackedStringArray("Mr", "Mrs", "Ms", "Dr", "etc", "eg", "ex")
 metadata/_custom_type_script = "uid://g32um0mltv5d"
 metadata/_edit_use_anchors_ = true
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=2084727110]
+
+[node name="Background" type="ColorRect" parent="UI" unique_id=1777652994]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.13, 0.05, 0.07, 1)
+
+[node name="MrShady" type="Sprite2D" parent="UI" unique_id=1099975904]
+position = Vector2(960, 420)
+scale = Vector2(5, 5)
+texture = ExtResource("3_shady")
+hframes = 4
+vframes = 4
+
+[node name="ExitButton" type="Button" parent="UI" unique_id=1070302523]
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 260.0
+offset_bottom = 130.0
+theme_override_font_sizes/font_size = 48
+text = "Exit"
+
+[connection signal="pressed" from="UI/ExitButton" to="." method="_on_exit_button_pressed"]

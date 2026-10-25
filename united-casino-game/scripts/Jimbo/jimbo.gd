@@ -1,21 +1,21 @@
 extends CharacterBody2D
 
+# Jimbo is Mr. Shady: he wanders the casino and offers to sell you stuff when you talk to him
+
 @export var patrol_path: Path2D
 var speed
 var wait_time
+var shadyResource = load("res://dialogue/shady.dialogue")
 
 @onready var sprite = $AnimatedSprite2D
 @onready var nav = $NavigationAgent2D
 
-const CATCH_DISTANCE = 150
-const SIGHT_DISTANCE = 150 * 2
-const LOSE_SIGHT_DISTANCE = 150 * 5
 const PATROL_POINTS = [Vector2(800, 800), Vector2(200, 200), Vector2(800, 200), Vector2(200, 800)]
 
 var points = PATROL_POINTS
 var target = 0
 var wait_timer = 0.0
-var chase = false
+var player_near = false
 
 
 func _ready() -> void:
@@ -26,54 +26,24 @@ func _ready() -> void:
 	wait_time = 10.0
 
 
-# the player is the node in the "player" group that has the caught signal
-# (the player's child nodes are in the group too)
-func find_player():
-	for node in get_tree().get_nodes_in_group("player"):
-		if node.has_signal("caught"):
-			return node
-	return null
-
-
-func stop_chase():
-	chase = false
-	points = PATROL_POINTS
-	target = 0
+# unhandled so clicking through the dialogue doesn't start it again
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("interact") and player_near and not GameManager.is_dialogue_running:
+		get_viewport().set_input_as_handled()
+		DialogueManager.show_dialogue_balloon(shadyResource, "offer", [GameManager])
 
 
 func _physics_process(delta: float) -> void:
-	var player = find_player()
-	if player:
-		var distance = player.global_position.distance_to(global_position)
-		if chase:
-			if player.is_hidden or distance > LOSE_SIGHT_DISTANCE:
-				print("Lost them...")
-				stop_chase()
-			elif distance < CATCH_DISTANCE:
-				print("CAUGHT!!!")
-				player.caught.emit()
-				stop_chase()
-			else:
-				points = [player.global_position]
-				target = 0
-		elif Input.is_action_just_pressed("debug_cheat_caught"):
-			if player.is_hidden:
-				print("Can't see anyone")
-			elif distance <= SIGHT_DISTANCE:
-				chase = true
-				print("I SAW YOU!!!")
-			else:
-				print("Too far")
 	velocity = Vector2.ZERO
 
-	#print(wait_time)
-
-	#print(target, " ", points.size())
 	# only set a new target when it changes, setting it makes the agent plan a new path
 	if nav.target_position != points[target]:
 		nav.target_position = points[target]
 
-	if wait_timer > 0:
+	# stand still while talking to the player
+	if GameManager.is_dialogue_running:
+		pass
+	elif wait_timer > 0:
 		wait_timer -= delta
 	elif nav.is_navigation_finished():
 		wait_timer = wait_time
@@ -94,3 +64,13 @@ func _physics_process(delta: float) -> void:
 		sprite.play("back")
 	else:
 		sprite.play("front")
+
+
+func _on_talk_area_area_entered(area: Area2D) -> void:
+	if area.is_in_group("player"):
+		player_near = true
+
+
+func _on_talk_area_area_exited(area: Area2D) -> void:
+	if area.is_in_group("player"):
+		player_near = false

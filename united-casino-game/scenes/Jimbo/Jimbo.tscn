@@ -108,7 +108,10 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0mswu"]
 size = Vector2(67, 83)
 
-[node name="Jimbo" type="CharacterBody2D" unique_id=1165609474 groups=["guard"]]
+[sub_resource type="CircleShape2D" id="CircleShape2D_talk"]
+radius = 110.0
+
+[node name="Jimbo" type="CharacterBody2D" unique_id=1165609474 groups=["npc"]]
 collision_layer = 4
 collision_mask = 1
 motion_mode = 1
@@ -121,13 +124,22 @@ animation = &"side"
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=998017869]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=954828523 groups=["guard"]]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=954828523 groups=["npc"]]
 position = Vector2(0.5, -2.5)
 shape = SubResource("RectangleShape2D_0mswu")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=819786090 groups=["guard"]]
+[node name="Area2D" type="Area2D" parent="." unique_id=819786090 groups=["npc"]]
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=171619258 groups=["guard"]]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=171619258 groups=["npc"]]
 position = Vector2(0.5, -2.5)
 shape = SubResource("RectangleShape2D_0mswu")
+
+[node name="TalkArea" type="Area2D" parent="." unique_id=1190580830]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TalkArea" unique_id=1936196520]
+shape = SubResource("CircleShape2D_talk")
+
+[connection signal="area_entered" from="TalkArea" to="." method="_on_talk_area_area_entered"]
+[connection signal="area_exited" from="TalkArea" to="." method="_on_talk_area_area_exited"]

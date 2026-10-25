@@ -6,6 +6,16 @@ extends Node
 var shopResource = load("res://dialogue/shopDialogue/shop.dialogue")
 var dialogueScene = load("res://scenes/balloon.tscn")
 
+# scenes the game manager swaps between
+var casinoScene = load("res://scenes/main.tscn")
+var shopScene = load("res://scenes/shop.tscn")
+
+# the casino waits here (out of the tree) while the shop is open,
+# so the player comes back to the same spot
+var saved_scene = null
+# set when the player says yes to Mr. Shady, the shop opens once that dialogue is over
+var shop_wanted = false
+
 # var player_money = 500
 var player_money = 1001
 var current_quota = 1000
@@ -125,4 +135,32 @@ func _on_dialogue_started(dialogue) -> void:
 
 func _on_dialogue_ended(dialogue) -> void:
 	is_dialogue_running = false
+	if shop_wanted:
+		shop_wanted = false
+		open_shop()
+
+# scene switching: the current scene is taken out of the tree and the next one is added.
+# it happens at the end of the frame (call_deferred) so nothing is removed halfway through an update
+func play():
+	call_deferred("switch_scene", casinoScene.instantiate(), false)
+
+func open_shop():
+	call_deferred("switch_scene", shopScene.instantiate(), true)
+
+func close_shop():
+	if saved_scene == null:
+		return
+	call_deferred("switch_scene", saved_scene, false)
+	saved_scene = null
+
+# keep_old saves the old scene to come back to, otherwise it gets deleted
+func switch_scene(new_scene, keep_old):
+	var old_scene = get_tree().current_scene
+	get_tree().root.remove_child(old_scene)
+	if keep_old:
+		saved_scene = old_scene
+	else:
+		old_scene.queue_free()
+	get_tree().root.add_child(new_scene)
+	get_tree().current_scene = new_scene
 	

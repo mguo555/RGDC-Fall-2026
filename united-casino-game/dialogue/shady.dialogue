@@ -1,0 +1,8 @@
+~ offer
+Mr. Shady: Hey, something you'd like to buy?
+- Yes
+	set shop_wanted = true
+	Mr. Shady: Step into my office.
+- No
+	Mr. Shady: Suit yourself.
+=> END
