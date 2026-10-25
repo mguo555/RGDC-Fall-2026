@@ -6684,6 +6684,9 @@ texture_region_size = Vector2i(96, 96)
 tile_size = Vector2i(96, 96)
 sources/0 = SubResource("TileSetAtlasSource_jbj1t")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uvpor"]
+size = Vector2(1981.5, 20)
+
 [node name="Main" type="Node2D" unique_id=567748980]
 
 [node name="Background" type="Sprite2D" parent="." unique_id=2118096023]
@@ -6711,7 +6714,7 @@ game_scene = ExtResource("14_blackjack")
 position = Vector2(95, 188)
 
 [node name="Player" parent="." unique_id=1165609474 instance=ExtResource("3_tbgi4")]
-position = Vector2(168, 91)
+position = Vector2(250, 279)
 scale = Vector2(1.35, 1.35)
 
 [node name="Guard" parent="." unique_id=1359353346 instance=ExtResource("4_tbgi4")]
@@ -6741,8 +6744,35 @@ position = Vector2(1450, 450)
 scale = Vector2(1.35, 1.35)
 
 [node name="Jimbo" parent="." unique_id=1628255682 instance=ExtResource("5_tbgi4")]
+position = Vector2(527, 435)
 scale = Vector2(1.35, 1.35)
 
 [node name="HUD" parent="." unique_id=192917777 instance=ExtResource("9_hud")]
 
 [node name="PauseMenu" parent="." unique_id=2074438218 instance=ExtResource("20_pause")]
+
+[node name="CharacterBody2D4" type="CharacterBody2D" parent="." unique_id=1655536522]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D4" unique_id=1730653245]
+position = Vector2(1813, 993.25)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_uvpor")
+
+[node name="CharacterBody2D3" type="CharacterBody2D" parent="." unique_id=224631090]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D3" unique_id=1586416388]
+position = Vector2(912, 1980)
+shape = SubResource("RectangleShape2D_uvpor")
+
+[node name="CharacterBody2D2" type="CharacterBody2D" parent="." unique_id=1514751555]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D2" unique_id=559650437]
+position = Vector2(905, 115)
+shape = SubResource("RectangleShape2D_uvpor")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1224816828]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1836068599]
+position = Vector2(1692, 993)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_uvpor")

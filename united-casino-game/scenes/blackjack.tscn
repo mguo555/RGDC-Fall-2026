@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b1kmu3pyngg4d" path="res://scripts/blackjack/blackjack.gd" id="1_3frkl"]
 [ext_resource type="Script" uid="uid://g32um0mltv5d" path="res://addons/dialogue_manager/nodes/dialogue_label/dialogue_label.gd" id="2_kvb06"]
+[ext_resource type="Texture2D" uid="uid://nuw8p417c32t" path="res://assets/sprites/blackjack_dealer_but_better.png" id="3_v7p7d"]
 [ext_resource type="Script" uid="uid://b636n426f5j8m" path="res://scripts/blackjack/bet_field_script.gd" id="3_vyxl8"]
 [ext_resource type="Texture2D" uid="uid://ck0qtcnlq5ao4" path="res://assets/sprites/blackjack_table.png" id="4_4fu0r"]
 [ext_resource type="PackedScene" uid="uid://bjjv6nodj24mx" path="res://scenes/hud.tscn" id="9_hud"]
@@ -9,7 +10,6 @@
 [ext_resource type="Script" uid="uid://cpbawsy47eyi5" path="res://scripts/blackjack/security_camera.gd" id="11_cam"]
 [ext_resource type="Texture2D" uid="uid://b1ym4a5ctilxn" path="res://assets/sprites/cctv_camera_spritesheet.png" id="12_cam"]
 [ext_resource type="Script" uid="uid://cmntsxonnkyig" path="res://scripts/blackjack/sleight.gd" id="13_sleight"]
-[ext_resource type="Texture2D" uid="uid://d16yfpya5r4uk" path="res://assets/sprites/blackjack_dealer.png" id="14_dealer"]
 [ext_resource type="PackedScene" uid="uid://hbp2uhvcqgld" path="res://scenes/pause_menu.tscn" id="20_pause"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prompt"]
@@ -61,9 +61,9 @@ script = ExtResource("1_3frkl")
 script = ExtResource("10_pass")
 
 [node name="DealerSprite" type="Sprite2D" parent="." unique_id=1617355546]
-position = Vector2(544, 83)
-scale = Vector2(1.08, 1.08)
-texture = ExtResource("14_dealer")
+position = Vector2(700.47, 83)
+scale = Vector2(1.125, 1.125)
+texture = ExtResource("3_v7p7d")
 centered = false
 
 [node name="BlackjackBg" type="Sprite2D" parent="." unique_id=2070246228]

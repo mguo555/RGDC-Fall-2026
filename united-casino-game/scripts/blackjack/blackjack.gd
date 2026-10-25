@@ -332,11 +332,6 @@ func caught_cheating():
 		return
 	print("CAUGHT CHEATING")
 	kicked_out = true
-	# YOU LEAVE YOUR BET ON THE TABLE
-	if playing and not round_over:
-		round_over = true
-		GameManager.player_loseBet()
-		show_money_popup(-GameManager.current_bet)
 	# CUT OFF WHATEVER THE DEALER WAS SAYING
 	for child in get_children():
 		if child.get_script() and child.get_script().resource_path == "res://scripts/balloon.gd":
