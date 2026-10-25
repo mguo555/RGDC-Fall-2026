@@ -30,6 +30,7 @@ var playing = false # TRUE WHILE THE BLACKJACK DIALOGUE IS OPEN
 var tip = 0
 var dealer_helped = false # TRUE WHEN THE DEALER SLIPPED YOU EXTRA THIS ROUND
 var kicked_out = false # TRUE ONCE YOU'VE BEEN CAUGHT CHEATING
+var is_push = false # TRUE WHEN THE ROUND WAS A TIE
 var prompt_center_box
 var player_amount_label
 var dealer_amount_label
@@ -133,6 +134,7 @@ func start_game():
 	kill_cards()
 	round_over = false
 	player_won = false
+	is_push = false
 	dealer_helped = false
 	deal_card(player_hand, PLAYER_CARD_START)
 	deal_card(player_hand, PLAYER_CARD_START + CARD_STEP)
@@ -141,9 +143,12 @@ func start_game():
 	deal_card(dealer.get_hand(), DEALER_CARD_START - CARD_STEP, true)
 	#print("DEALER:", dealer.get_hand()) # TEST CODE
 	update_label_amounts()
-	# BEING DEALT 21 IS AN INSTANT WIN, SAME AS HITTING 21
+	# BEING DEALT 21 ENDS THE ROUND RIGHT AWAY: A WIN, OR A PUSH IF THE DEALER HAS 21 TOO
 	if Card.summed_values(player_hand) == 21:
-		win()
+		if Card.summed_values(dealer.get_hand()) == 21:
+			push()
+		else:
+			win()
 
 # THE FUNCTION CALLED WHEN THE PLAYER WANTS TO HIT
 func hit():
@@ -153,17 +158,8 @@ func hit():
 	if Card.bust(player_hand):
 		bust()
 	elif Card.summed_values(player_hand) == 21:
-		# HITTING EXACTLY 21 IS AN INSTANT WIN
-		win()
-	else:
-		# IF THE PLAYER HASNT BUSTED THE DEALERS TURN OCCURS
-		if dealer.hit():
-			deal_card(dealer.get_hand(), DEALER_CARD_START - CARD_STEP * len(dealer.get_hand()), true)
-			#print("DEALER:", dealer.get_hand()) # TEST
-			if Card.bust(dealer.get_hand()):
-				# IF THE DEALER BUSTS PLAYER INSTA WINS
-				dealer.busted()
-				win()
+		# 21 CAN'T BE BEATEN, SO YOU STAND AUTOMATICALLY
+		stand()
 
 # CHECKS FOR PLAYER BUST STATUS
 func has_player_busted():
@@ -174,6 +170,15 @@ func bust():
 # CONSEQUENCES OF WINNING, GAINING MONEY
 func win():
 	end_round(true)
+
+# A TIE: NOBODY WINS AND YOU KEEP YOUR BET
+func push():
+	if round_over:
+		return
+	round_over = true
+	player_won = false
+	is_push = true
+	show_money_popup(0)
 
 # PAYS OUT THE BET THROUGH THE GAME MANAGER, ONLY ONCE PER ROUND
 func end_round(won):
@@ -196,9 +201,15 @@ func end_round(won):
 # SHOWS +$X OR -$X ABOVE YOUR HAND THAT FLOATS UP AND FADES OUT
 func show_money_popup(amount):
 	var popup = Label.new()
-	popup.text = "+$%d" % amount if amount >= 0 else "-$%d" % -amount
+	if amount > 0:
+		popup.text = "+$%d" % amount
+		popup.add_theme_color_override("font_color", Color(0.4, 1, 0.4))
+	elif amount < 0:
+		popup.text = "-$%d" % -amount
+		popup.add_theme_color_override("font_color", Color(1, 0.35, 0.35))
+	else:
+		popup.text = "Push"
 	popup.add_theme_font_size_override("font_size", 64)
-	popup.add_theme_color_override("font_color", Color(0.4, 1, 0.4) if amount >= 0 else Color(1, 0.35, 0.35))
 	popup.add_theme_color_override("font_outline_color", Color.BLACK)
 	popup.add_theme_constant_override("outline_size", 12)
 	popup.position = POPUP_SPOT
@@ -208,7 +219,7 @@ func show_money_popup(amount):
 	tween.parallel().tween_property(popup, "modulate:a", 0.0, 1.2)
 	tween.tween_callback(popup.queue_free)
 
-# THE DEALER HAS INFINITE TURNS ONCE YOU STAND AND CAN HIT AS LONG AS THEY LIKE
+# THE DEALER ONLY PLAYS ONCE YOU STAND, AND HITS UNTIL THEY REACH THEIR STAND VALUE
 func stand():
 	while dealer.hit():
 		deal_card(dealer.get_hand(), DEALER_CARD_START - CARD_STEP * len(dealer.get_hand()), true)
@@ -216,10 +227,14 @@ func stand():
 		#print("DEALER:", dealer.get_hand()) # TEST
 	if Card.bust(dealer.get_hand()):
 		dealer.busted()
-	end_round(who_wins_after_standing())
+	# SAME TOTAL AND NOBODY BUSTED IS A PUSH
+	if not dealer.bust and Card.summed_values(player_hand) == Card.summed_values(dealer.get_hand()):
+		push()
+	else:
+		end_round(who_wins_after_standing())
 
 # PLAYER WINS IF THE DEALER BUSTS, OR IF THEY DIDNT BUST AND BEAT THE
-# DEALER'S VALUE (TIES GO TO THE DEALER)
+# DEALER'S VALUE (TIES ARE A PUSH, SEE STAND)
 func who_wins_after_standing():
 	var player_sum = Card.summed_values(player_hand)
 	var dealer_sum = Card.summed_values(dealer.get_hand())
