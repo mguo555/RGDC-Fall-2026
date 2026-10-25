@@ -1,6 +1,6 @@
 extends Node
 const card_scene = preload("res://scenes/card.tscn")
-const CARD_HEIGHT = 400
+const CARD_HEIGHT = 800
 const PLAYER_CARD_START = 200
 const CARD_STEP = 128
 const DEALER_CARD_START = 1700
@@ -15,12 +15,23 @@ var next_card # EXISTS TO IMPLEMENT A CHEAT TO KNOW THE NEXT CARD
 var round_over = true # MAKES SURE EACH ROUND IS ONLY PAID OUT ONCE
 var player_won = false
 var playing = false # TRUE WHILE THE BLACKJACK DIALOGUE IS OPEN
+var prompt_center_box
+var player_amount_label
+var dealer_amount_label
+var card_container
 
 const SUITS = ["Clubs", "Spades", "Diamonds", "Hearts"] # USED TO INITIALIZE ALL THE SUITS
 
 func _ready():
 	shuffle()
+	prompt_center_box = $PromptCenterBox
+	player_amount_label = $PlayerAmount
+	dealer_amount_label = $DealerAmount
+	card_container = $CardContainer
 	dealer = Dealer.new()
+	var deck_card = card_scene.instantiate()
+	deck_card.setup("Deck Backs", 0)
+	add_child(deck_card)
 	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
 
 # CARDS THAT AREN'T ON THE TABLE AREN'T CHILDREN, SO THEY HAVE TO BE FREED BY HAND
@@ -69,14 +80,19 @@ func draw_next_card():
 func deal_card(hand, card_x, below = false):
 	hand.append(next_card)
 	print(next_card)
-	add_child(next_card)
+	card_container.add_child(next_card)
 	if below:
-		move_child(next_card, 0)
+		card_container.move_child(next_card, 0)
 	next_card.change_sprite(card_x, CARD_HEIGHT)
 	draw_next_card()
 
 # FUCNTION CALLED TO START A GAME, FIRST EMPTIES THE PLAYER'S AND DEALERS HANDS
 # THEN DEALS BOTH 2 CARDS TO EACH
+
+func update_label_amounts():
+	dealer_amount_label.text = str(Card.summed_values(dealer.get_hand()))
+	player_amount_label.text = str(Card.summed_values(player_hand))
+
 func start_game():
 	kill_cards()
 	round_over = false
@@ -87,11 +103,13 @@ func start_game():
 	deal_card(dealer.get_hand(), DEALER_CARD_START, true)
 	deal_card(dealer.get_hand(), DEALER_CARD_START - CARD_STEP, true)
 	#print("DEALER:", dealer.get_hand()) # TEST CODE
+	update_label_amounts()
 
 # THE FUNCTION CALLED WHEN THE PLAYER WANTS TO HIT
 func hit():
 	deal_card(player_hand, PLAYER_CARD_START + CARD_STEP * len(player_hand))
 	#print("PLAYER:", player_hand) # TEST
+	update_label_amounts()
 	if Card.bust(player_hand):
 		bust()
 	elif Card.summed_values(player_hand) == 21:
@@ -133,6 +151,7 @@ func end_round(won):
 func stand():
 	while dealer.hit():
 		deal_card(dealer.get_hand(), DEALER_CARD_START - CARD_STEP * len(dealer.get_hand()), true)
+		update_label_amounts()
 		#print("DEALER:", dealer.get_hand()) # TEST
 	if Card.bust(dealer.get_hand()):
 		dealer.busted()
@@ -142,12 +161,10 @@ func stand():
 func who_wins_after_standing():
 	var player_sum = Card.summed_values(player_hand)
 	var dealer_sum = Card.summed_values(dealer.get_hand())
-	if (dealer_sum > player_sum && not dealer.bust) or has_player_busted():
-		bust()
-		return false
-	else:
-		win()
+	if (player_sum > dealer_sum && player_sum <= 21) or dealer.bust:
 		return true
+	else:
+		return false
 
 func kill_cards():
 	for card in player_hand:
@@ -156,6 +173,20 @@ func kill_cards():
 		remove_child(card)
 	player_hand.clear()
 	dealer.reset()
+
+func hide_labels():
+	player_amount_label.hide()
+	dealer_amount_label.hide()
+
+func ask_bet():
+	prompt_center_box.show()
+	kill_cards()
+	hide_labels()
+
+func show_labels():
+	player_amount_label.show()
+	dealer_amount_label.show()
+
 
 func has_player_won():
 	return round_over and player_won
@@ -175,6 +206,8 @@ func _on_bet_field_text_submitted(new_text: String) -> void:
 		return
 	GameManager.setBet(bet)
 	playing = true
+	prompt_center_box.hide()
+	show_labels()
 	start_game()
 	DialogueManager.show_dialogue_balloon_scene("res://scenes/balloon.tscn",resource, "start", [self])
 
