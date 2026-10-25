@@ -14,6 +14,11 @@ var quotas_paid = 0
 # in seconds
 var quota_timer = 300
 var current_bet = 0
+var is_dialogue_running = false
+
+func _ready():
+	DialogueManager.dialogue_started.connect(_on_dialogue_started)
+	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
 
 # sets bet
 func setBet(bet):
@@ -71,7 +76,12 @@ func update_UI():
 func _process(delta):
 	# update the quota timer (delta is in seconds, so this counts down in real time)
 	quota_timer = max(quota_timer - delta, 0)
+	# print(is_dialogue_running)
 	pass
 
-func is_dialogue_running():
-	return get_tree().get_nodes_in_group("dialogue_balloon").size() > 0
+func _on_dialogue_started(dialogue) -> void:
+	is_dialogue_running = true
+
+func _on_dialogue_ended(dialogue) -> void:
+	is_dialogue_running = false
+	

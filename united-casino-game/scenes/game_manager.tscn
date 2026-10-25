@@ -20,3 +20,6 @@ script = ExtResource("4_q8mjp")
 skip_pause_at_abbreviations = PackedStringArray("Mr", "Mrs", "Ms", "Dr", "etc", "eg", "ex")
 metadata/_custom_type_script = "uid://g32um0mltv5d"
 metadata/_edit_use_anchors_ = true
+
+[connection signal="finished_typing" from="Shop/DialogueLabel2" to="." method="is_finished_typing"]
+[connection signal="started_typing" from="Shop/DialogueLabel2" to="." method="is_typing"]
