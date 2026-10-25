@@ -21,5 +21,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		DialogueManager.show_dialogue_balloon(resource, "greet", [GameManager])
 
 func _on_exit_button_pressed():
+	SoundManager.music_player.volume_db = -15
 	SoundManager.play_music(normalMusic)
 	GameManager.close_scene()

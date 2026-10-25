@@ -17,6 +17,11 @@ Shop: What are you here for?
 	=>< shop
 - Repay Loan 
 	=>< payLoan
+- New Loan
+	Shop: Out of cash already?
+	Shop: I think I'm done giving you chances.
+	do game_over()
+
 - Nevermind
 Shop: Don't let the door hit you on your way out.
 => END!
@@ -27,15 +32,13 @@ if hasEnough(current_quota):
 	if quotas_paid == 1:
 		Shop: Well, color me surprised. You managed to pay off part of your interest.
 		Shop: But you're not free to go just yet, oh no. You'll be sticking around for quite a while.
-		Shop: Here's your new quota. And because I'm in a good mood, I'll throw you a little something.
-		Shop: Take your pick.
+		Shop: Here's your new quota. Now get to it. Chop-chop.
 	else:
-		Shop: You know the drill. Pay your quota, get a buff.
-	=>< buff
+		Shop: Good on ya, paying your quotas. Here's your next. Chop-chop.
 else:
 	Shop: Buddy, where did you learn to count? This is nowhere near enough.
 	Shop: Get back out there and earn me some more money. I don't care how you do it.
-	=> END
+=> END
 
 ~ shop
 Shop: Take your pick.
@@ -87,11 +90,6 @@ Shop: Take your pick.
 	Shop: Welp, I won't push you on it. Remember to pay your debts on time.
 	=> END!
 
-~ buy 
-	
+~ broke
+Shop: Oh, looks like someone went broke. This won't do...
 
-# TODO: Implement buffs
-~ buff
-% - Test 1
-% - Test 2
-% - Test 3

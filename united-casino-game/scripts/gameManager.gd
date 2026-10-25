@@ -6,7 +6,7 @@ extends Node
 # music
 var chaseMusic = load("res://assets/music/chase.mp3")
 var normalMusic = load("res://assets/music/normal-background-music.mp3")
-var shopMusic = load("res://assets/music/chase.mp3")
+var shopMusic = load("res://assets/music/Crime Scene Bensound.mp3")
 
 # sfx
 var alarmSfx = load("res://assets/sfx/security_alarm.mp3")
@@ -101,9 +101,9 @@ func setBet(bet):
 func player_loseMoney(amount) -> bool:
 	var could_pay = player_money - amount > 0
 	player_money = max(player_money - amount, 0)
-	
 	print("Money: ", player_money)
 	update_UI()
+	
 	return could_pay
 
 func player_winMoney(amount):
@@ -164,7 +164,6 @@ func buyItem(item: Item):
 	return 1
 
 func add_heat():
-	
 	SoundManager.play_music(chaseMusic)
 	SoundManager.play_sfx(alarmSfx)
 	heat = HEAT_TIME
@@ -196,10 +195,9 @@ func _process(delta):
 	quota_timer = max(quota_timer - delta, 0)
 	heat = max(heat - delta, 0)
 	head_start = max(head_start - delta, 0)
-	# debug: space pretends you just cheated
-	if Input.is_action_just_pressed("debug_cheat_caught"):
-		add_heat()
-	pass
+	# debug: space pretends you are cheating
+	#if Input.is_action_just_pressed("debug_cheat_caught"):
+		#add_heat()
 
 func _on_dialogue_started(dialogue) -> void:
 	is_dialogue_running = true
@@ -235,6 +233,7 @@ func go_to_casino():
 	call_deferred("switch_scene", casinoScene.instantiate(), false)
 
 func open_shop():
+	SoundManager.music_player.volume_db = 0
 	SoundManager.play_music(shopMusic)
 	open_scene(shopScene)
 
@@ -313,6 +312,10 @@ func reset():
 func game_over():
 	if is_game_over:
 		return
+	is_game_over = true
+	call_deferred("switch_scene", gameOverScene.instantiate(), false)
+
+func broke():
 	is_game_over = true
 	call_deferred("switch_scene", gameOverScene.instantiate(), false)
 
