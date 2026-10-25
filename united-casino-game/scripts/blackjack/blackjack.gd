@@ -6,6 +6,7 @@ const CARD_STEP = 128
 const DEALER_CARD_START = 1700
 const DECK_X = 960
 const CARD_SIZE = Vector2(168, 240) # A 56x80 CARD AT 3X
+const POPUP_SPOT = Vector2(170, 490) # JUST ABOVE YOUR HAND TOTAL
 var resource = load("res://dialogue/blackjack.dialogue")
 
 # TIP THE DEALER. IT'S A BRIBE, SO ONLY TIP WHEN NOBODY'S WATCHING OR YOU GET KICKED OUT
@@ -180,6 +181,7 @@ func end_round(won):
 		return
 	round_over = true
 	player_won = won
+	var money_before = GameManager.player_money
 	if won:
 		GameManager.player_winBet()
 		# A TIP BUYS A CHANCE THAT THE DEALER SLIPS YOU EXTRA ON A WIN
@@ -189,6 +191,22 @@ func end_round(won):
 	else:
 		GameManager.player_loseBet()
 	print("ROUND OVER, PLAYER WON: ", won, " MONEY: ", GameManager.player_money)
+	show_money_popup(GameManager.player_money - money_before)
+
+# SHOWS +$X OR -$X ABOVE YOUR HAND THAT FLOATS UP AND FADES OUT
+func show_money_popup(amount):
+	var popup = Label.new()
+	popup.text = "+$%d" % amount if amount >= 0 else "-$%d" % -amount
+	popup.add_theme_font_size_override("font_size", 64)
+	popup.add_theme_color_override("font_color", Color(0.4, 1, 0.4) if amount >= 0 else Color(1, 0.35, 0.35))
+	popup.add_theme_color_override("font_outline_color", Color.BLACK)
+	popup.add_theme_constant_override("outline_size", 12)
+	popup.position = POPUP_SPOT
+	add_child(popup)
+	var tween = create_tween()
+	tween.tween_property(popup, "position:y", POPUP_SPOT.y - 80, 1.2)
+	tween.parallel().tween_property(popup, "modulate:a", 0.0, 1.2)
+	tween.tween_callback(popup.queue_free)
 
 # THE DEALER HAS INFINITE TURNS ONCE YOU STAND AND CAN HIT AS LONG AS THEY LIKE
 func stand():
@@ -299,6 +317,7 @@ func caught_cheating():
 	if playing and not round_over:
 		round_over = true
 		GameManager.player_loseBet()
+		show_money_popup(-GameManager.current_bet)
 	# CUT OFF WHATEVER THE DEALER WAS SAYING
 	for child in get_children():
 		if child.get_script() and child.get_script().resource_path == "res://scripts/balloon.gd":
