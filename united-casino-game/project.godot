@@ -37,7 +37,7 @@ enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
 
 [gui]
 
-theme/custom_font="res://assets/fonts/PixelFont/static/pixelify-sans-latin-400-normal.ttf"
+theme/custom_font="res://assets/fonts/PixelOperator/PixelOperator.ttf"
 
 [input]
 

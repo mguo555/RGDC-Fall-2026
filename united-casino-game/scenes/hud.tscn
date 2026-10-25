@@ -31,17 +31,17 @@ layout_mode = 2
 
 [node name="MoneyLabel" type="Label" parent="Panel/VBox" unique_id=1740627847]
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 48
 text = "Money: $0"
 
 [node name="GoalLabel" type="Label" parent="Panel/VBox" unique_id=943611813]
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 32
 text = "Round 1 goal: $1000"
 
 [node name="TimeLabel" type="Label" parent="Panel/VBox" unique_id=402484307]
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 32
 text = "Pay in 5:00"
 
 [node name="TimeBar" type="ProgressBar" parent="Panel/VBox" unique_id=1568587352]
