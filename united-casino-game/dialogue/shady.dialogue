@@ -1,5 +1,5 @@
 ~ offer
-Mr. Shady: Hey, something you'd like to buy?
+Mr. Shady: Hey, wanna discuss business?
 - Yes
 	set shop_wanted = true
 	Mr. Shady: Step into my office.
