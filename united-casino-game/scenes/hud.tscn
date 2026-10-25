@@ -41,7 +41,7 @@ text = "Money: $0"
 [node name="GoalLabel" type="Label" parent="Stack/Panel/VBox" unique_id=943611813]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Round 1 goal: $1000"
+text = "Ante 1/5: pay $1000"
 
 [node name="TimeLabel" type="Label" parent="Stack/Panel/VBox" unique_id=402484307]
 layout_mode = 2

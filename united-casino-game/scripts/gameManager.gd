@@ -11,6 +11,7 @@ var casinoScene = load("res://scenes/main.tscn")
 var shopScene = load("res://scenes/shop.tscn")
 var gameOverScene = load("res://scenes/game_over.tscn")
 var introScene = load("res://scenes/intro.tscn")
+var winScene = load("res://scenes/win_screen.tscn")
 
 # remembers things between launches, for now just whether you've seen the intro
 const SAVE_PATH = "user://save.cfg"
@@ -39,6 +40,9 @@ var player_money = 1001
 # each round's goal is 1000 * 5^round: 1000, then 5000, then 25000, ...
 # quotas_paid counts the rounds already paid, so round 1 is 5^0
 const BASE_QUOTA = 1000
+# pay off this many antes to be free of Mr. Shady
+const ANTES = 5
+var has_won = false
 var quota_mult = 5
 var quotas_paid = 0
 var current_quota = BASE_QUOTA
@@ -126,6 +130,7 @@ func payLoan():
 	current_quota = BASE_QUOTA * quota_mult ** quotas_paid
 	# new round, new clock
 	quota_timer = QUOTA_TIME
+	# TODO (Matthew): paying an ante should give you a buff (the shop's ~ buff menu)
 	
 	update_UI()
 	pass
@@ -183,6 +188,10 @@ func _on_dialogue_started(dialogue) -> void:
 
 func _on_dialogue_ended(dialogue) -> void:
 	is_dialogue_running = false
+	# paid the last ante, wait for the shop dialogue to finish first
+	if quotas_paid >= ANTES and not has_won:
+		win()
+		return
 	if shop_wanted:
 		shop_wanted = false
 		open_shop()
@@ -244,6 +253,14 @@ func sound_alarm():
 				closest = guard
 	if closest:
 		closest.start_chase(true)
+
+# every ante paid: you're free
+func win():
+	has_won = true
+	if saved_scene:
+		saved_scene.queue_free()
+		saved_scene = null
+	call_deferred("switch_scene", winScene.instantiate(), false)
 
 func game_over():
 	if is_game_over:

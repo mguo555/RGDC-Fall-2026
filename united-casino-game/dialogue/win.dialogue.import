@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=18
+type="Resource"
+uid="uid://uw2ydsykxahi"
+path="res://.godot/imported/win.dialogue-8fcd2c3ed44926ae77e7989b520394d8.tres"
+
+[deps]
+
+source_file="res://dialogue/win.dialogue"
+dest_files=["res://.godot/imported/win.dialogue-8fcd2c3ed44926ae77e7989b520394d8.tres"]
+
+[params]
+
+defaults=true

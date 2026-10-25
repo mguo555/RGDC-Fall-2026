@@ -78,7 +78,7 @@ interact={
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://dialogue/blackjack.dialogue", "res://dialogue/shopDialogue/shop.dialogue", "res://dialogue/shady.dialogue", "res://dialogue/game_over.dialogue", "res://dialogue/guard.dialogue", "res://dialogue/intro.dialogue", "res://dialogue/npc.dialogue")
+locale/translations_pot_files=PackedStringArray("res://dialogue/blackjack.dialogue", "res://dialogue/shopDialogue/shop.dialogue", "res://dialogue/shady.dialogue", "res://dialogue/game_over.dialogue", "res://dialogue/guard.dialogue", "res://dialogue/intro.dialogue", "res://dialogue/npc.dialogue", "res://dialogue/win.dialogue")
 
 [physics]
 

@@ -19,7 +19,7 @@ var shown_space = 0
 
 func _process(delta):
 	money_label.text = "Money: $%d" % GameManager.player_money
-	goal_label.text = "Round %d goal: $%d" % [GameManager.quotas_paid + 1, GameManager.current_quota]
+	goal_label.text = "Ante %d/%d: pay $%d" % [GameManager.quotas_paid + 1, GameManager.ANTES, GameManager.current_quota]
 
 	# the bar empties as the time to pay runs out
 	var seconds = int(ceil(GameManager.quota_timer))
