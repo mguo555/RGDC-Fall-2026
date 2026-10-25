@@ -21,6 +21,9 @@ var player_amount_label
 var dealer_amount_label
 var card_container
 var leave_button
+var security_camera
+var passersby
+var watch_label
 
 const SUITS = ["Clubs", "Spades", "Diamonds", "Hearts"] # USED TO INITIALIZE ALL THE SUITS
 
@@ -31,6 +34,9 @@ func _ready():
 	dealer_amount_label = $DealerAmount
 	card_container = $CardContainer
 	leave_button = $LeaveButton
+	security_camera = $SecurityCamera
+	passersby = $Passersby
+	watch_label = $WatchLabel
 	dealer = Dealer.new()
 	var deck_card = card_scene.instantiate()
 	deck_card.setup("Deck Backs", 1)
@@ -220,9 +226,28 @@ func _on_bet_field_text_submitted(new_text: String) -> void:
 	start_game()
 	DialogueManager.show_dialogue_balloon_scene("res://scenes/balloon.tscn",resource, "start", [self])
 
-# NO LEAVING IN THE MIDDLE OF A ROUND
 func _process(delta):
+	# NO LEAVING IN THE MIDDLE OF A ROUND
 	leave_button.disabled = playing
+	# SHOWS IF ANYONE CAN SEE YOU RIGHT NOW
+	if is_being_watched():
+		watch_label.text = "Someone's watching..."
+		watch_label.modulate = Color(1, 0.4, 0.4)
+	else:
+		watch_label.text = "Nobody's looking"
+		watch_label.modulate = Color(0.5, 1, 0.5)
+
+# YOU CAN ONLY CHEAT WHILE THE CAMERA LOOKS AWAY AND NOBODY IS WALKING BY
+func is_being_watched():
+	return security_camera.is_looking() or passersby.anyone_watching()
+
+func can_cheat():
+	return not is_being_watched()
+
+# CHEATING IN FRONT OF SOMEONE GETS YOU KICKED OUT
+func caught_cheating():
+	print("CAUGHT CHEATING")
+	GameManager.game_over()
 
 # GOES BACK TO THE CASINO
 func _on_leave_button_pressed():
