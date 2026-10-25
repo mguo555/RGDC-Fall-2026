@@ -39,10 +39,11 @@
 % Dealer: Let's go again!
 % Dealer: Keep playing, won't you?
 - Play again [if can_afford_bet() /]
-	do start_game()
-	=> start
+	do ask_bet()
+	=> END
 - Stop 
 	do kill_cards()
+	do hide_labels()
 	=> END
 => END
 
@@ -52,7 +53,6 @@
 % Dealer: Congrats, you won! Why not go double or nothing?
 % Dealer: Well played, you win! Imagine if you'd bet just a bit more!
 % Dealer: Congrats on winning. Blink twice if you marked the cards, I won't tell!
-% Dealer: Blackjack! Winner!
 % Dealer: My compliments to the winner!
 % Dealer: Congrats on your newfound fortune! You Win!
 => newgame

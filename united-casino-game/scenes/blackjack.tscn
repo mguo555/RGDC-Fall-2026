@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b1kmu3pyngg4d" path="res://scripts/blackjack/blackjack.gd" id="1_3frkl"]
 [ext_resource type="Script" uid="uid://g32um0mltv5d" path="res://addons/dialogue_manager/nodes/dialogue_label/dialogue_label.gd" id="2_kvb06"]
 [ext_resource type="Script" uid="uid://b636n426f5j8m" path="res://scripts/blackjack/bet_field_script.gd" id="3_vyxl8"]
+[ext_resource type="Texture2D" uid="uid://bir5c4erpnppf" path="res://assets/sprites/blackjack_bg.png" id="4_4fu0r"]
 
 [node name="Blackjack" type="Control" unique_id=1298565065]
 layout_mode = 3
@@ -13,6 +14,24 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3frkl")
 
+[node name="BlackjackBg" type="Sprite2D" parent="." unique_id=2070246228]
+scale = Vector2(1.08, 1.08)
+texture = ExtResource("4_4fu0r")
+centered = false
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=758799715]
+layout_mode = 0
+offset_left = -87.0
+offset_top = 1065.0
+offset_right = 2167.0
+offset_bottom = 2069.0
+color = Color(0.16862746, 0.3764706, 0.13333334, 1)
+
+[node name="CardContainer" type="Control" parent="." unique_id=622165689]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="BlackJackDialogue" type="RichTextLabel" parent="." unique_id=595214285]
 layout_mode = 0
 offset_right = 40.0
@@ -21,7 +40,29 @@ script = ExtResource("2_kvb06")
 skip_pause_at_abbreviations = PackedStringArray("Mr", "Mrs", "Ms", "Dr", "etc", "eg", "ex")
 metadata/_custom_type_script = "uid://g32um0mltv5d"
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=861012954]
+[node name="PlayerAmount" type="Label" parent="." unique_id=1430202910]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 575.0
+offset_right = 420.0
+offset_bottom = 630.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 40
+horizontal_alignment = 1
+
+[node name="DealerAmount" type="Label" parent="." unique_id=1639922256]
+layout_mode = 0
+offset_left = 1500.0
+offset_top = 575.0
+offset_right = 1800.0
+offset_bottom = 630.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 40
+horizontal_alignment = 1
+
+[node name="PromptCenterBox" type="CenterContainer" parent="." unique_id=861012954]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,16 +70,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=2050633851]
+[node name="PromptVertical Allignment" type="VBoxContainer" parent="PromptCenterBox" unique_id=2050633851]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=742479620]
+[node name="Bet Field Label" type="Label" parent="PromptCenterBox/PromptVertical Allignment" unique_id=742479620]
 layout_mode = 2
 theme_override_font_sizes/font_size = 60
 text = "Place your bet!"
 horizontal_alignment = 1
 
-[node name="BetField" type="LineEdit" parent="CenterContainer/VBoxContainer" unique_id=1432340901]
+[node name="BetField" type="LineEdit" parent="PromptCenterBox/PromptVertical Allignment" unique_id=1432340901]
 custom_minimum_size = Vector2(300, 100)
 layout_mode = 2
 theme_override_font_sizes/font_size = 45
@@ -47,5 +88,5 @@ emoji_menu_enabled = false
 drag_and_drop_selection_enabled = false
 script = ExtResource("3_vyxl8")
 
-[connection signal="text_changed" from="CenterContainer/VBoxContainer/BetField" to="CenterContainer/VBoxContainer/BetField" method="_on_text_changed"]
-[connection signal="text_submitted" from="CenterContainer/VBoxContainer/BetField" to="." method="_on_bet_field_text_submitted"]
+[connection signal="text_changed" from="PromptCenterBox/PromptVertical Allignment/BetField" to="PromptCenterBox/PromptVertical Allignment/BetField" method="_on_text_changed"]
+[connection signal="text_submitted" from="PromptCenterBox/PromptVertical Allignment/BetField" to="." method="_on_bet_field_text_submitted"]
