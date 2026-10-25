@@ -13,6 +13,7 @@ config_version=5
 config/name="United Casino Game"
 run/main_scene="uid://qdxf0lq67cls"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+boot_splash/bg_color=Color(0, 0, 0, 1)
 config/icon="res://icon.svg"
 
 [autoload]

@@ -6,7 +6,7 @@ extends CanvasLayer
 @onready var time_bar = $Stack/Panel/VBox/TimeBar
 @onready var heat_label = $Stack/Panel/VBox/HeatLabel
 @onready var slots = $Stack/InventoryPanel/VBox/Slots
-@onready var buffs_label = $Stack/InventoryPanel/VBox/BuffsLabel
+#@onready var buffs_label = $Stack/InventoryPanel/VBox/BuffsLabel
 
 const card_scene = preload("res://scenes/card.tscn")
 const EMF_ICON = preload("res://assets/sprites/emf.png")
@@ -34,10 +34,10 @@ func _process(delta):
 	# only redraw the inventory when something in it changed
 	if GameManager.inventory != shown_inventory or GameManager.inventorySpace != shown_space:
 		show_inventory()
-	if GameManager.buffs.is_empty():
-		buffs_label.text = "Buffs: none"
-	else:
-		buffs_label.text = "Buffs: " + ", ".join(GameManager.buffs)
+	#buif GameManager.buffs.is_empty():
+		#buffs_label.text = ""
+	#else:
+		#buffs_label.text = "Buffs: " + ", ".join(GameManager.buffs)
 
 
 # draws an empty slot for every inventory space, with the card in it if there is one

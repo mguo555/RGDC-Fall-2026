@@ -108,11 +108,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0mswu"]
-size = Vector2(67, 83)
+size = Vector2(46, 75)
 
 [node name="NPC" type="CharacterBody2D" unique_id=1165609474 groups=["npc"]]
 collision_layer = 4
-collision_mask = 1
 motion_mode = 1
 script = ExtResource("1_ph3kn")
 
@@ -124,14 +123,17 @@ animation = &"side"
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=998017869]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=954828523 groups=["npc"]]
-position = Vector2(0.5, -2.5)
+position = Vector2(3, 0)
+scale = Vector2(0.6106425, 0.99123454)
 shape = SubResource("RectangleShape2D_0mswu")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=819786090 groups=["npc"]]
+position = Vector2(-8, 6.5)
+scale = Vector2(0.6106425, 0.99123454)
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=171619258 groups=["npc"]]
-position = Vector2(0.5, -2.5)
+position = Vector2(10, -7)
 shape = SubResource("RectangleShape2D_0mswu")
 
 [node name="TalkArea" parent="." unique_id=1190580830 instance=ExtResource("3_talk")]
