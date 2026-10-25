@@ -3,6 +3,17 @@ extends Node
 # script and dialogue file shares the same money/bet/loan state.
 # Use it from anywhere with GameManager.player_money, GameManager.setBet(...), etc.
 
+# music
+var chaseMusic = load("res://assets/music/chase.mp3")
+var normalMusic = load("res://assets/music/normal-background-music.mp3")
+
+# sfx
+var alarmSfx = load("res://assets/sfx/security_alarm.mp3")
+var deathSfx = load("res://assets/sfx/death.mp3")
+var noticedSfx = load("res://assets/sfx/noticed.mp3")
+var transitionSfx = load("res://assets/sfx/transition.mp3")
+var textSfx = load("res://assets/sfx/text-speaking.mp3")
+
 var shopResource = load("res://dialogue/shopDialogue/shop.dialogue")
 var dialogueScene = load("res://scenes/balloon.tscn")
 
@@ -152,6 +163,7 @@ func buyItem(item: Item):
 	return 1
 
 func add_heat():
+	SoundManager.play_music(chaseMusic)
 	heat = HEAT_TIME
 
 # a random playing card for the inventory
@@ -215,6 +227,7 @@ func intro_done():
 
 # the pay clock starts when you get to the casino
 func go_to_casino():
+	SoundManager.play_music(normalMusic)
 	quota_timer = QUOTA_TIME
 	call_deferred("switch_scene", casinoScene.instantiate(), false)
 
@@ -245,6 +258,7 @@ func caught_cheating():
 
 # the guard closest to you comes running and yells for backup
 func sound_alarm():
+	SoundManager.play_sfx(alarmSfx)
 	var player = null
 	for node in get_tree().get_nodes_in_group("player"):
 		if node.has_signal("caught"):
