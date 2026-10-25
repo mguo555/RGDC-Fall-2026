@@ -7,6 +7,7 @@ const DEALER_CARD_START = 1700
 const DECK_X = 960
 const CARD_SIZE = Vector2(168, 240) # A 56x80 CARD AT 3X
 const POPUP_SPOT = Vector2(170, 490) # JUST ABOVE YOUR HAND TOTAL
+const SLIDE_TIME = 0.3 # HOW LONG A SWAPPED CARD TAKES TO SLIDE INTO PLACE
 var resource = load("res://dialogue/blackjack.dialogue")
 
 # TIP THE DEALER. IT'S A BRIBE, SO ONLY TIP WHEN NOBODY'S WATCHING OR YOU GET KICKED OUT
@@ -354,18 +355,25 @@ func hand_card_at(spot):
 			return i
 	return -1
 
-# SLEIGHT OF HAND: PUTS A CARD FROM YOUR INVENTORY INTO YOUR HAND IN PLACE OF ANOTHER ONE
-func swap_card(hand_index, inventory_card):
+# SLEIGHT OF HAND: PUTS A CARD FROM YOUR INVENTORY INTO YOUR HAND IN PLACE OF ANOTHER ONE.
+# THE NEW CARD SLIDES IN FROM WHERE YOU DROPPED IT AND THE OLD ONE SLIDES OFF THE TABLE
+func swap_card(hand_index, inventory_card, from_position):
 	var old_card = player_hand[hand_index]
+	var slot = old_card.position
 	var new_card = card_scene.instantiate()
 	new_card.setup(inventory_card.suit, inventory_card.value)
 	card_container.add_child(new_card)
 	card_container.move_child(new_card, old_card.get_index())
-	new_card.change_sprite(old_card.position.x, old_card.position.y)
-	card_container.remove_child(old_card)
+	new_card.change_sprite(from_position.x, from_position.y)
 	player_hand[hand_index] = new_card
 	update_label_amounts()
 	GameManager.add_heat()
+	# THE OLD CARD SLIDES OUT FROM BEHIND THE OTHERS
+	card_container.move_child(old_card, 0)
+	var tween = create_tween()
+	tween.tween_property(new_card, "position", slot, SLIDE_TIME)
+	tween.parallel().tween_property(old_card, "position", slot + Vector2(0, 400), SLIDE_TIME)
+	tween.tween_callback(card_container.remove_child.bind(old_card))
 
 # CLICKING AN EMF IN YOUR INVENTORY KNOCKS OUT THE CAMERA
 func _input(event):

@@ -52,7 +52,7 @@ func pick_up(index):
 func drop(drop_position):
 	var hand_index = blackjack.hand_card_at(drop_position)
 	if hand_index != -1:
-		blackjack.swap_card(hand_index, GameManager.inventory[held_index])
+		blackjack.swap_card(hand_index, GameManager.inventory[held_index], drop_position)
 		GameManager.inventory.remove_at(held_index)
 	let_go()
 
