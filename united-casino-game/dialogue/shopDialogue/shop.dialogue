@@ -1,0 +1,62 @@
+# TODO: Replace "Shop" (placeholder name) with actual
+
+~ greet
+Shop: Well, if it isn't my favorite little gambling addict.
+Shop: What are you here for?
+- Buy
+	if firstBuy:
+		Shop: Really now? You're already struggling to pay off your debt, and you'd rather gamble more?
+		Shop: .. I like your ambition. Come, let's make this quick.
+		Shop: Don't want those pesky security guards catching us.
+#		Shop: But first, pay up.
+#		do test()
+		set firstBuy = true
+	else:
+		Shop: That's what I like to hear!
+	=>< shop
+- Repay Loan 
+	=>< payLoan
+- Nevermind
+Shop: Don't let the door hit you on your way out.
+=> END
+
+~ payLoan
+if hasEnough(loanAmount):
+	do payLoan()
+	if loans == 0:
+		Shop: Well, color me surprised. You managed to pay off part of your interest.
+		Shop: But you're not free to go just yet, oh no. You'll be sticking around for quite a while.
+		Shop: Here's your new quota. And because I'm in a good mood, I'll throw you a little something.
+		Shop: Take your pick.
+	else:
+		Shop: You know the drill. Pay your loan, get a buff.
+	=>< buff
+elif :
+	Shop: Buddy, where did you learn to count? This is nowhere near enough.
+	Shop: Get back out there and earn me some more money. I don't care how you do it.
+	=> END
+
+~ shop
+Shop: Take your pick.
+- Cards
+	# getCost take cardCost * anteMult
+	if firstCards:
+		Shop: Oh, these? I give you a random card from this deck here.
+		Shop: If you're good, you can swap out one of your cards at the blackjack table.
+		Shop: It's {{getCost(card)}}. If you don't like it, don't buy.
+	else: 
+		Shop: {{getCost(card)}}. Don't like it, don't buy it.
+	- Buy
+		if buyItem(card) == true:
+			Shop: Pleasure doing business.
+		else: 
+			Shop: What do you take me for, a charity?
+			Shop: Get outta here. => END!
+	- Go Back
+		Shop: Having second thoughts? Bit too late for that.
+		=>< shop
+
+~ buy 
+	
+
+~ buff
