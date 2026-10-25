@@ -37,6 +37,9 @@ var security_camera
 var passersby
 var watch_label
 var hud
+var dealer_sprite
+var dealer_y # WHERE THE DEALER SITS, HE BOBS AROUND THIS
+var bob_time = 0.0
 var bet_field
 var tip_field
 
@@ -53,6 +56,8 @@ func _ready():
 	passersby = $Passersby
 	watch_label = $WatchLabel
 	hud = $HUD
+	dealer_sprite = $DealerSprite
+	dealer_y = dealer_sprite.position.y
 	bet_field = $"PromptCenterBox/PromptPanel/PromptVertical Allignment/BetField"
 	tip_field = $"PromptCenterBox/PromptPanel/PromptVertical Allignment/TipField"
 	dealer = Dealer.new()
@@ -267,6 +272,9 @@ func _on_bet_field_text_submitted(_new_text: String) -> void:
 	DialogueManager.show_dialogue_balloon_scene("res://scenes/balloon.tscn",resource, "start", [self])
 
 func _process(delta):
+	# THE DEALER BOBS A LITTLE SO THE TABLE FEELS ALIVE
+	bob_time += delta
+	dealer_sprite.position.y = dealer_y + sin(bob_time * 2.5) * 6
 	# NO LEAVING IN THE MIDDLE OF A ROUND
 	leave_button.disabled = playing
 	# SHOWS IF ANYONE CAN SEE YOU RIGHT NOW

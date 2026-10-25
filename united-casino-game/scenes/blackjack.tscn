@@ -3,7 +3,8 @@
 [ext_resource type="Script" uid="uid://b1kmu3pyngg4d" path="res://scripts/blackjack/blackjack.gd" id="1_3frkl"]
 [ext_resource type="Script" uid="uid://g32um0mltv5d" path="res://addons/dialogue_manager/nodes/dialogue_label/dialogue_label.gd" id="2_kvb06"]
 [ext_resource type="Script" uid="uid://b636n426f5j8m" path="res://scripts/blackjack/bet_field_script.gd" id="3_vyxl8"]
-[ext_resource type="Texture2D" uid="uid://bir5c4erpnppf" path="res://assets/sprites/blackjack_bg.png" id="4_4fu0r"]
+[ext_resource type="Texture2D" uid="uid://ck0qtcnlq5ao4" path="res://assets/sprites/blackjack_table.png" id="4_4fu0r"]
+[ext_resource type="Texture2D" uid="uid://d16yfpya5r4uk" path="res://assets/sprites/blackjack_dealer.png" id="14_dealer"]
 [ext_resource type="PackedScene" uid="uid://bjjv6nodj24mx" path="res://scenes/hud.tscn" id="9_hud"]
 [ext_resource type="Script" uid="uid://c1ujvfw2robaw" path="res://scripts/blackjack/passersby.gd" id="10_pass"]
 [ext_resource type="Script" uid="uid://cpbawsy47eyi5" path="res://scripts/blackjack/security_camera.gd" id="11_cam"]
@@ -28,6 +29,12 @@ script = ExtResource("1_3frkl")
 
 [node name="Passersby" type="Node2D" parent="." unique_id=1348014694]
 script = ExtResource("10_pass")
+
+[node name="DealerSprite" type="Sprite2D" parent="." unique_id=1617355546]
+position = Vector2(544, 83)
+scale = Vector2(1.08, 1.08)
+texture = ExtResource("14_dealer")
+centered = false
 
 [node name="BlackjackBg" type="Sprite2D" parent="." unique_id=2070246228]
 scale = Vector2(1.08, 1.08)
