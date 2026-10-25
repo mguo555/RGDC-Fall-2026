@@ -1,6 +1,6 @@
 extends Node
 const card_scene = preload("res://scenes/card.tscn")
-const CARD_HEIGHT = 800
+const CARD_HEIGHT = 740 # KEEPS THE CARDS ABOVE THE DIALOGUE BOX
 const PLAYER_CARD_START = 200
 const CARD_STEP = 128
 const DEALER_CARD_START = 1700
@@ -107,6 +107,9 @@ func start_game():
 	deal_card(dealer.get_hand(), DEALER_CARD_START - CARD_STEP, true)
 	#print("DEALER:", dealer.get_hand()) # TEST CODE
 	update_label_amounts()
+	# BEING DEALT 21 IS AN INSTANT WIN, SAME AS HITTING 21
+	if Card.summed_values(player_hand) == 21:
+		win()
 
 # THE FUNCTION CALLED WHEN THE PLAYER WANTS TO HIT
 func hit():

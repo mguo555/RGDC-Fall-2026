@@ -1,4 +1,7 @@
 ~ start
+if has_player_won()
+	% Dealer: Blackjack! Winner!
+	=> newgame
 % Dealer: Are you going to push your luck?
 % Dealer: Why don't you hit!
 % Dealer: Stand, if you're afraid of a little risk!
@@ -42,8 +45,7 @@
 	do ask_bet()
 	=> END
 - Stop 
-	do kill_cards()
-	do hide_labels()
+	do ask_bet()
 	=> END
 => END
 
