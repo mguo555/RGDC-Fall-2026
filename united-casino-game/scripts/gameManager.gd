@@ -228,10 +228,10 @@ func _on_dialogue_ended(dialogue) -> void:
 # it happens at the end of the frame (call_deferred) so nothing is removed halfway through an update
 # the intro cutscene only plays the first time
 func play():
-	if has_seen_intro():
-		go_to_casino()
-	else:
-		call_deferred("switch_scene", introScene.instantiate(), false)
+	#if has_seen_intro():
+		#go_to_casino()
+	#else:
+	call_deferred("switch_scene", introScene.instantiate(), false)
 
 # the intro calls this once its dialogue is over
 func intro_done():
